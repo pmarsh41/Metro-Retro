@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html style="opacity: 0;">
+
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- if using browserify, uncomment the line below -->
+    <!-- <link rel="stylesheet" type="text/css" href="./dist/style.css"> -->
+</head>
+
+<body>
+    <!-- Ended at Line 65 3.3.15 -->
+
+
+    <div class="container">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Title</label>
+            <input type="text" class="form-control" placeholder="">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Description</label>
+            <textarea class="form-control" rows="15"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Internal Notes</label>
+            <textarea class="form-control" rows="3"></textarea>
+        </div>
+
+        <div>
+            <label for="exampleInputEmail1">Materials</label>
+            <select class="form-control">
+                <option>Wood</option>
+                <option>Metal</option>
+                <option>Ceramic</option>
+                <option>Glass</option>
+                <option>Leather</option>
+            </select>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value=""> <strong>Check this box</strong> if the listing contains or may contain restricted materials
+            </label>
+        </div>
+
+        <div>
+            <label for="Measurement">Measurements</label>
+            <br>
+            <span> Measurements are in:
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="inches"> inches(in)
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Centimeters(cm)
+                </label>
+                </span>
+            <br>
+            <span> Measured item is:
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Rectangular
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Circular
+                </label>
+
+                </span>
+            <br>
+            <br>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="" for="lengthAmount">Length:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                        <div class="input-group-addon">in.</div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="" for="lengthAmount">Depth:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                        <div class="input-group-addon">in.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <label class="" for="heightAmount">Height:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                        <div class="input-group-addon">in.</div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label class="" for="diameterAmount">Diameter:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                        <div class="input-group-addon">in.</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-default">Submit</button>
+
+            <!-- if using loader, use the line below -->
+            <script type="text/javascript" src="./bower_components/Loader/loader.js" id="loaderjs" data-app="./js/app.js"></script>
+            <!-- otherwise if using browserify, comment out the above line and uncomment the following line -->
+            <!-- <script type="text/javascript" src="./dist/app-browserify.js"></script> -->
+</body>
+
+</html>
