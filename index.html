@@ -15,7 +15,7 @@
     <div class="container">
         <div class="form-group">
             <label for="exampleInputEmail1">Title</label>
-            <input type="text" class="form-control" placeholder="">
+            <input type="text" class="form-control titleSave"  placeholder="">
         </div>
 
         <div class="form-group">
@@ -72,14 +72,14 @@
                 <div class="col-sm-4">
                     <label class="" for="lengthAmount">Length:</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                        <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
                         <div class="input-group-addon">in.</div>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <label class="" for="lengthAmount">Depth:</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                        <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
                         <div class="input-group-addon">in.</div>
                     </div>
                 </div>
@@ -89,14 +89,14 @@
                 <div class="col-sm-4">
                     <label class="" for="heightAmount">Height:</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                        <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
                         <div class="input-group-addon">in.</div>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <label class="" for="diameterAmount">Diameter:</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="exampleInputAmount" placeholder="">
+                        <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
                         <div class="input-group-addon">in.</div>
                     </div>
                 </div>
@@ -123,11 +123,18 @@
 
             </div>
 
-            <button type="button" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-primary save-btn">Save</button>
+
+            <div class="added-forms">
+                <ul class="list-group new-forms">
+                </ul>
+            </div>
 
 
             <!-- if using loader, use the line below -->
             <script type="text/javascript" src="./bower_components/Loader/loader.js" id="loaderjs" data-app="./js/app.js"></script>
+
+
             <!-- otherwise if using browserify, comment out the above line and uncomment the following line -->
             <!-- <script type="text/javascript" src="./dist/app-browserify.js"></script> -->
 </body>

@@ -33,6 +33,22 @@ function app(){
         // window.d = jsnox(React);
         // if turning on React, uncomment the following line
         // React.initializeTouchEvents(true);
+        console.log($)
+
+
+        $('.save-btn').on('click', function(){
+            var titleVal = $('.titleSave').val();
+            var newli = $('<li>').append(titleVal).addClass('list-group-item')
+            $('.new-forms').append(newli)
+            $('.titleSave').val("")
+
+        })
+
+        document.querySelector('.save-btn')
+
+
+
+
 
         document.querySelector("html").style.opacity = 1;
         // start app?
