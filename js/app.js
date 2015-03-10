@@ -38,9 +38,9 @@ function app(){
 
         $('.save-btn').on('click', function(){
             var titleVal = $('.titleSave').val();
-            var newli = $('<li>').append(titleVal).addClass('list-group-item')
-            $('.new-forms').append(newli)
-            $('.titleSave').val("")
+            var newli = $('<li>').append(titleVal).addClass('list-group-item');
+            $('.new-forms').append(newli);
+            $('.titleSave').val("");
 
         })
 
@@ -52,6 +52,12 @@ function app(){
 
         document.querySelector("html").style.opacity = 1;
         // start app?
+        Parse.initialize("8cefZxGY6FiSAhEw5YCwN9mBjgoiUgGcdJnTZgdy","RWjs5EKsDkBlZ1L05crkUetjonIG1DGNiaM664OY");
+        new Parse.MetroRouter();
     })
 
 }
+
+
+
+
