@@ -1,7 +1,5 @@
 @import "../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 @import "./mixins.scss";
-
-
 /**
  * BOX-SIZING
  */
@@ -9,7 +7,6 @@
 *, *:before, *:after {
     box-sizing: border-box;
 }
-
 /**
  * GRIDS
  */
@@ -20,7 +17,6 @@
     font-size: 0;
     text-align: justify;
     position: relative;
-
     & > * {
         font-size: medium;
         text-align: left;
@@ -28,7 +24,6 @@
         width: 100%;
         vertical-align: top;
     }
-
     &:after {
         display: inline-block;
         width: 100%;
@@ -36,10 +31,8 @@
         font-size: medium;
     }
 }
-
 @include gridify(2, 400);
 @include gridify(4, 600);
-
 /**
  * PACE (automatic pre-loader thingy)
  */
@@ -49,15 +42,12 @@
     user-select: none;
     transition: all 1s ease;
 }
-
 .pace-inactive {
     opacity: 0;
 }
-
 .pace-active {
     opacity: 1;
 }
-
 .pace .pace-progress {
     background: #2299dd;
     position: fixed;
@@ -68,13 +58,36 @@
     height: 2px;
     transition: all 1s ease;
 }
-
 /**
  * GENERAL
  */
 
-img {max-width:100%;}
-
+img {
+    max-width: 100%;
+}
 body {
     transition: opacity .25s ease;
+}
+//Nav Bar//
+.navbar, .navbar-inverse {
+    border-radius: 0;
+    border: none;
+    margin-bottom: 0;
+    min-height: 80px;
+}
+.nav li {
+    display: inline;
+    color: white;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #ffffff;
+    font-family: Lato;
+    font-size: 1.7em;
+    font-weight: 300;
+    padding: 30px 25px 33px 25px;
+}
+.navbar-inverse .navbar-nav li a:hover {
+    background-color: #444444;
+    transition: 0.7s all linear;
+    height: 100%;
 }
