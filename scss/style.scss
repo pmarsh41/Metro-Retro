@@ -1,7 +1,6 @@
 @import "../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 @import "../bower_components/font-awesome-sass/assets/stylesheets/font-awesome.scss";
 @import "./mixins.scss";
-
 /**
  * BOX-SIZING
  */
@@ -78,8 +77,6 @@ body {
     min-height: 80px;
     margin-left: 5px;
     width: 100%;
-
-
 }
 .nav li {
     display: inline;
@@ -97,16 +94,21 @@ body {
     transition: 0.7s all linear;
     height: 100%;
 }
-
-
 //Styles//
-.text{
+.text {
     font-weight: 300;
     font-size: 1.7em;
+}
+//Consignment//
+#consignment-info {
+    font-weight: 300;
+    padding: 2rem 1rem;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 1);
+    h2{
+        text-align: center
+    }
+    p{
+        font-size: 1.7em;
+    }
 
 }
-
-
-
-
-
