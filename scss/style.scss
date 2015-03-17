@@ -1,4 +1,5 @@
 @import "../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "../bower_components/typeplate-starter-kit/css/_typeplate.scss";
 @import "../bower_components/font-awesome-sass/assets/stylesheets/font-awesome.scss";
 @import "./mixins.scss";
 /**
@@ -69,46 +70,112 @@ img {
 body {
     transition: opacity .25s ease;
 }
-//Nav Bar//
-.navbar, .navbar-inverse {
-    border-radius: 0;
-    border: none;
-    margin-bottom: 0;
-    min-height: 80px;
-    margin-left: 5px;
-    width: 100%;
-}
-.nav li {
-    display: inline;
-    color: white;
-}
-.navbar-inverse .navbar-nav > li > a {
-    color: #ffffff;
-    font-family: Lato;
-    font-size: 1.7em;
-    font-weight: 300;
-    padding: 30px 25px 33px 25px;
-}
-.navbar-inverse .navbar-nav li a:hover {
-    background-color: #444444;
-    transition: 0.7s all linear;
-    height: 100%;
-}
-//Styles//
-.text {
-    font-weight: 300;
-    font-size: 1.7em;
-}
-//Consignment//
-#consignment-info {
-    font-weight: 300;
-    padding: 2rem 1rem;
-    text-shadow: 1px 1px 1px rgba(255, 255, 255, 1);
-    h2{
-        text-align: center
+
+/**
+Gallery
+**/
+
+.gallery {
+    background-image: url(../images/couch-leather2.jpg);
+    min-height: 500px;
+    min-height: 100vh;
+    background-size: cover;
+    position:relative;
+
+    > div {
+        color: white;
+        min-width: 75%;
+        text-align: center;
+
+        img {
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 2.5em;
+        }
+
+        a.btn {
+            background-color: transparent;
+            border-color: white;
+            color:white;
+        }
     }
-    p{
-        font-size: 1.7em;
+}
+
+/**
+UTILITY CLASSES
+**/
+.absolute-center {
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+.centered {
+    text-align: center;
+}
+
+/**
+CATEGORIES
+**/
+.categories {
+    padding-top: 4em;
+    padding-bottom: 4em;
+    .row {
+        > * {
+            text-align: center;
+            padding-top: 100px;
+            background-size: auto 100px;
+            background-position: top center;
+            background-repeat: no-repeat;
+
+            &:nth-child(1){
+                background-image: url(../images/art-deco.svg)
+            }
+            &:nth-child(2){
+                background-image: url(../images/midcentury.svg)
+            }
+            &:nth-child(3){
+                background-image: url(../images/contemporary.svg)
+            }
+        }
+    }
+}
+
+
+/** CONSIGNMENT **/
+
+.consignment {
+    background-color: #efefef;
+    padding-top: 4em;
+    padding-bottom: 4em;
+
+    h2, & > div {
+        text-align: center;
     }
 
+    form {
+        max-height: 0px;
+        overflow: hidden;
+        transition: max-height .25s ease;
+
+        max-width: 60ch;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 2.5em;
+
+        &.active {
+            max-height: 10000px;
+        }
+    }
 }
+
+/** CONSIGNMENT **/
+
+.footer {
+    color: #aaa;
+    background-color: #444;
+    padding-top: 4em;
+    padding-bottom: 4em;
+}
+
+
