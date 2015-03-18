@@ -2,6 +2,13 @@
 @import "../bower_components/typeplate-starter-kit/css/_typeplate.scss";
 @import "../bower_components/font-awesome-sass/assets/stylesheets/font-awesome.scss";
 @import "./mixins.scss";
+$brown: rgba(74,65,61,1);
+$beige: rgba(214,197,187,1);
+$sand: rgba(115,101,94,1);
+$tan: rgba(140,116,104,1);
+$dark-brown: rgba(49,43,40,1);
+$white: rgba(255,255,255,1);
+
 /**
  * BOX-SIZING
  */
@@ -178,4 +185,4 @@ CATEGORIES
     padding-bottom: 4em;
 }
 
-
+@import "./imports/_product-page.scss";

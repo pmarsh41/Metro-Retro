@@ -4,7 +4,7 @@
     Parse.MetroRouter = Parse.Router.extend({
         initialize: function(){
             this.home = new Parse.HomeView()
-            this.category = new Parse.CategoryView()
+            this.category = new Parse.ProductView()
             Parse.history.start()
         },
         routes: {
@@ -26,8 +26,8 @@
         el: ".wrapper"
     })
 
-    Parse.CategoryView = Parse.TemplateView.extend({
-        view: "category-page",
+    Parse.ProductView = Parse.TemplateView.extend({
+        view: "product-page",
         el: ".wrapper"
     })
 
