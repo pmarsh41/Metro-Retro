@@ -1,20 +1,15 @@
-@import "../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-@import "../bower_components/typeplate-starter-kit/css/_typeplate.scss";
+@import "../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 @import "../bower_components/font-awesome-sass/assets/stylesheets/font-awesome.scss";
 @import "./mixins.scss";
-$brown: rgba(74, 65, 61, 1);
-$beige: rgba(214, 197, 187, 1);
-$sand: rgba(115, 101, 94, 1);
-$tan: rgba(140, 116, 104, 1);
-$dark-brown: rgba(49, 43, 40, 1);
-$white: rgba(255, 255, 255, 1);
-$phils-green: rgba(67, 139, 119, 1);
-$phils-brown: rgba(80, 74, 65, 1);
-$phils-sage: rgba(98, 109, 66, 1);
-$phils-purple: rgba(51, 53, 117, 1);
-$phils-magenta:rgba(139, 88, 116, 1);
-$phils-white: rgba(255, 255, 255, 1);
-$phils-darkgray-translucent: rgba(75, 75, 75, .75);
+
+// layout-color-scheme
+$brown: rgba(74,65,61,1);
+$beige: rgba(214,197,187,1);
+$sand: rgba(115,101,94,1);
+$tan: rgba(140,116,104,1);
+$dark-brown: rgba(49,43,40,1);
+$white: rgba(255,255,255,1);
+
 /**
  * BOX-SIZING
  */
@@ -22,6 +17,7 @@ $phils-darkgray-translucent: rgba(75, 75, 75, .75);
 *, *:before, *:after {
     box-sizing: border-box;
 }
+
 /**
  * GRIDS
  */
@@ -32,6 +28,7 @@ $phils-darkgray-translucent: rgba(75, 75, 75, .75);
     font-size: 0;
     text-align: justify;
     position: relative;
+
     & > * {
         font-size: medium;
         text-align: left;
@@ -39,6 +36,7 @@ $phils-darkgray-translucent: rgba(75, 75, 75, .75);
         width: 100%;
         vertical-align: top;
     }
+
     &:after {
         display: inline-block;
         width: 100%;
@@ -46,8 +44,10 @@ $phils-darkgray-translucent: rgba(75, 75, 75, .75);
         font-size: medium;
     }
 }
+
 @include gridify(2, 400);
 @include gridify(4, 600);
+
 /**
  * PACE (automatic pre-loader thingy)
  */
@@ -57,12 +57,15 @@ $phils-darkgray-translucent: rgba(75, 75, 75, .75);
     user-select: none;
     transition: all 1s ease;
 }
+
 .pace-inactive {
     opacity: 0;
 }
+
 .pace-active {
     opacity: 1;
 }
+
 .pace .pace-progress {
     background: #2299dd;
     position: fixed;
@@ -73,109 +76,42 @@ $phils-darkgray-translucent: rgba(75, 75, 75, .75);
     height: 2px;
     transition: all 1s ease;
 }
+
 /**
  * GENERAL
  */
 
-img {
-    max-width: 100%;
-}
+img {max-width:100%;}
+
 body {
     transition: opacity .25s ease;
+    margin: 0;
+    padding: 0;
+    color: $dark-brown;
 }
-/**
-Gallery
-**/
 
-.gallery {
-    background-image: url(../images/couch-leather2.jpg);
-    min-height: 500px;
-    min-height: 100vh;
-    background-size: cover;
-    position: relative;
-    > div {
-        color: white;
-        min-width: 75%;
-        text-align: center;
-        img {
-            display: block;
-            margin: 0 auto;
-            margin-bottom: 2.5em;
+h1,h2,h3,h4,h5,h6{
+    white-space: normal
+}
+
+.carousel-control{
+        .fa-chevron-left,
+        .fa-chevron-right{
+            position: absolute;
+            top: 50%;
+            z-index: 5;
+            display: inline-block;
         }
-        a.btn {
-            background-color: transparent;
-            border-color: white;
-            color: white;
+
+        .fa-chevron-left{
+            right: 50%;
+            margin-right: -10px;
         }
     }
-}
-/**
-UTILITY CLASSES
-**/
 
-.absolute-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.centered {
-    text-align: center;
-}
-/**
-CATEGORIES
-**/
 
-.categories {
-    padding-top: 4em;
-    padding-bottom: 4em;
-    .row {
-        > * {
-            text-align: center;
-            padding-top: 100px;
-            background-size: auto 100px;
-            background-position: top center;
-            background-repeat: no-repeat;
-            &:nth-child(1) {
-                background-image: url(../images/art-deco.svg)
-            }
-            &:nth-child(2) {
-                background-image: url(../images/midcentury.svg)
-            }
-            &:nth-child(3) {
-                background-image: url(../images/contemporary.svg)
-            }
-        }
-    }
-}
-/** CONSIGNMENT **/
 
-.consignment {
-    background-color: #efefef;
-    padding-top: 4em;
-    padding-bottom: 4em;
-    h2, & > div {
-        text-align: center;
-    }
-    form {
-        max-height: 0px;
-        overflow: hidden;
-        transition: max-height .25s ease;
-        max-width: 60ch;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 2.5em;
-        &.active {
-            max-height: 10000px;
-        }
-    }
-}
-/** CONSIGNMENT **/
-
-.footer {
-    color: #aaa;
-    background-color: #444;
-    padding-top: 4em;
-    padding-bottom: 4em;
-}
+@import "./imports/_homepage.scss";
 @import "./imports/_product-page.scss";
+@import "./imports/_single-listing.scss";
+
