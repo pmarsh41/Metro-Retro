@@ -909,15 +909,6 @@
 
             var dataLength = dummyData.length;
 
-            dummyData.forEach(function(dataObj){
-                var dummyModelInst = new Parse.DummyFurnitureItem(dataObj)
-               dummyModelInst.save().then(function(data){
-                    console.log(data)
-                    console.log('save successful')
-               })
-                
-           })
-
             Parse.history.start()
         },
 
@@ -968,9 +959,8 @@
         }
     })
 
-
     Parse.HomeView = Parse.TemplateView.extend({
-        view: 'homepage',
+        view: 'landing-page',
         el: '.wrapper',
         events: {
             "click a.browse-listings-btn": "goToProductPage"
@@ -1045,7 +1035,7 @@
             // img:"",
             // color: "",
             category: "" // Sofa, Dining-Table, Bedframe, Rug
-            // timePeriod: // 
+            // timePeriod: //
             // styleTags:, // Scandi, Art-Deco, Industrial, Contemporary
             // status: "",
             // manufactureDate: 0,
@@ -1070,11 +1060,11 @@
             var self
 
             //sanity check for price: if no price entered, then listed=false
-            
+
             this.on('change', function(){
                 self.save()
             })
-        }, 
+        },
 
         validate: function(){
             //validate item name
@@ -1089,7 +1079,7 @@
         model: Parse.FurnitureItem,
 
     })
-    
+
 
 
     exports.PageRouter = Parse.PageRouter;
