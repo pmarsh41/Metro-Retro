@@ -27,7 +27,7 @@ function app(){
 
         // other stuff
         {url: "./bower_components/pace/pace.min.js"},
-        {url: "./js/TemplateView.js"},
+        {url: "./js/templateView.js"},
         {url: "./bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"},
         {url: "./js/metroretro.js"}
     ).then(function(){
