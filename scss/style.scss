@@ -2,12 +2,12 @@
 @import "../bower_components/typeplate-starter-kit/css/_typeplate.scss";
 @import "../bower_components/font-awesome-sass/assets/stylesheets/font-awesome.scss";
 @import "./mixins.scss";
-$brown: rgba(74,65,61,1);
-$beige: rgba(214,197,187,1);
-$sand: rgba(115,101,94,1);
-$tan: rgba(140,116,104,1);
-$dark-brown: rgba(49,43,40,1);
-$white: rgba(255,255,255,1);
+$brown: rgba(74, 65, 61, 1);
+$beige: rgba(214, 197, 187, 1);
+$sand: rgba(115, 101, 94, 1);
+$tan: rgba(140, 116, 104, 1);
+$dark-brown: rgba(49, 43, 40, 1);
+$white: rgba(255, 255, 255, 1);
 $phils-green: rgba(67, 139, 119, 1);
 $phils-brown: rgba(80, 74, 65, 1);
 $phils-sage: rgba(98, 109, 66, 1);
@@ -15,7 +15,6 @@ $phils-purple: rgba(51, 53, 117, 1);
 $phils-magenta:rgba(139, 88, 116, 1);
 $phils-white: rgba(255, 255, 255, 1);
 $phils-darkgray-translucent: rgba(75, 75, 75, .75);
-
 /**
  * BOX-SIZING
  */
@@ -84,7 +83,6 @@ img {
 body {
     transition: opacity .25s ease;
 }
-
 /**
 Gallery
 **/
@@ -94,44 +92,40 @@ Gallery
     min-height: 500px;
     min-height: 100vh;
     background-size: cover;
-    position:relative;
-
+    position: relative;
     > div {
         color: white;
         min-width: 75%;
         text-align: center;
-
         img {
             display: block;
             margin: 0 auto;
             margin-bottom: 2.5em;
         }
-
         a.btn {
             background-color: transparent;
             border-color: white;
-            color:white;
+            color: white;
         }
     }
 }
-
 /**
 UTILITY CLASSES
 **/
+
 .absolute-center {
     position: absolute;
     top: 50%;
-    left:50%;
+    left: 50%;
     transform: translate(-50%, -50%);
 }
 .centered {
     text-align: center;
 }
-
-
 /**
 CATEGORIES
 **/
+
 .categories {
     padding-top: 4em;
     padding-bottom: 4em;
@@ -142,48 +136,40 @@ CATEGORIES
             background-size: auto 100px;
             background-position: top center;
             background-repeat: no-repeat;
-
-            &:nth-child(1){
+            &:nth-child(1) {
                 background-image: url(../images/art-deco.svg)
             }
-            &:nth-child(2){
+            &:nth-child(2) {
                 background-image: url(../images/midcentury.svg)
             }
-            &:nth-child(3){
+            &:nth-child(3) {
                 background-image: url(../images/contemporary.svg)
             }
         }
     }
 }
-
-
 /** CONSIGNMENT **/
 
 .consignment {
     background-color: #efefef;
     padding-top: 4em;
     padding-bottom: 4em;
-
     h2, & > div {
         text-align: center;
     }
-
     form {
         max-height: 0px;
         overflow: hidden;
         transition: max-height .25s ease;
-
         max-width: 60ch;
         margin-left: auto;
         margin-right: auto;
         margin-top: 2.5em;
-
         &.active {
             max-height: 10000px;
         }
     }
 }
-
 /** CONSIGNMENT **/
 
 .footer {
@@ -192,5 +178,4 @@ CATEGORIES
     padding-top: 4em;
     padding-bottom: 4em;
 }
-
 @import "./imports/_product-page.scss";
