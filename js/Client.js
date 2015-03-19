@@ -900,6 +900,7 @@
         initialize: function(){
             console.log('routing started');
             this.navView= new Parse.NavView()
+            this.consignView = new Parse.ConsignView();
             this.homeView = new Parse.HomeView();
             this.productsListView = new Parse.ProductPageView();
             this.singleListingView = new Parse.SingleListingView();
@@ -917,12 +918,19 @@
             'shopping-cart' : 'loadShoppingCart',
             'product/:id':'loadSingleListing',
             'product': 'loadProductPg',
+            'consignment-form': 'loadConsignment',
             '*default': 'home'
         },
 
         home: function(){
             this.navView.render();
             this.homeView.render();
+        },
+
+        loadConsignment: function(){
+            console.log('consignment-form loaded')
+            this.checkNavCheckFooter()
+            this.consignView.render();
         },
 
         checkNavCheckFooter:function(){
@@ -973,6 +981,19 @@
         }
 
         })
+    Parse.ConsignView = Parse.TemplateView.extend({
+        view: 'consignment-form',
+        el:   '.wrapper',
+        events: {
+            "click .consignment-form-btn": "goToConsignmentForm"
+        },
+
+        goToConsignmentForm: function(evt){
+            evt.preventDefault();
+            console.log('consignment event hurrd')
+            window.location.hash="/consignment-form"
+        }
+    })
 
     Parse.NavView = Parse.TemplateView.extend({
         view: 'navigation',
