@@ -27,27 +27,40 @@
             <label for="exampleInputEmail1">Internal Notes</label>
             <textarea class="form-control" rows="3"></textarea>
         </div>
-
         <div>
-            <label for="exampleInputEmail1">Materials</label>
-            <select class="form-control">
-                <option>Wood</option>
-                <option>Metal</option>
-                <option>Ceramic</option>
-                <option>Glass</option>
-                <option>Leather</option>
+            <select id="field-input-creators-0-attribution" name="field-input-creators-0-attribution" data-ruleset="creatorAttribution">
+                <option value="">Select an attribution...</option>
+                <option value="ATTRIBUTED_TO">Attributed to</option>
+                <option value="BY">By</option>
+                <option value="BY_AND_DOCUMENTED">By and Documented</option>
+                <option value="IN_STYLE_OF">In the style of</option>
+                <option value="UNATTRIBUTED">Unattributed</option>
             </select>
         </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" value=""> <strong>Check this box</strong> if the listing contains or may contain restricted materials
-            </label>
+        <div class="controls">
+            <div class="text-red" data-error=""></div>
         </div>
 
-        <div>
-            <label for="Measurement">Measurements</label>
-            <br>
-            <span> Measurements are in:
+
+        <label for="exampleInputEmail1">Materials</label>
+        <select class="form-control">
+            <option>Wood</option>
+            <option>Metal</option>
+            <option>Ceramic</option>
+            <option>Glass</option>
+            <option>Leather</option>
+        </select>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" value=""> <strong>Check this box</strong> if the listing contains or may contain restricted materials
+        </label>
+    </div>
+
+    <div>
+        <label for="Measurement">Measurements</label>
+        <br>
+        <span> Measurements are in:
                 <label class="radio-inline">
                     <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="inches"> inches(in)
                 </label>
@@ -55,8 +68,8 @@
                     <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Centimeters(cm)
                 </label>
                 </span>
-            <br>
-            <span> Measured item is:
+        <br>
+        <span> Measured item is:
                 <label class="radio-inline">
                     <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Rectangular
                 </label>
@@ -66,70 +79,70 @@
 
 
                 </span>
-            <br>
-            <br>
+        <br>
+        <br>
 
-            <div class="row">
-                <div class="col-sm-4">
-                    <label class="" for="lengthAmount">Length:</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
-                        <div class="input-group-addon">in.</div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <label class="" for="lengthAmount">Depth:</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
-                        <div class="input-group-addon">in.</div>
-                    </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="" for="lengthAmount">Length:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
+                    <div class="input-group-addon">in.</div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-sm-4">
-                    <label class="" for="heightAmount">Height:</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
-                        <div class="input-group-addon">in.</div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <label class="" for="diameterAmount">Diameter:</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
-                        <div class="input-group-addon">in.</div>
-                    </div>
+            <div class="col-sm-4">
+                <label class="" for="lengthAmount">Depth:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
+                    <div class="input-group-addon">in.</div>
                 </div>
             </div>
+        </div>
 
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="" for="heightAmount">Height:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
+                    <div class="input-group-addon">in.</div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label class="" for="diameterAmount">Diameter:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" disabled id="exampleInputAmount" placeholder="">
+                    <div class="input-group-addon">in.</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <label for="Measurement">Condition (select one)</label>
             <div>
-                <label for="Measurement">Condition (select one)</label>
-                <div>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Distressed
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Fair
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> Good
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> Excellent
-                    </label>
-
-                </div>
-
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Distressed
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Fair
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> Good
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> Excellent
+                </label>
 
             </div>
 
-            <button type="button" class="btn btn-primary save-btn">Save</button>
 
-            <div class="added-forms">
-                <ul class="list-group new-forms">
-                </ul>
-            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary save-btn">Save</button>
+
+        <div class="added-forms">
+            <ul class="list-group new-forms">
+            </ul>
+        </div>
 </body>
 
 </html>

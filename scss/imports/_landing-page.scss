@@ -69,6 +69,26 @@ CATEGORIES
 }
 
 
+/**
+ * This is section
+ */
+
+section.selection {
+    padding-bottom: 0;
+    text-align: center;
+    .our-style {
+        padding: 3%;
+    }
+}
+
+section.by-category{
+    background: darkslateblue;
+    color: white;
+}
+
+
+
+
 /** CONSIGNMENT **/
 
 .consignment {
@@ -96,11 +116,22 @@ CATEGORIES
     }
 }
 
-/** CONSIGNMENT **/
+/** FOOTER **/
 
-.footer {
-    color: #aaa;
-    background-color: #444;
-    padding-top: 4em;
-    padding-bottom: 4em;
+
+footer {
+    padding: 0;
+    .social-lnk {
+        text-align: center;
+        color: $sand;
+    }
+    .address-div {
+        background: $sand;
+        color: $white;
+        text-shadow: 1px 1px 1px #000;
+        border-left: 1px solid $tan;
+        .location {
+            font-size: 18px
+        }
+    }
 }

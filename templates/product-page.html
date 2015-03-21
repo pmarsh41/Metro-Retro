@@ -2,26 +2,35 @@
     <section class="breadcrumb-nav">
         <ol class="breadcrumb">
             <li><a href="#">Home</a>
-            </li>
+            </li>   
             <li><a href="#">All Products</a>
             </li>
             <li class="active">Mid-Century</li>
         </ol>
     </section>
+<% console.log(data)%>
 
     <section class="container-fluid product-display">
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container" data-productID="8902n422">
+        <% _.forEach(data,function(dataObj){%>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container" data-productID="<%=dataObj.get('MR_id')%>">
                 <div class="thumbnail" >
-                    <img src="./images/listings-sample/image1.jpg" alt="gallery-img">
+                    <img src="./images/listings-sample/<%=dataObj.get('image')%>" alt="gallery-img">
                     <div class="caption">
-                        <h4>Hipster</h4>
-                        <p>$1,000</p>
+                        <h4><%=dataObj.get('item')%></h4>
+                        <p><%=dataObj.get('price')%></p>
                         <a href="#" class="btn btn-default more-info" role="button">More Info</a>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container"  data-productId="nnls2p112">
+        <%})%>
+        </div>
+
+
+    </section>
+</main>
+
+ <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container"  data-productId="nnls2p112">
                 <div class="thumbnail">
                     <img src="./images/listings-sample/image2.jpg" alt="gallery-img">
                     <div class="caption">
@@ -112,9 +121,4 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-
-    </section>
-
-</main>
+ -->
