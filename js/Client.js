@@ -1,17 +1,16 @@
-
 ;(function(exports){
     //1) get index.html
     //2) create new template: landing-page.html
     //3) create new stylesheet: _landing-page.scss
     //4) populate with code from _landing-page.scss
     //5) change HomeView to view: 'landing-page'
-
+    
     //Views w/ dummy data
     //1) get .jpg image-files from phil
     //2) Get product-page view to render the Furniture collection
     //3) Get single-listing view to render based on model selected
     // (get model associated with event)
-    //4)
+    //4) 
 
     //Views w/ collection
 
@@ -919,14 +918,15 @@
             // Code for saving dummy data to Parse **
             // ---------------------------
             // dummyData.forEach(function(dataObj){
-            //     var parseItemModel = new Parse.FurnitureItem(dataObj)
+            //     var parseItemModel = new Parse.FurnitureItem(dataObj) 
             //     parseItemModel.save()
             // })
 
             //Views
             this.navView= new Parse.NavView()
             this.homeView = new Parse.HomeView();
-            this.productsListView = new Parse.ProductPageView();//will take this.collection
+            this.footerView = new Parse.FooterView();
+            this.productsListView = new Parse.ProductPageView();//will take this.collection 
             this.singleListingView = new Parse.SingleListingView();
             this.cartView = new Parse.ShoppingCartView();
             this.thankCustomer = new Parse.ThanksView();
@@ -947,11 +947,19 @@
         home: function(){
             this.navView.render();
             this.homeView.render();
+            this.footerView.render()
+            console.log(this.homeView)
         },
 
         checkNavCheckFooter:function(){
             var navEl = document.querySelector('nav');
-             navEl.innerHTML.indexOf('div') === -1 ? this.navView.render(): console.log('falsy');
+            var footerEl = document.querySelector('footer');
+
+
+            if(navEl.innerHTML.indexOf('div') === -1) {  this.navView.render()  }
+            if(footerEl.innerHTML.indexOf('div') === -1) { this.footerView.render() }
+
+
             //make logic for checking footer
         },
 
@@ -959,7 +967,7 @@
                 var self = this
                 console.log('product-page loaded')
                 this.checkNavCheckFooter()
-
+                  
                 var pQuery = new Parse.Query(Parse.FurnitureItem);
                 pQuery.limit(30)
                 console.log(pQuery)
@@ -968,9 +976,9 @@
                     self.productsListView.collection = results
                     console.log(self.productsListView)
 
-                    self.productsListView.render();
-
-                })
+                    self.productsListView.render(); 
+                
+                })         
             },
 
             loadCategoryListings:function(type){
@@ -988,8 +996,8 @@
                     console.log(self.productsListView)
 
                     self.productsListView.render(); //pass a collection;
-
-                })
+                
+                })          
             },
 
             loadSingleListing: function(mrId){
@@ -1015,7 +1023,7 @@
                     var clickedModel = listingsGroup.filter(function(model){
                         return model.get('MR_id') === mrId
                     })
-                    this.singleListingView.model = clickedModel[0]
+                    this.singleListingView.model = clickedModel[0] 
                     this.singleListingView.render();
                 }
             },
@@ -1047,7 +1055,7 @@
         view: 'landing-page',
         el: '.wrapper',
         events: {
-            "click a.browse-listings-btn": "triggerProductPageHash",
+            "click a.products-link": "triggerProductPageHash",
             "click a.cat-link" : "triggerCatPageHash"
         },
 
@@ -1075,6 +1083,20 @@
     Parse.NavView = Parse.TemplateView.extend({
         view: 'navigation',
         el: 'nav',
+
+        events:{
+            "click a.products-link": "triggerProductPageHash",
+        },
+
+         triggerProductPageHash: function(evt){
+            evt.preventDefault();
+            window.location.hash="/products"
+        }
+    })
+
+    Parse.FooterView = Parse.TemplateView.extend({
+        view: 'footer',
+        el: 'footer'
     })
 
     Parse.ConsignView = Parse.TemplateView.extend({
@@ -1083,6 +1105,7 @@
         events: {
             "click .consignment-form-btn": "goToConsignmentForm"
         },
+        
         goToConsignmentForm: function(evt) {
             evt.preventDefault();
             console.log('consignment event hurrd')
@@ -1146,7 +1169,7 @@
             img:"",
             category: "" // Sofa, Dining-Table, Bedframe, Rug
             // color: "",
-            // timePeriod: //
+            // timePeriod: // 
             // styleTags:, // Scandi, Art-Deco, Industrial, Contemporary
             // designer_creator: ""
             // status: "",
@@ -1171,11 +1194,11 @@
             var self
 
             //sanity check for price: if no price entered, then listed=false
-
+            
             this.on('change', function(){
                 self.save()
             })
-        },
+        }, 
 
         validate: function(){
             //validate item name
@@ -1190,7 +1213,7 @@
         model: Parse.FurnitureItem,
 
     })
-
+    
 
 
     exports.PageRouter = Parse.PageRouter;
