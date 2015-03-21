@@ -1,23 +1,23 @@
-;(function(exports){
+;
+(function(exports) {
     //1) get index.html
     //2) create new template: landing-page.html
     //3) create new stylesheet: _landing-page.scss
     //4) populate with code from _landing-page.scss
     //5) change HomeView to view: 'landing-page'
-    
+
     //Views w/ dummy data
     //1) get .jpg image-files from phil
     //2) Get product-page view to render the Furniture collection
     //3) Get single-listing view to render based on model selected
     // (get model associated with event)
-    //4) 
+    //4)
 
     //Views w/ collection
 
     "use strict";
 
-    var dummyData=[
-      {
+    var dummyData = [{
         "MR_id": "MR73341",
         "index": 0,
         "price": 1684,
@@ -25,8 +25,7 @@
         "category": "sideChair",
         "item": "Holt sideChair",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR58456",
         "index": 1,
         "price": 1601,
@@ -34,8 +33,7 @@
         "category": "sofa",
         "item": "Harrison sofa",
         "image": "badilkjairdesk.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR82175",
         "index": 2,
         "price": 3741,
@@ -43,8 +41,7 @@
         "category": "loungeChair",
         "item": "Frost loungeChair",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR97348",
         "index": 3,
         "price": 6045,
@@ -52,8 +49,7 @@
         "category": "nightstand",
         "item": "Finley nightstand",
         "image": "badilkjairdesk.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR79104",
         "index": 4,
         "price": 6756,
@@ -61,8 +57,7 @@
         "category": "diningTable",
         "item": "Ochoa diningTable",
         "image": "gonzocredenza.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR29432",
         "index": 5,
         "price": 3828,
@@ -70,8 +65,7 @@
         "category": "loungeChair",
         "item": "Cleveland loungeChair",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR53644",
         "index": 6,
         "price": 7175,
@@ -79,8 +73,7 @@
         "category": "officeChair",
         "item": "Orr officeChair",
         "image": "badilkjairdesk.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR82062",
         "index": 7,
         "price": 4877,
@@ -88,8 +81,7 @@
         "category": "sideChair",
         "item": "Ramirez sideChair",
         "image": "knolltable.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR55725",
         "index": 8,
         "price": 4837,
@@ -97,8 +89,7 @@
         "category": "sideChair",
         "item": "Vazquez sideChair",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR24288",
         "index": 9,
         "price": 6018,
@@ -106,8 +97,7 @@
         "category": "loungeChair",
         "item": "Williams loungeChair",
         "image": "knolltable.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR58244",
         "index": 10,
         "price": 756,
@@ -115,8 +105,7 @@
         "category": "diningTable",
         "item": "Gray diningTable",
         "image": "saarinen.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR23913",
         "index": 11,
         "price": 6739,
@@ -124,8 +113,7 @@
         "category": "diningTable",
         "item": "Day diningTable",
         "image": "ionchairorangered.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR37934",
         "index": 12,
         "price": 1467,
@@ -133,8 +121,7 @@
         "category": "dresser",
         "item": "Rodgers dresser",
         "image": "gonzocredenza.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR38132",
         "index": 13,
         "price": 4655,
@@ -142,8 +129,7 @@
         "category": "sideChair",
         "item": "Lowery sideChair",
         "image": "girardchair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR37587",
         "index": 14,
         "price": 5291,
@@ -151,8 +137,7 @@
         "category": "diningTable",
         "item": "Cole diningTable",
         "image": "girardchair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR86764",
         "index": 15,
         "price": 5763,
@@ -160,8 +145,7 @@
         "category": "loungeChair",
         "item": "Fields loungeChair",
         "image": "ionchairorangered.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR70961",
         "index": 16,
         "price": 6195,
@@ -169,8 +153,7 @@
         "category": "coffeeTable",
         "item": "Kerr coffeeTable",
         "image": "girardchair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR27155",
         "index": 17,
         "price": 5011,
@@ -178,8 +161,7 @@
         "category": "chair",
         "item": "Miranda chair",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR41714",
         "index": 18,
         "price": 5049,
@@ -187,8 +169,7 @@
         "category": "sideChair",
         "item": "Gay sideChair",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR90485",
         "index": 19,
         "price": 7486,
@@ -196,8 +177,7 @@
         "category": "chair",
         "item": "Poole chair",
         "image": "ionchairorangered.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR58255",
         "index": 20,
         "price": 2781,
@@ -205,8 +185,7 @@
         "category": "credenza",
         "item": "Blevins credenza",
         "image": "saarinen.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR23068",
         "index": 21,
         "price": 6499,
@@ -214,8 +193,7 @@
         "category": "officeChair",
         "item": "Kramer officeChair",
         "image": "ionchairorangered.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR66191",
         "index": 22,
         "price": 732,
@@ -223,8 +201,7 @@
         "category": "bedFrame",
         "item": "Barnes bedFrame",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR49433",
         "index": 23,
         "price": 6841,
@@ -232,8 +209,7 @@
         "category": "dresser",
         "item": "Walter dresser",
         "image": "ionchairorangered.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR88902",
         "index": 24,
         "price": 2169,
@@ -241,8 +217,7 @@
         "category": "chair",
         "item": "Frazier chair",
         "image": "knolltable.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR84572",
         "index": 25,
         "price": 7578,
@@ -250,8 +225,7 @@
         "category": "officeChair",
         "item": "Dunlap officeChair",
         "image": "saarinen.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR48284",
         "index": 26,
         "price": 4268,
@@ -259,8 +233,7 @@
         "category": "coffeeTable",
         "item": "Rosario coffeeTable",
         "image": "knolltable.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR90687",
         "index": 27,
         "price": 2547,
@@ -268,8 +241,7 @@
         "category": "officeChair",
         "item": "Cardenas officeChair",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR15020",
         "index": 28,
         "price": 1354,
@@ -277,8 +249,7 @@
         "category": "dresser",
         "item": "Brown dresser",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR96257",
         "index": 29,
         "price": 1201,
@@ -286,8 +257,7 @@
         "category": "officeChair",
         "item": "Macias officeChair",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR78300",
         "index": 30,
         "price": 7301,
@@ -295,8 +265,7 @@
         "category": "bedFrame",
         "item": "Booker bedFrame",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR47196",
         "index": 31,
         "price": 7290,
@@ -304,8 +273,7 @@
         "category": "bedFrame",
         "item": "Zamora bedFrame",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR29598",
         "index": 32,
         "price": 3827,
@@ -313,8 +281,7 @@
         "category": "dresser",
         "item": "Odom dresser",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR48695",
         "index": 33,
         "price": 2286,
@@ -322,8 +289,7 @@
         "category": "credenza",
         "item": "Vang credenza",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR13695",
         "index": 34,
         "price": 7574,
@@ -331,8 +297,7 @@
         "category": "dresser",
         "item": "Brady dresser",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR87641",
         "index": 35,
         "price": 7891,
@@ -340,8 +305,7 @@
         "category": "sofa",
         "item": "Mullen sofa",
         "image": "gonzocredenza.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR39847",
         "index": 36,
         "price": 5976,
@@ -349,8 +313,7 @@
         "category": "coffeeTable",
         "item": "Hutchinson coffeeTable",
         "image": "gonzocredenza.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR90670",
         "index": 37,
         "price": 5374,
@@ -358,8 +321,7 @@
         "category": "nightstand",
         "item": "Albert nightstand",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR96656",
         "index": 38,
         "price": 6315,
@@ -367,8 +329,7 @@
         "category": "sofa",
         "item": "Boyd sofa",
         "image": "girardchair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR61103",
         "index": 39,
         "price": 6360,
@@ -376,8 +337,7 @@
         "category": "loungeChair",
         "item": "Avery loungeChair",
         "image": "ionchairorangered.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR72644",
         "index": 40,
         "price": 5478,
@@ -385,8 +345,7 @@
         "category": "sofa",
         "item": "Joyce sofa",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR11494",
         "index": 41,
         "price": 3501,
@@ -394,8 +353,7 @@
         "category": "loungeChair",
         "item": "Blanchard loungeChair",
         "image": "ionchairorangered.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR96965",
         "index": 42,
         "price": 4941,
@@ -403,8 +361,7 @@
         "category": "sofa",
         "item": "Nelson sofa",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR97407",
         "index": 43,
         "price": 6603,
@@ -412,8 +369,7 @@
         "category": "diningTable",
         "item": "Rhodes diningTable",
         "image": "knolltable.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR42333",
         "index": 44,
         "price": 5633,
@@ -421,8 +377,7 @@
         "category": "loungeChair",
         "item": "Luna loungeChair",
         "image": "girardchair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR14033",
         "index": 45,
         "price": 7686,
@@ -430,8 +385,7 @@
         "category": "sideChair",
         "item": "Pope sideChair",
         "image": "gonzocredenza.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR38274",
         "index": 46,
         "price": 4643,
@@ -439,8 +393,7 @@
         "category": "sofa",
         "item": "Delacruz sofa",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR24298",
         "index": 47,
         "price": 839,
@@ -448,8 +401,7 @@
         "category": "sideChair",
         "item": "Watkins sideChair",
         "image": "girardchair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR57686",
         "index": 48,
         "price": 1472,
@@ -457,8 +409,7 @@
         "category": "chair",
         "item": "Cline chair",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR91294",
         "index": 49,
         "price": 7351,
@@ -466,8 +417,7 @@
         "category": "officeChair",
         "item": "Bolton officeChair",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR56308",
         "index": 50,
         "price": 5047,
@@ -475,8 +425,7 @@
         "category": "sofa",
         "item": "Guthrie sofa",
         "image": "badilkjairdesk.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR37662",
         "index": 51,
         "price": 7305,
@@ -484,8 +433,7 @@
         "category": "officeChair",
         "item": "Navarro officeChair",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR45836",
         "index": 52,
         "price": 3214,
@@ -493,8 +441,7 @@
         "category": "officeChair",
         "item": "Carver officeChair",
         "image": "saarinen.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR94084",
         "index": 53,
         "price": 7322,
@@ -502,8 +449,7 @@
         "category": "officeChair",
         "item": "Garrett officeChair",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR69490",
         "index": 54,
         "price": 1517,
@@ -511,8 +457,7 @@
         "category": "loungeChair",
         "item": "Morse loungeChair",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR24108",
         "index": 55,
         "price": 5620,
@@ -520,8 +465,7 @@
         "category": "sideChair",
         "item": "Shaw sideChair",
         "image": "gonzocredenza.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR79538",
         "index": 56,
         "price": 2139,
@@ -529,8 +473,7 @@
         "category": "credenza",
         "item": "Walker credenza",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR76104",
         "index": 57,
         "price": 5395,
@@ -538,8 +481,7 @@
         "category": "dresser",
         "item": "Johnson dresser",
         "image": "saarinen.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR91838",
         "index": 58,
         "price": 7205,
@@ -547,8 +489,7 @@
         "category": "nightstand",
         "item": "Frank nightstand",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR96800",
         "index": 59,
         "price": 2302,
@@ -556,8 +497,7 @@
         "category": "diningTable",
         "item": "Barnett diningTable",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR24115",
         "index": 60,
         "price": 5117,
@@ -565,8 +505,7 @@
         "category": "credenza",
         "item": "Hunter credenza",
         "image": "ionchairorangered.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR47815",
         "index": 61,
         "price": 1004,
@@ -574,8 +513,7 @@
         "category": "diningTable",
         "item": "Conway diningTable",
         "image": "gonzocredenza.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR19486",
         "index": 62,
         "price": 3788,
@@ -583,8 +521,7 @@
         "category": "officeChair",
         "item": "Young officeChair",
         "image": "saarinen.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR23673",
         "index": 63,
         "price": 6026,
@@ -592,8 +529,7 @@
         "category": "dresser",
         "item": "Rose dresser",
         "image": "badilkjairdesk.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR95884",
         "index": 64,
         "price": 1464,
@@ -601,8 +537,7 @@
         "category": "coffeeTable",
         "item": "Reilly coffeeTable",
         "image": "ionchairorangered.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR36609",
         "index": 65,
         "price": 1028,
@@ -610,8 +545,7 @@
         "category": "credenza",
         "item": "Pennington credenza",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR59942",
         "index": 66,
         "price": 6146,
@@ -619,8 +553,7 @@
         "category": "coffeeTable",
         "item": "Bennett coffeeTable",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR63467",
         "index": 67,
         "price": 6962,
@@ -628,8 +561,7 @@
         "category": "loungeChair",
         "item": "Nixon loungeChair",
         "image": "girardchair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR93630",
         "index": 68,
         "price": 7757,
@@ -637,8 +569,7 @@
         "category": "diningTable",
         "item": "Edwards diningTable",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR15970",
         "index": 69,
         "price": 1545,
@@ -646,8 +577,7 @@
         "category": "coffeeTable",
         "item": "Underwood coffeeTable",
         "image": "girardchair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR67592",
         "index": 70,
         "price": 3171,
@@ -655,8 +585,7 @@
         "category": "coffeeTable",
         "item": "Horton coffeeTable",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR33640",
         "index": 71,
         "price": 6967,
@@ -664,8 +593,7 @@
         "category": "nightstand",
         "item": "White nightstand",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR30495",
         "index": 72,
         "price": 6577,
@@ -673,8 +601,7 @@
         "category": "diningTable",
         "item": "Bullock diningTable",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR65861",
         "index": 73,
         "price": 1527,
@@ -682,8 +609,7 @@
         "category": "bedFrame",
         "item": "Bowen bedFrame",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR61728",
         "index": 74,
         "price": 5540,
@@ -691,8 +617,7 @@
         "category": "nightstand",
         "item": "Pickett nightstand",
         "image": "saarinen.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR58057",
         "index": 75,
         "price": 2278,
@@ -700,8 +625,7 @@
         "category": "diningTable",
         "item": "Byrd diningTable",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR90692",
         "index": 76,
         "price": 3653,
@@ -709,8 +633,7 @@
         "category": "sofa",
         "item": "Parks sofa",
         "image": "gonzocredenza.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR25024",
         "index": 77,
         "price": 1607,
@@ -718,8 +641,7 @@
         "category": "diningTable",
         "item": "Jarvis diningTable",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR24450",
         "index": 78,
         "price": 6207,
@@ -727,8 +649,7 @@
         "category": "credenza",
         "item": "Crosby credenza",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR45633",
         "index": 79,
         "price": 2826,
@@ -736,8 +657,7 @@
         "category": "loungeChair",
         "item": "Martin loungeChair",
         "image": "saarinen.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR74116",
         "index": 80,
         "price": 6894,
@@ -745,8 +665,7 @@
         "category": "credenza",
         "item": "Chang credenza",
         "image": "girardchair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR75113",
         "index": 81,
         "price": 1855,
@@ -754,8 +673,7 @@
         "category": "sofa",
         "item": "Weeks sofa",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR49982",
         "index": 82,
         "price": 3950,
@@ -763,8 +681,7 @@
         "category": "sofa",
         "item": "Stephenson sofa",
         "image": "knolltable.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR56889",
         "index": 83,
         "price": 3891,
@@ -772,8 +689,7 @@
         "category": "coffeeTable",
         "item": "Wynn coffeeTable",
         "image": "badilkjairdesk.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR60793",
         "index": 84,
         "price": 4554,
@@ -781,8 +697,7 @@
         "category": "diningTable",
         "item": "Alexander diningTable",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR37851",
         "index": 85,
         "price": 6996,
@@ -790,8 +705,7 @@
         "category": "coffeeTable",
         "item": "Calderon coffeeTable",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR40617",
         "index": 86,
         "price": 2606,
@@ -799,8 +713,7 @@
         "category": "loungeChair",
         "item": "Dennis loungeChair",
         "image": "gonzochair.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR33317",
         "index": 87,
         "price": 919,
@@ -808,8 +721,7 @@
         "category": "loungeChair",
         "item": "Mcbride loungeChair",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR77379",
         "index": 88,
         "price": 5557,
@@ -817,8 +729,7 @@
         "category": "dresser",
         "item": "Trujillo dresser",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR75672",
         "index": 89,
         "price": 3850,
@@ -826,8 +737,7 @@
         "category": "credenza",
         "item": "Wise credenza",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR58510",
         "index": 90,
         "price": 3696,
@@ -835,8 +745,7 @@
         "category": "bedFrame",
         "item": "Hoover bedFrame",
         "image": "gonzocredenza.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR49240",
         "index": 91,
         "price": 4476,
@@ -844,8 +753,7 @@
         "category": "credenza",
         "item": "Olson credenza",
         "image": "eameslounge.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR25426",
         "index": 92,
         "price": 2021,
@@ -853,8 +761,7 @@
         "category": "bedFrame",
         "item": "Meyer bedFrame",
         "image": "saarinen.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR42201",
         "index": 93,
         "price": 5642,
@@ -862,8 +769,7 @@
         "category": "officeChair",
         "item": "Mcdowell officeChair",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR27740",
         "index": 94,
         "price": 4892,
@@ -871,8 +777,7 @@
         "category": "coffeeTable",
         "item": "Mcneil coffeeTable",
         "image": "badilkjairdesk.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR13807",
         "index": 95,
         "price": 2573,
@@ -880,8 +785,7 @@
         "category": "sideChair",
         "item": "Haynes sideChair",
         "image": "baughman.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR93462",
         "index": 96,
         "price": 6034,
@@ -889,8 +793,7 @@
         "category": "officeChair",
         "item": "Sharp officeChair",
         "image": "rowlandchairs.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR29999",
         "index": 97,
         "price": 5269,
@@ -898,8 +801,7 @@
         "category": "loungeChair",
         "item": "Hebert loungeChair",
         "image": "saarinen.jpg"
-      },
-      {
+    }, {
         "MR_id": "MR28857",
         "index": 98,
         "price": 3414,
@@ -907,147 +809,152 @@
         "category": "sofa",
         "item": "Palmer sofa",
         "image": "rowlandchairs.jpg"
-      }
+    }
 ]
 
     Parse.PageRouter = Parse.Router.extend({
-        initialize: function(){
+        initialize: function() {
             console.log('routing started');
 
             // -------------------------
             // Code for saving dummy data to Parse **
             // ---------------------------
             // dummyData.forEach(function(dataObj){
-            //     var parseItemModel = new Parse.FurnitureItem(dataObj) 
+            //     var parseItemModel = new Parse.FurnitureItem(dataObj)
             //     parseItemModel.save()
             // })
 
             //Views
-            this.navView= new Parse.NavView()
+            this.navView = new Parse.NavView()
             this.homeView = new Parse.HomeView();
             this.footerView = new Parse.FooterView();
-            this.productsListView = new Parse.ProductPageView();//will take this.collection 
+            this.productsListView = new Parse.ProductPageView(); //will take this.collection
             this.singleListingView = new Parse.SingleListingView();
             this.cartView = new Parse.ShoppingCartView();
             this.thankCustomer = new Parse.ThanksView();
+            this.consignView = new Parse.ConsignView();
             Parse.history.start();
         },
 
-        routes:{
+        routes: {
             'consignment-form': 'loadConsignment',
             'thankyou': 'loadThankCustomer',
-            'shopping-cart' : 'loadShoppingCart',
-            'products/*/category/:type' : 'loadCategoryListings',
-            'products/*/listing/:mrId':'loadSingleListing',
+            'shopping-cart': 'loadShoppingCart',
+            'products/*/category/:type': 'loadCategoryListings',
+            'products/*/listing/:mrId': 'loadSingleListing',
             'products/*/style/:style': 'loadStyleListings',
             'products': 'loadProductsPg',
             '*default': 'home'
         },
 
-        home: function(){
+        home: function() {
             this.navView.render();
             this.homeView.render();
             this.footerView.render()
             console.log(this.homeView)
         },
 
-        checkNavCheckFooter:function(){
+        checkNavCheckFooter: function() {
             var navEl = document.querySelector('nav');
             var footerEl = document.querySelector('footer');
 
 
-            if(navEl.innerHTML.indexOf('div') === -1) {  this.navView.render()  }
-            if(footerEl.innerHTML.indexOf('div') === -1) { this.footerView.render() }
+            if (navEl.innerHTML.indexOf('div') === -1) {
+                this.navView.render()
+            }
+            if (footerEl.innerHTML.indexOf('div') === -1) {
+                this.footerView.render()
+            }
 
 
             //make logic for checking footer
         },
 
-            loadProductsPg: function(){
-                var self = this
-                console.log('product-page loaded')
-                this.checkNavCheckFooter()
-                  
-                var pQuery = new Parse.Query(Parse.FurnitureItem);
-                pQuery.limit(30)
-                console.log(pQuery)
-                pQuery.find().then(function(results){
-                    console.log(results)
-                    self.productsListView.collection = results
-                    console.log(self.productsListView)
+        loadProductsPg: function() {
+            var self = this
+            console.log('product-page loaded')
+            this.checkNavCheckFooter()
 
-                    self.productsListView.render(); 
-                
-                })         
-            },
+            var pQuery = new Parse.Query(Parse.FurnitureItem);
+            pQuery.limit(30)
+            console.log(pQuery)
+            pQuery.find().then(function(results) {
+                console.log(results)
+                self.productsListView.collection = results
+                console.log(self.productsListView)
 
-            loadCategoryListings:function(type){
-                var self = this
-                console.log('category Page loaded');
-                console.log(type)
-                this.checkNavCheckFooter();
+                self.productsListView.render();
 
-                var pQuery = new Parse.Query(Parse.FurnitureItem);
-                pQuery.equalTo("category",type);
-                pQuery.limit(7)
-                pQuery.find().then(function(matched){
-                    console.log(matched)
-                    self.productsListView.collection = matched
-                    console.log(self.productsListView)
-
-                    self.productsListView.render(); //pass a collection;
-                
-                })          
-            },
-
-            loadSingleListing: function(mrId){
-                var self = this
-                console.log('single-listing routed')
-                this.checkNavCheckFooter()
-                //test to see if the collection exists
-                if(!this.productsListView.collection){
-                    //if collection doesn't exits...
-                    console.log('no collection in productsListView')
-                    //make a new parse query
-                    var pQuery = new Parse.Query(Parse.FurnitureItem)
-                    pQuery.equalTo('MR_id', mrId)
-                    pQuery.find().then(function(returnModel){
-                        self.singleListingView.model = returnModel[0];
-                        console.log(self.singleListingView)
-                        self.singleListingView.render()
-                    })
-                } else {
-                    console.log('collection found in productsListView')
-                    var listingsGroup = this.productsListView.collection
-                    console.log(listingsGroup)
-                    var clickedModel = listingsGroup.filter(function(model){
-                        return model.get('MR_id') === mrId
-                    })
-                    this.singleListingView.model = clickedModel[0] 
-                    this.singleListingView.render();
-                }
-            },
-
-            loadShoppingCart: function(){
-                this.checkNavCheckFooter()
-                this.cartView.render();
-            },
-
-            loadOrderConfirmation: function(){
-                this.checkNavCheckFooter();
-                this.orderConfView.render();
-            },
-
-            loadThankCustomer:function(){
-                this.checkNavCheckFooter();
-                this.thankCustomer.render();
-            },
-
-            loadConsignment: function() {
-                console.log('consignment-form loaded')
-                this.checkNavCheckFooter()
-                this.consignView.render();
+            })
         },
+
+        loadCategoryListings: function(type) {
+            var self = this
+            console.log('category Page loaded');
+            console.log(type)
+            this.checkNavCheckFooter();
+
+            var pQuery = new Parse.Query(Parse.FurnitureItem);
+            pQuery.equalTo("category", type);
+            pQuery.limit(7)
+            pQuery.find().then(function(matched) {
+                console.log(matched)
+                self.productsListView.collection = matched
+                console.log(self.productsListView)
+
+                self.productsListView.render(); //pass a collection;
+
+            })
+        },
+
+        loadSingleListing: function(mrId) {
+            var self = this
+            console.log('single-listing routed')
+            this.checkNavCheckFooter()
+                //test to see if the collection exists
+            if (!this.productsListView.collection) {
+                //if collection doesn't exits...
+                console.log('no collection in productsListView')
+                    //make a new parse query
+                var pQuery = new Parse.Query(Parse.FurnitureItem)
+                pQuery.equalTo('MR_id', mrId)
+                pQuery.find().then(function(returnModel) {
+                    self.singleListingView.model = returnModel[0];
+                    console.log(self.singleListingView)
+                    self.singleListingView.render()
+                })
+            } else {
+                console.log('collection found in productsListView')
+                var listingsGroup = this.productsListView.collection
+                console.log(listingsGroup)
+                var clickedModel = listingsGroup.filter(function(model) {
+                    return model.get('MR_id') === mrId
+                })
+                this.singleListingView.model = clickedModel[0]
+                this.singleListingView.render();
+            }
+        },
+
+        loadShoppingCart: function() {
+            this.checkNavCheckFooter()
+            this.cartView.render();
+        },
+
+        loadOrderConfirmation: function() {
+            this.checkNavCheckFooter();
+            this.orderConfView.render();
+        },
+
+        loadThankCustomer: function() {
+            this.checkNavCheckFooter();
+            this.thankCustomer.render();
+        },
+
+        loadConsignment: function() {
+            console.log('consignment-form loaded')
+            this.checkNavCheckFooter()
+            this.consignView.render();
+        }
     })
 
 
@@ -1056,41 +963,45 @@
         el: '.wrapper',
         events: {
             "click a.products-link": "triggerProductPageHash",
-            "click a.cat-link" : "triggerCatPageHash"
+            "click a.cat-link": "triggerCatPageHash",
+            "click .consignment-form-btn": "triggerConsignmentFormHash"
         },
 
 
 
-        triggerProductPageHash: function(evt){
+        triggerProductPageHash: function(evt) {
             evt.preventDefault();
             console.log('event hurrrd')
-            window.location.hash="/products"
+            window.location.hash = "/products"
         },
 
-        triggerCatPageHash: function(evt){
+        triggerCatPageHash: function(evt) {
             evt.preventDefault();
             console.log(window.location.hash);
             console.log(evt.target)
             var categoryName = $(evt.target).closest('a').attr('data-category');
-            window.location.hash ="/products/category/"+categoryName;
+            window.location.hash = "/products/category/" + categoryName;
+        },
 
+
+        triggerConsignmentFormHash: function(evt) {
+            evt.preventDefault();
+            window.location.hash = "/consignment-form"
         }
 
-
-
-        })
+    })
 
     Parse.NavView = Parse.TemplateView.extend({
         view: 'navigation',
         el: 'nav',
 
-        events:{
+        events: {
             "click a.products-link": "triggerProductPageHash",
         },
 
-         triggerProductPageHash: function(evt){
+        triggerProductPageHash: function(evt) {
             evt.preventDefault();
-            window.location.hash="/products"
+            window.location.hash = "/products"
         }
     })
 
@@ -1101,29 +1012,23 @@
 
     Parse.ConsignView = Parse.TemplateView.extend({
         view: 'consignment-form',
-        el: '.wrapper',
-        events: {
-            "click .consignment-form-btn": "goToConsignmentForm"
-        },
-        
-        goToConsignmentForm: function(evt) {
-            evt.preventDefault();
-            console.log('consignment event hurrd')
-            window.location.hash = "/consignment-form"
-        }
+        el: '.wrapper'
+
+
+
     })
 
     Parse.ProductPageView = Parse.TemplateView.extend({
         view: 'product-page',
         el: '.wrapper',
-        events:{
+        events: {
             'click .more-info': 'triggerSingleListingHash'
         },
 
-        triggerSingleListingHash: function(evt){
+        triggerSingleListingHash: function(evt) {
             evt.preventDefault();
             var productMRid = $(evt.target).closest('.img-listing-container').attr('data-productID')
-            window.location.hash="/products/listing/"+productMRid;
+            window.location.hash = "/products/listing/" + productMRid;
         }
     })
 
@@ -1131,12 +1036,12 @@
         view: 'single-listing',
         el: '.wrapper',
         events: {
-            'click .cart-link':"triggerShoppingCartHash"
+            'click .cart-link': "triggerShoppingCartHash"
         },
 
-        triggerShoppingCartHash: function(evt){
+        triggerShoppingCartHash: function(evt) {
             evt.preventDefault();
-            window.location.hash="/shopping-cart"
+            window.location.hash = "/shopping-cart"
         }
     })
 
@@ -1144,9 +1049,9 @@
         view: 'shopping-cart',
         el: '.wrapper',
         events: {
-            "click a.confirm-purchase" : "triggerThanksHash"
+            "click a.confirm-purchase": "triggerThanksHash"
         },
-        triggerThanksHash: function(evt){
+        triggerThanksHash: function(evt) {
             evt.preventDefault()
             console.log('hey')
             window.location.hash = "/thankyou"
@@ -1165,42 +1070,42 @@
             mrID: "",
             item: "",
             price: 0,
-            description:"",
-            img:"",
+            description: "",
+            img: "",
             category: "" // Sofa, Dining-Table, Bedframe, Rug
-            // color: "",
-            // timePeriod: // 
-            // styleTags:, // Scandi, Art-Deco, Industrial, Contemporary
-            // designer_creator: ""
-            // status: "",
-            // manufactureDate: 0,
-            // condition:"",
-            // height: 0,
-            // width: 0,
-            // depth: 0,
-            // dateOfEntry: 0,
-            // newArrival: false,
-            // inventoryStatus: {
-            //     listed: true
-            //     available: true,
-            //     shipped: false,
-            //     successfulDelivery: false
-            //     },
-            // sold: false,
-            // clearance: false
+                // color: "",
+                // timePeriod: //
+                // styleTags:, // Scandi, Art-Deco, Industrial, Contemporary
+                // designer_creator: ""
+                // status: "",
+                // manufactureDate: 0,
+                // condition:"",
+                // height: 0,
+                // width: 0,
+                // depth: 0,
+                // dateOfEntry: 0,
+                // newArrival: false,
+                // inventoryStatus: {
+                //     listed: true
+                //     available: true,
+                //     shipped: false,
+                //     successfulDelivery: false
+                //     },
+                // sold: false,
+                // clearance: false
         },
 
-        initialize: function(){
+        initialize: function() {
             var self
 
             //sanity check for price: if no price entered, then listed=false
-            
-            this.on('change', function(){
+
+            this.on('change', function() {
                 self.save()
             })
-        }, 
+        },
 
-        validate: function(){
+        validate: function() {
             //validate item name
             //validate item category
             //validate MR-ID
@@ -1213,7 +1118,7 @@
         model: Parse.FurnitureItem,
 
     })
-    
+
 
 
     exports.PageRouter = Parse.PageRouter;
