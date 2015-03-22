@@ -1,0 +1,25 @@
+nav{
+   .my-nav-style{
+    margin-bottom: 0;
+    }
+    .search-bar{
+        margin-top: .8rem;
+        max-width: 20rem;
+    }
+}
+
+footer {
+    .social-lnk {
+        text-align: center;
+        color: $sand;
+    }
+    .address-div {
+        background: $sand;
+        color: $white;
+        text-shadow: 1px 1px 1px #000;
+        border-left: 1px solid $tan;
+        .location {
+            font-size: 18px
+        }
+    }
+}
