@@ -1,88 +1,56 @@
-<!-- navbar.html -->
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Metro Retro</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a>
-                </li>
-                <li><a href="#">Furniture</a>
-                </li>
-                <li><a href="#">Lighting</a>
-                </li>
-                <li><a href="#">Art</a>
-                </li>
-                <li><a href="#">Objects</a>
-                </li>
-                <li><a class="about-us"href="#">About</a>
-                </li>
-            </ul>
-        </div>
-        <!--/.nav-collapse -->
-    </div>
-</nav>
 
 <!-- gallery.html -->
 <div class="gallery">
     <div class="absolute-center">
         <h1>metro retro furniture</h1>
         <img src="./images/bauhaus.png" alt="">
-        <a class="btn btn-lg btn-default products-link" href="#" role="button">Class Me Up, Scotty!</a>
+        <a class="btn btn-lg btn-default products-link" href="#" role="button">Recent Arrivals</a>
     </div>
 </div>
-
 <!-- style.html -->
 <div class="categories container-fluid">
-    <h2 class="centered">Shop by category</h2>
+    <h2 class="centered">Shop by Style</h2>
     <hr>
-
     <div class="row">
         <a class="col-xs-4" href="#">
             <p class="text">Art Deco</p>
         </a>
-
         <a class="col-xs-4" href="#">
             <p class="text">Mid Century</p>
         </a>
-
-        <a class="col-xs-4" href="">
+        <a class="col-xs-4" href="#">
             <p class="text">Contemporary</p>
         </a>
     </div>
-
     <p class="centered">
-        <a class="btn btn-default" href="#categories">More categories...</a>
+        <a class="btn btn-default" href="#">More styles...</a>
     </p>
 </div>
-
 <!-- by-category -->
-
-<section class="container-fluid selection by-category">
+<section class="container-fluid selection-by-cat">
     <div class="row">
         <div class="col-xs-12">
-            <h2>Mid-Century</h2>
+            <h2>Shop by Category</h2>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-2 our-style">
-            <i class='fa fa-fire fa-3x'></i>
-            <h5>chairs</h5>
+            <a href="#" data-category="dresser" class="cat-link">
+                <i class='fa fa-fire fa-3x'></i>
+                <h5>dresser</h5>
+            </a>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-2 our-style">
-            <i class='fa fa-eye fa-3x'></i>
-            <h5>sofas</h5>
+            <a href="#" data-category="sofa" class="cat-link">
+                <i class='fa fa-eye fa-3x'></i>
+                <h5>sofas</h5>
+            </a>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-2 our-style">
-            <i class='fa fa-fighter-jet fa-3x'></i>
-            <h5>dining tables</h5>
+            <a href="#" data-category="diningTable" class="cat-link">
+                <i class='fa fa-fighter-jet fa-3x'></i>
+                <h5>dining tables</h5>
+            </a>
         </div>
         <div class="col-xs-12 col-sm-4 col-md-2 our-style">
             <a href="#" data-category="chair" class="cat-link">
@@ -102,22 +70,14 @@
                 <h5>coffee tables</h5>
             </a>
         </div>
-
-
     </div>
 </section>
-
 <!-- consignment.html -->
 <div class="consignment container-fluid">
     <h2>Want to consign your furniture?</h2>
     <hr>
-
     <div>
-        <a class="btn btn-lg btn-default consignment-form-btn" href="#" role="button">Consign with MetroRetro</a>
+        <a class="btn btn-lg btn-default consignment-form-btn" href="#" role="button">Consign with Metro Retro</a>
     </div>
+
 </div>
-
-<!-- footer.html -->
-<footer class="container-fluid">
-
-</footer>

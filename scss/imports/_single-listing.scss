@@ -6,30 +6,46 @@
         }
 }
 
-section.key-listing-info{
-    color: $brown;
-        h2, h5{
-        color: $dark-brown;
-        }
+.the-listing{
+    padding: 2rem 0;
 
-        .description{
-            color: $sand;
-        }
-
-        .add-to-cart{
-            a{
-            font-weight: 200;
+    .key-listing-info{
+        color: $brown;
+            h2, h5{
+            color: $dark-brown;
             }
 
-            .cart-link{
-                margin-top: 10px;
+            .description{
+                color: $sand;
             }
-        }
 
+            .cart-status{
+                a {
+                    font-weight: 200;
+                }
+                p {
+                    text-align: right;
+                }
 
+                .status-notificiation{
+                    display: none;
+                }
 
+                .remove-item-btn {
+                    display: none;
 
+                    .fa-times{
+                    color: $red
+                    }
+                }
+
+            }
+
+    }
+
+    
 }
+
 
 
 @media screen and (min-width: 575px) {

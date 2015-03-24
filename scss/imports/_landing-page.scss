@@ -1,4 +1,11 @@
 /**
+Landing-Page
+**/
+
+
+
+
+/**
 Gallery
 **/
 
@@ -70,21 +77,27 @@ CATEGORIES
 
 
 /**
- * This is section
+ * SELECTION BY FURNITURW CATEGORY
  */
 
-section.selection {
+section.selection-by-cat {
+    background: $dark-brown;
     padding-bottom: 0;
     text-align: center;
+    color:$white;
+    text-shadow: 1px 1px 1px #000;
+    .cat-link  {
+        color: $white;
+        a &:visited{color: $white;}
+    }
+        
     .our-style {
         padding: 3%;
+        &:hover{background:$sand; }
+
     }
 }
 
-section.by-category{
-    background: darkslateblue;
-    color: white;
-}
 
 
 
@@ -105,11 +118,21 @@ section.by-category{
 
 
 footer {
+    background: $mist;
+
     padding: 0;
-    .social-lnk {
+    .social-div {
+        color: $white;
+        .social-lnk {
         text-align: center;
-        color: $sand;
+        color: $beige;
+            &:hover{
+                cursor: pointer;
+                color:$sand;
+            }
+        }
     }
+
     .address-div {
         background: $sand;
         color: $white;

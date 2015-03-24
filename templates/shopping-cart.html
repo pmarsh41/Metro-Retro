@@ -1,226 +1,82 @@
-<main class="shopping-cart container-fluid">
-<!-- Major Area 1::  -->
-    <div class="row">
-        <div class="col-xs-12 user-order ">
-            <p class="keep-browsing">
-                <a href="#" class="btn btn-info back-2-products">Keep-Browsing</a>
-                <br>
-            </p>
-            <div class="panel panel-success">
-                <!-- Default panel contents -->
-                <div class="panel-heading">Your Order</div>
-                <!-- Table -->
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Status</th>
-                            <th>Total Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Kerr Sofa</th>
-                            <td>Available</td>
-                            <td>$4,100</td>
-                        </tr>
-                          <tr>
-                            <th scope="row">Sanchez Coffee Table</th>
-                            <td>Available</td>
-                            <td>$200</td>
-                        </tr>
-                    </tbody>
-                </table>
-            <hr>
+<main class="shopping-cart">
+    <div class="container-fluid">
+        <!-- Major Area 1  -->
+        <div class="row">
+            <div class="col-xs-12 user-order ">
+                <p class="keep-browsing">
+                    <a href="#" class="btn btn-info btn-sm back-2-products"><i class="fa fa-sign-in"></i>&nbspKeep-Browsing</a>
+                    &nbsp&nbsp
+                    <a class='btn btn-primary btn-sm btn-success finalize-order-btn' href=''>
+                            <i class="fa fa-sign-in">&nbspGo to Checkout</i>
+                        </a>
+                    <br>
+                </p>
+                <div class="panel panel-success">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">Your Order</div>
+                    <!-- Table -->
+                    <table class="table order-summary">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th class="tbl-hd-img">Img</th>
+                                <th class="tbl-hd-mr">MR #</th>
+                                <th class="tbl-hd-price">Total Price</th>
+                                <th class="tbl-hd-remove">Remove Item</th>
 
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-xs-12 col-md-4 shipping-info inactive">
-        <span class='block-number'>1</span>
-        <h3>Shipping Information</h3>
-        <p class="big-card"><i class="fa fa-home"></i></p>
-        <form>
-            <div class="form-group">
-                <label for="exampleInputEmail1">First Name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Lastname</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Address Line 1</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">Address Line 2</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">City</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail1">State</label>
-                <select class="form-control">
-                    <option>TX</option>
-                    <option>NY</option>
-                    <option>CA</option>
-                    <option>OR</option>
-                    <option>FL</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="exampleInputEmail1">ZIP</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-            </div>
-            
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="form-group">
-                            <label for="">Phone</label>
-                        </div>
-                    </div>
-                    <div class="col-xs-3 ">
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                    </div>
-                    <div class="col-xs-3" >
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                    </div>
-                    <div class="col-xs-4 ">
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                    </div>
-                </div>
-            </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <% if(data){ _.forEach(data.models,function(model){%>
 
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox"> Use Same Address for Billing
-                </label>
-            </div>
+                             <tr data-MRid="<%=model.get('MR_id')%>">
+                                <th scope="row"><%=model.get('item')%></th>
+                                <td class="tcell-img"><img src="./images/listings-sample/<%=model.get('image')%>" alt=""> </td>
+                                <td class="tcell-mr"><%=model.get('MR_id')%></td>
+                                <td class="tcell-price"><%=model.get('price')%></td>
+                                <td class="tcell-remove-item"><i class="fa fa-times fa-2x"></i></td>
 
-
-            <button type="submit" class="btn btn-default btn-lg">Next</button>
-        </form>
-    </div>
-    <div class="col-xs-12 col-md-4 billing">
-        <span class='block-number'>2</span>
-        <h3>Billing</h3>
-        <p class="big-card"><i class="fa fa-credit-card"></i></p>
-        <div class="form-group">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="row xs-col-12">
-                        <label for="exampleInputEmail1">Credit Card</label>
-                        <select class="form-control">
-                            <option>
-                                <i class="fa fa-cc-visa"></i>&nbspVisa
-                            </option>
-                            <option>
-                                <i class="fa fa-cc-mastercard"></i>&nbspMastercard
-                            </option>
-                            <option>
-                                <i class="fa fa-cc-cc-amex"></i>&nbspAmerican Express
-                            </option>
-                            <option>
-                                <i class="fa fa-cc-discover"></i>&nbspDiscover</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-3">
-                        <input type="text" class="form-control" placeholder="4-digits">
-                    </div>
-                    <div class="col-xs-3">
-                        <input type="text" class="form-control" placeholder="4-digits">
-                    </div>
-                    <div class="col-xs-3">
-                        <input type="text" class="form-control" placeholder="4-digits">
-                    </div>
-                    <div class="col-xs-3">
-                        <input type="text" class="form-control" placeholder="4-digits">
-                    </div>
+                            </tr>
+                        <%}) }%>
+                        </tbody>
+                    </table>
+                    <hr>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">First Name</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+        <!-- Major Area 1::  -->
+        <div class="row">
+            <div class="col-xs-12 user-order ">
+                <div class="panel panel-warning">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">Shipping Options</div>
+                    <!-- Table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>MR I.D. #</th>
+                                <th>Status</th>
+                                <th>Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <p class="go-checkout">
+                        <a class='btn btn-primary btn-lg btn-success finalize-order-btn' href=''>
+                            <i class="fa fa-sign-in">&nbspGo to Checkout</i>
+                        </a>
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Last Name</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Address Line 1</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Address Line 2</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">City</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">State</label>
-            <select class="form-control">
-                <option>TX</option>
-                <option>NY</option>
-                <option>CA</option>
-                <option>OR</option>
-                <option>FL</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">ZIP</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-        </div>
-    </div>
-    <div class="col-xs-12 col-md-4 order-summary inactive">
-        <span class='block-number'>3</span>
-        <h3>Order Summary</h3>
-        <p class="big-card"><i class="fa fa-thumbs-o-up"></i></p>
-        <br>
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th scope="row">2 Items</th>
-                    <th>$3321</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="item-summary">Kerr Sofa</td>
-                    <td>$4,100</td>
-                </tr>
-                <tr>
-                    <td class="item-summary">Sanchez Coffee Table</td>
-                    <td>$200</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th scope="row">Tax</th>
-                    <th>$440</th>
-                </tr>
-                <tr>
-                    <th scope="row">Shipping</th>
-                    <th>$590</th>
-                </tr>
-                <tr class="grand-total">
-                    <th>Total</th>
-                    <th>$5,300</th>
-                </tr>
-            </tfoot>
-        </table>
-        <a href="#" class="btn btn-success btn-lg confirm-purchase disabled"><i class="fa fa-check-square"></i>&nbsp Place Your Order</a>
-    </div>
-    </div>
     </div>
 </main>
