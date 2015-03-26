@@ -11,8 +11,11 @@ $dark-brown: rgba(49,43,40,1);
 $white: rgba(255,255,255,1);
 $black: rgba(33,33,33,1);
 $grey: rgba(225,230,225,1);
+$has-error: #c7254e;
 $red: rgba(135,0,0,1);
+$green: rgba(0,158,0,1);
 $mist: rgba(75,75,99,1);
+
 
 /**
  * BOX-SIZING
@@ -125,4 +128,4 @@ h1,h2,h3,h4,h5,h6{
 @import "./imports/_single-listing.scss";
 @import "./imports/_shopping-cart.scss";
 @import "./imports/_finalize-order.scss";
-@import "./imports/_thank-customer.scss";
+@import "./imports/_enter-new-item.scss";

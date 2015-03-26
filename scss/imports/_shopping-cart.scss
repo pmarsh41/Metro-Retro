@@ -12,9 +12,24 @@
 			
 		}
 		.tbl-hd-remove,
-		i.fa-times{
+		i.fa-times
+			{
 				color: $red;
+				transition: color .2s;
 			}
+
+		i.fa-times{
+			&:hover{
+			color: $beige;
+			cursor: pointer;
+		}
+
+			&:active{
+				color:$brown;
+			}
+		}
+
+
 
 		img{
 			width: 5rem;
