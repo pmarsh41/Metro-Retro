@@ -11,8 +11,17 @@
 
     .key-listing-info{
         color: $brown;
-            h2, h5{
+            h2, h4, h5{
             color: $dark-brown;
+            text-align: center;
+            }
+
+            h5{
+                font-style: italic;
+            }
+
+            h4, h5{
+                margin-top: 0px
             }
 
             .description{

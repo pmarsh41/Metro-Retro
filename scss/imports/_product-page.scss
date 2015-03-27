@@ -1,33 +1,49 @@
-// Change to bootstrap styling
+.my-breadcrumb {
+    ol.breadcrumb {
+        background: $brown;
+        li {
+            a {
+                color: $white;
+                text-shadow: 1px 1px 1px #000;
+            }
+            &.active {
+                color: $white;
+                text-shadow: 1px 1px 1px #000;
+                span {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
 .product-display {
     text-align: center;
     .img-listing-container {
-    	position: relative;
+        position: relative;
         > * {
             background: $beige;
         }
         p {
             padding: 0%;
         }
-	    .thumbnail{
-	    	position:relative;
-	    	z-index:1
-	    }
-
-	    .div-overlay{
-	    	position: absolute;
-	    	height: 100%;
-	    	width: 100%;
-	    	top: 0;
-	    	left: 0;
-			z-index: 2;
-			background: rgba(0,0,100,0);
-			transition: background .2s;
-
-			&:hover{
-				background: rgba(0,0,100,.2);
-			}
-	    }
-   }
+        .thumbnail {
+            position: relative;
+            z-index: 1;
+            background: $white;
+        }
+        .div-overlay {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            background: rgba(0, 0, 100, 0);
+            transition: background .2s;
+            &:hover {
+                background: rgba(0, 0, 100, .2);
+            }
+        }
+    }
 }
-

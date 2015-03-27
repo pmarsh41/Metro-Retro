@@ -32,26 +32,30 @@
                                 <!-- Wrapper for slides -->
                                 <div class="carousel-inner" role="listbox">
                                     <div class="item active">
-                                        <div style="background:url(./images/single-product-sample/computer-1.jpg) center center; background-size:cover;" class="slider-size-single-listing">
+                                        <div style="background:url(./images/single-product-sample/<%=data.get(
+                                            'category')%>1.jpg) center center; background-size:cover;" class="slider-size-single-listing">
                                             <div class="carousel-caption">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="item">
-                                        <div style="background:url(./images/single-product-sample/computer-2.jpg) center center; background-size:cover;" class="slider-size-single-listing">
+                                        <div style="background:url(./images/single-product-sample/<%=data.get(
+                                            'category')%>2.jpg) center center; background-size:cover;" class="slider-size-single-listing">
                                             <div class="carousel-caption">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="item">
-                                        <div style="background:url(./images/single-product-sample/computer-3.jpg) center center;          background-size:cover;" class="slider-size-single-listing">
+                                        <div style="background:url(./images/single-product-sample/<%=data.get(
+                                            'category')%>3.jpg) center center;          background-size:cover;" class="slider-size-single-listing">
                                             <div class="carousel-caption">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="item">
                                         <!--    <img src="./images/single-product-sample/computer-1.jpg" alt="furniture-img1"> -->
-                                        <div style="background:url(./images/single-product-sample/computer-4.jpg) center center;          background-size:cover;" class="slider-size-single-listing">
+                                        <div style="background:url(./images/single-product-sample/<%=data.get(
+                                            'category')%>4.jpg) center center;          background-size:cover;" class="slider-size-single-listing">
                                             <div class="carousel-caption">
                                             </div>
                                         </div>
@@ -78,7 +82,7 @@
                             <h2><%=data.get('item')%></h2>
                         </div>
                         <div class="col-xs-12 price">
-                            <h4>$<%=data.get('price')%></h4>
+                            <h4><%=data.get('priceDollar')%></h4>
                         </div>
                         <div class="col-xs-12 label">
                             <h5><%=data.get('MR_id')%></h5>

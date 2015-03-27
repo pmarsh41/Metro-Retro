@@ -10,11 +10,15 @@ Gallery
 **/
 
 .gallery {
-    background-image: url(../images/couch-leather2.jpg);
-    min-height: 500px;
+    background: $tan;
+    min-height: 600px;
     min-height: 100vh;
     background-size: cover;
     position:relative;
+
+    h1{
+        color: $black;
+    }
 
     > div {
         color: white;
@@ -29,9 +33,15 @@ Gallery
 
         a.btn {
             background-color: transparent;
-            border-color: white;
-            color:white;
+            border: $black 2px solid;
+            color: $black;
+            transition: border .2s;
+
+            &:hover{
+                border: $black 4px solid;
+            }
         }
+
     }
 }
 
@@ -63,15 +73,20 @@ CATEGORIES
             background-repeat: no-repeat;
 
             &:nth-child(1){
-                background-image: url(../images/art-deco.svg)
+                background-image: url(../images/by-style/art-deco.svg)
             }
             &:nth-child(2){
-                background-image: url(../images/midcentury.svg)
+                background-image: url(../images/by-style/mid-century.svg)
             }
             &:nth-child(3){
-                background-image: url(../images/contemporary.svg)
+                background-image: url(../images/by-style/contemporary.svg)
+            }
+            &:nth-child(4){
+                background-image: url(../images/by-style/scandinavia.svg)
             }
         }
+
+
     }
 }
 
@@ -94,6 +109,9 @@ section.selection-by-cat {
     .our-style {
         padding: 3%;
         &:hover{background:$sand; }
+        img {
+            color: $white;
+        }
 
     }
 }
@@ -105,41 +123,32 @@ section.selection-by-cat {
 /** CONSIGNMENT **/
 
 .consignment {
-    background-color: #efefef;
+    background-color: $beige;
     padding-top: 4em;
     padding-bottom: 4em;
+    
+    h2{
+        margin-bottom: 24px;
+    }
 
     h2, & > div {
         text-align: center;
+        color: $dark-brown;
     }
+
+  
+    a.consignment-form-btn {
+            background-color: transparent;
+            border: $black 2px solid;
+            color: $black;
+            transition: border .2s;
+
+            &:hover{
+                border: $black 4px solid;
+            }
+        }
 }
 
 /** FOOTER **/
 
 
-footer {
-    background: $mist;
-
-    padding: 0;
-    .social-div {
-        color: $white;
-        .social-lnk {
-        text-align: center;
-        color: $beige;
-            &:hover{
-                cursor: pointer;
-                color:$sand;
-            }
-        }
-    }
-
-    .address-div {
-        background: $sand;
-        color: $white;
-        text-shadow: 1px 1px 1px #000;
-        border-left: 1px solid $tan;
-        .location {
-            font-size: 18px
-        }
-    }
-}

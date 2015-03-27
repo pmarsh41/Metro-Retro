@@ -4,35 +4,29 @@
 
 
 //Utility Functions
-    function convertNum2PriceStr(num, spaceOption){
+    function numberCommaSeparated(num, spaceOption){
        
         var num = num.toFixed()
         var digitLength = num.length
 
-        if (digitLength<4){
-            return num.join("")
-        } else {
-            var i = digitLength - 1, 
-                j = 1,
-                priceArray = []
-            
-            for(i; i > 0; i--){   
-                if( j % 3 === 0){ 
-                    priceArray.push(',');
-                    priceArray.push(num[i])
-                    j++
-                } else{
-                    priceArray.push(num[i]) 
-                    j++
-                 }
-            }
+        var numArray = num.split('')
+        var commaSeparated = []
+
+        if (digitLength < 4 ){return numArray.join('')} 
+
+        for(var i = 0; i < num.length ;i++)
+             if( (i+1) % 3 === 0 ){
+                commaSeparated.unshift(numArray.pop())
+                commaSeparated.unshift(',')
+             } else {
+                commaSeparated.unshift(numArray.pop())
+             }
+        var newnum = commaSeparated.join('')
+        return newnum
+        
         }
 
-        if(spaceOption===true){priceArray.unshift(' ')}
-        priceArray.unshift('$')
-
-        return priceArray.join('')
-    }
+    
 
     function resetField(el){
         el.wrap('<form>').parent('form').trigger('reset');
@@ -836,8 +830,8 @@
             "image": "rowlandchairs.jpg"
     }]
 
-        Parse.PageRouter = Parse.Router.extend({
-          initialize: function(){
+    Parse.PageRouter = Parse.Router.extend({
+        initialize: function(){
             var self = this
             console.log('routing initialized');
 
@@ -845,12 +839,17 @@
                 // Code for saving dummy data to Parse **
                 // ---------------------------
                 // dummyData.forEach(function(dataObj){
+                //     var commaSeparated = numberCommaSeparated(dataObj.price)
+                //     dataObj.priceDollar = "$"+commaSeparated
                 //     var parseItemModel = new Parse.FurnitureItem(dataObj) 
+                    
+                //     console.log(parseItemModel)
+
                 //     parseItemModel.save()
                 // })
                 
                 
-             //Collections & PseudoCollections
+             //Collections 
               this.shoppingCart = new Parse.FurnitureGroup();
 
 
@@ -860,6 +859,7 @@
               this.footerView = new Parse.FooterView();
               this.productsListView = new Parse.ProductPageView(); //will take this.collection 
               this.singleListingView = new Parse.SingleListingView({cart: this.shoppingCart});
+              this.aboutView = new Parse.AboutView()
               this.consignView = new Parse.ConsignView()
               this.cartView = new Parse.ShoppingCartView();
               this.finalizeOrderView = new Parse.FinalizeOrderView({collection:this.shoppingCart})
@@ -868,7 +868,7 @@
               
 
               //-------------------
-              //View Event Listeners/Handlers
+              //Application Event Listeners/Handlers
               //-------------------
               this.singleListingView.on('addToCart', this.addToCartHandler.bind(this))
 
@@ -884,7 +884,7 @@
 
             //Handling the view-logic and 
             //collection-logic for adding items to the shopping cart
-            addToCartHandler: function(){
+        addToCartHandler: function(){
                 var self = this
                 //Get the MR-ID on Session Storage
                 var MRidOnSS = sessionStorage.getItem('MR-item-ID');
@@ -924,7 +924,7 @@
 
             },
 
-            removeFromCartHandler:function(){
+        removeFromCartHandler:function(){
                 console.log('item removed heard by router')
                 var MRidOnSS = sessionStorage.getItem('MR-item-ID');
                 console.log(this.shoppingCart)
@@ -941,191 +941,215 @@
             //Routes
             
 
-            routes: {
-                'admin/enter-new-item': 'loadNewItemForm',
-                'finalize-order': 'loadFinalizeOrder',
-                'consignment-form': 'loadConsignment',
-                'thankyou': 'loadThankCustomer',
-                'shopping-cart': 'loadShoppingCart',
-                'products/*/category/:type': 'loadCategoryListings',
-                'products/*/listing/:mrId': 'loadSingleListing',
-                'products/*/style/:style': 'loadStyleListings',
-                'products': 'loadProductsPg',
-                '*default': 'home'
-            },
+        routes: {
+            'admin/enter-new-item': 'loadNewItemForm',
+            'finalize-order': 'loadFinalizeOrder',
+            'consignment-form': 'loadConsignment',
+            'thankyou': 'loadThankCustomer',
+            'shopping-cart': 'loadShoppingCart',
+            'products/*/category/:type': 'loadCategoryListings',
+            'products/*/listing/:mrId': 'loadSingleListing',
+            'products/*/style/:style': 'loadStyleListings',
+            'products': 'loadProductsPg',
+            'about-us': 'loadAboutPg',
+            '*path': 'home'
+        },
 
-            home: function() {
-                this.navView.render();
-                this.homeView.render();
-                this.footerView.render()
-                console.log(this.homeView)
-            },
+        home: function() {
+            this.navView.render();
+            this.homeView.render();
+            this.footerView.render()
+            console.log(this.homeView)
+        },
 
-            checkNav: function() {
-                var navEl = document.querySelector('nav');
+        checkNav: function() {
+            var navEl = document.querySelector('nav');
 
-                if (navEl.innerHTML.indexOf('div') === -1) {
-                    this.navView.render()
-                }
-                
-            },
-
-            checkFooter: function() {
-                var footerEl = document.querySelector('footer');
-                if (footerEl.innerHTML.indexOf('div') === -1) {
-                    this.footerView.render()
-                }
-            },
-
-            clearFooter: function(){
-                document.querySelector('footer').innerHTML = ""
-            },
-
-            /**
-             * [loadProductsPg description]
-             * ---------------------------------
-             * 1) makes a Parse-query for 30 items,
-             * 2) query-result returns a collection
-             * 3) set productsListView.collection as query-result
-             * 3) render productsListView w/ collection
-             */
-            loadProductsPg: function() {
-                var self = this
-                console.log('product-page loaded')
-                this.checkNav()
-
-                //new ParseQuery with FurnitureItem-model
-                var pQuery = new Parse.Query(Parse.FurnitureItem);
-                pQuery.limit(30)
-
-                //1) Make Query, 
-                //2) Set the productsListView collection with returned results
-                //3) Render the collection on the productsListView
-                pQuery.find().then(function(results) {
-                    self.productsListView.collection = results
-                    self.productsListView.render();
-                    self.checkFooter();
-
-                })
-            },
-
-            /**
-             * [loadCategoryListings description]
-             *     @param  {categoryType} string 
-             * ----------------------------------
-             * 1) Pass categoryType as a parameter
-             * 2) Make parse query and make equalTo based on categoryType
-             * 3) Query returns matched results as collection
-             * 4) Render the collection
-             */
-            loadCategoryListings: function(categoryType) {
-                var self = this
-                console.log('category Page loaded');
-                this.checkNav()
-
-                var pQuery = new Parse.Query(Parse.FurnitureItem);
-                pQuery.equalTo("category", categoryType);
-                pQuery.find().then(function(matched) {
-                    self.productsListView.collection = matched
-                    self.productsListView.render(); //pass a collection;
-                    self.checkFooter();
-                })
-
-
-            },
-
-
-
-            loadSingleListing: function(mrId) {
-                var self = this
-                console.log('single-listing routed');
-                this.checkNav()
-
-                //test to see if the collection exists
-                if (!this.productsListView.collection) {
-                    //if collection doesn't exist...
-                    console.log('no collection in productsListView')
-                        //make a new parse query object
-                    var pQuery = new Parse.Query(Parse.FurnitureItem)
-                        //...set query as equal to the MR_id
-                    pQuery.equalTo('MR_id', mrId)
-                        //...then make the query 
-                    pQuery.find().then(function(returnModel) {
-                        //put the returned-model on the singleListingView
-                        // & render the view w/ the model
-                        self.singleListingView.model = returnModel[0];
-                         self.singleListingView.render()
-                         self.singleListingView.trigger('rendered')
-                         console.log("'rendered' triggered")
-                        //put the model on browsedItems array
-                        
-                        //render footer
-                        self.checkFooter();
-
-                    })
-                } else {
-                    console.log('collection found in productsListView')
-                    var listingsGroup = this.productsListView.collection
-                    var clickedModel = listingsGroup.filter(function(model) {
-                        return model.get('MR_id') === mrId
-                    })
-                        //Handle the data
-                        //Render on Page
-                        this.singleListingView.model = clickedModel[0]
-                        this.singleListingView.render();
-                        this.singleListingView.trigger('rendered')
-                        console.log("'rendered' triggered")
-                        console.log(this.shoppingCart)
-                        this.checkFooter();
-                }
-            },
-
-            loadShoppingCart: function() {
-                var self = this
-                this.checkNav()
-               
-                self.cartView.collection
-                self.cartView.render();
-                self.checkFooter(); 
-
-            },
-
-            loadFinalizeOrder: function(){
-                console.log('finalizeOrder')
-                this.checkNav();
-                this.clearFooter()
-                this.finalizeOrderView.render();
-
-            },
-
-            loadOrderConfirmation: function() {
-                this.checkNav();
-                this.orderConfView.render();
-                this.checkFooter();
-
-              },
-
-            loadThankCustomer: function() {
-                this.checkNav();
-                this.thankCustomerView.render();
-                document.querySelector('footer').innerHTML = ""
-
-            },
-
-            loadConsignment: function() {
-                console.log('consignment-form loaded')
-                this.checkNavCheckFooter()
-                this.consignView.render();
-            },
-
-            loadNewItemForm: function(){
-                document.querySelector('footer').innerHTML = ""
-                this.newItemView.collection = ["chair", "diningTable", "sofa", "bedFrame", "coffeeTable", "credenza", "loungeChair", "nightstand", "officeChair", "sideChair", "dresser"]
-                this.checkNav();
-                this.clearFooter();
-                this.newItemView.render()
+            if (navEl.innerHTML.indexOf('div') === -1) {
+                this.navView.render()
             }
-        })
+            
+        },
+
+        checkFooter: function() {
+            var footerEl = document.querySelector('footer');
+            if (footerEl.innerHTML.indexOf('div') === -1) {
+                this.footerView.render()
+            }
+        },
+
+        clearFooter: function(){
+            document.querySelector('footer').innerHTML = ""
+        },
+
+        /**
+         * [loadProductsPg description]
+         * ---------------------------------
+         * 1) makes a Parse-query for 30 items,
+         * 2) query-result returns a collection
+         * 3) set productsListView.collection as query-result
+         * 3) render productsListView w/ collection
+         */
+        loadProductsPg: function() {
+            var self = this
+            console.log('product-page loaded')
+            this.checkNav()
+
+            //new ParseQuery with FurnitureItem-model
+            var pQuery = new Parse.Query(Parse.FurnitureItem);
+            pQuery.limit(30)
+            //1) Make Query, 
+            //2) Set the productsListView collection with returned results
+            //3) Render the collection on the productsListView
+            pQuery.find().then(function(parseReturn) {
+                self.productsListView.collection = parseReturn
+                self.productsListView.render();
+                self.checkFooter();
+                
+                var myFurniture = {
+                    category: 'bed',
+                    style: 'midcentury',
+                    price: 3000
+                }
+
+
+                var whatPrice = myFurniture.price
+
+
+
+
+
+
+
+            })
+        },
+
+        /**
+         * [loadCategoryListings description]
+         *     @param  {categoryType} string 
+         * ----------------------------------
+         * 1) Pass categoryType as a parameter
+         * 2) Make parse query and make equalTo based on categoryType
+         * 3) Query returns matched results as collection
+         * 4) Render the collection
+         */
+        loadCategoryListings: function(categoryType) {
+            var self = this
+            console.log('category Page loaded');
+            this.checkNav()
+
+            var pQuery = new Parse.Query(Parse.FurnitureItem);
+            pQuery.equalTo("category", categoryType);
+            
+            
+
+
+            pQuery.find().then(function(matched) {
+                self.productsListView.collection = matched
+                self.productsListView.render(); //pass a collection;
+                self.checkFooter();
+            })
+
+        },
+
+
+
+        loadSingleListing: function(mrId) {
+            var self = this
+            console.log('single-listing routed');
+            this.checkNav()
+
+            //test to see if the collection exists
+            if (!this.productsListView.collection) {
+                //if collection doesn't exist...
+                console.log('no collection in productsListView')
+                    //make a new parse query object
+                var pQuery = new Parse.Query(Parse.FurnitureItem)
+                    //...set query as equal to the MR_id
+                pQuery.equalTo('MR_id', mrId)
+                    //...then make the query 
+                pQuery.find().then(function(returnModel) {
+                    //put the returned-model on the singleListingView
+                    // & render the view w/ the models
+                    self.singleListingView.model = returnModel[0];
+                     self.singleListingView.render()
+                     self.singleListingView.trigger('rendered')
+                     console.log("'rendered' triggered")
+                    //put the model on browsedItems array
+                    
+                    //render footer
+                    self.checkFooter();
+
+                })
+            } else {
+                console.log('collection found in productsListView')
+                var listingsGroup = this.productsListView.collection
+                var clickedModel = listingsGroup.filter(function(model) {
+                    return model.get('MR_id') === mrId
+                })
+                    //Handle the data
+                    //Render on Page
+                    this.singleListingView.model = clickedModel[0]
+                    this.singleListingView.render();
+                    this.singleListingView.trigger('rendered')
+                    console.log("'rendered' triggered")
+                    console.log(this.shoppingCart)
+                    this.checkFooter();
+            }
+        },
+
+        loadShoppingCart: function() {
+            var self = this
+            this.checkNav()
+           
+            self.cartView.collection
+            self.cartView.render();
+            self.checkFooter(); 
+
+        },
+
+        loadFinalizeOrder: function(){
+            console.log('finalizeOrder')
+            this.checkNav();
+            this.clearFooter()
+            this.finalizeOrderView.render();
+
+        },
+
+        loadOrderConfirmation: function() {
+            this.checkNav();
+            this.orderConfView.render();
+            this.checkFooter();
+
+          },
+
+        loadThankCustomer: function() {
+            this.checkNav();
+            this.thankCustomerView.render();
+            document.querySelector('footer').innerHTML = ""
+
+        },
+
+        loadConsignment: function() {
+            console.log('consignment-form loaded')
+            this.checkNav();
+            this.checkFooter();
+            this.consignView.render();
+        },
+
+        loadNewItemForm: function(){
+            this.newItemView.collection = ["chair", "diningTable", "sofa", "bedFrame", "coffeeTable", "credenza", "loungeChair", "nightstand", "officeChair", "sideChair", "dresser"]
+            this.checkNav();
+            this.clearFooter();
+            this.newItemView.render()
+        },
+
+        loadAboutPg: function(){
+            this.checkNav();
+            this.clearFooter();
+            this.aboutView.render();
+        }
+    })
 
 
     Parse.HomeView = Parse.TemplateView.extend({
@@ -1134,7 +1158,7 @@
         events: {
             "click a.products-link": "triggerProductPageHash",
             "click a.cat-link": "triggerCatPageHash",
-            "click .consignment-form-btn": "goToConsignmentForm"
+            "click .consignment-form-btn": "triggerConsignmentFormHash"
 
         },
 
@@ -1155,7 +1179,7 @@
         },
 
 
-            goToConsignmentForm: function(evt) {
+         triggerConsignmentFormHash: function(evt) {
             evt.preventDefault();
             console.log('consignment event hurrd')
             window.location.hash = "/consignment-form"
@@ -1168,7 +1192,9 @@
 
         events: {
             "click a.products-link": "triggerProductPageHash",
-            "click a.cart-link": "triggerShoppingCartHash"
+            "click a.cart-link": "triggerShoppingCartHash",
+            "click a.about-link": "triggerAboutHash",
+            "click a.search-link": "handleSearchLink"
         },
 
         triggerProductPageHash: function(evt) {
@@ -1178,6 +1204,14 @@
         triggerShoppingCartHash: function(evt) {
             evt.preventDefault();
             window.location.hash = "/shopping-cart"
+        },
+        triggerAboutHash: function(evt){
+            evt.preventDefault();
+            window.location.hash = "/about-us"
+        },
+
+        handleSearchLink: function(){
+            document.querySelector
         }
     })
 
@@ -1192,6 +1226,11 @@
 
     })
 
+    Parse.AboutView = Parse.TemplateView.extend({
+        view: 'about-us',
+        el: '.wrapper'
+    })
+
     Parse.ProductPageView = Parse.TemplateView.extend({
         view: 'product-page',
         el: '.wrapper',
@@ -1201,7 +1240,10 @@
 
         triggerSingleListingHash: function(evt) {
             evt.preventDefault();
-            var productMRid = $(evt.target).closest('.img-listing-container').attr('data-productID')
+
+            console.log(evt)
+
+            var productMRid = $(evt.target).closest('.img-listing-container').attr('data-MR-ID')
             window.location.hash = "/products/listing/" + productMRid;
         }
     })
@@ -1234,6 +1276,7 @@
 
             //DataManagement : on session storage
             sessionStorage.setItem('MR-item-ID', this.model.get('MR_id')); 
+            
             this.trigger('addToCart');
 
 
@@ -1284,8 +1327,6 @@
 
 
         },
-
-
 
     })
 
@@ -1486,16 +1527,14 @@
             testFields.indexOf(false) === -1 ? validFormTest = true : validFormTest = false
 
             return validFormTest
-        }
-
-
-
-        
+        }    
     })
 
     //*****************
     // Models
     //****************
+    //
+
     Parse.FurnitureItem = Parse.Object.extend({
         className: "DummyItem",
 
@@ -1551,6 +1590,7 @@
         model: Parse.FurnitureItem,
 
     })
+
 
 
     exports.PageRouter = Parse.PageRouter;

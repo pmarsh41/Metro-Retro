@@ -29,6 +29,8 @@ function app(){
         // -------------
         // bootstrap carousel
         {url: "./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js"},
+        {url: "./bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js"},
+
         {url: "./bower_components/pace/pace.min.js"},
         {url: "./js/TemplateView.js"},
         //jquery-plugins

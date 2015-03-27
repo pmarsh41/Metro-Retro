@@ -3,18 +3,22 @@
 @import "./mixins.scss";
 
 // layout-color-scheme
-$brown: rgba(74,65,61,1);
-$beige: rgba(214,197,187,1);
-$sand: rgba(115,101,94,1);
-$tan: rgba(140,116,104,1);
-$dark-brown: rgba(49,43,40,1);
+$beige: rgba(176,168,165,1);
+$beige-translucent: rgba(176,168,165,.45);
+$tan: rgba(255,216,5,1);
+$tan-translucent: rgba(255,216,5,.25);
+$sand: rgba(0,88,165,1);
+$brown: rgba(220,4,21,1);
+$dark-brown: rgba(33,33,33,1);
+$blue: rgba(98,114,128,1);
+$mist: rgba(92,79,128,1);
 $white: rgba(255,255,255,1);
+$white-translucent: rgba(255,255,255,.25);
 $black: rgba(33,33,33,1);
 $grey: rgba(225,230,225,1);
 $has-error: #c7254e;
 $red: rgba(135,0,0,1);
-$green: rgba(0,158,0,1);
-$mist: rgba(75,75,99,1);
+$green: rgba(129,217,102,1);
 
 
 /**
@@ -102,8 +106,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .wrapper{
-    margin-top: 50px;
-    padding: 0rem 0;
+    padding-top: 70px;
 }
 
 .carousel-control{
@@ -122,10 +125,11 @@ h1,h2,h3,h4,h5,h6{
     }
 
 
-@import "./imports/_navigation-footer";
+@import "./imports/_navigation-footer"; 
 @import "./imports/_landing-page.scss";
 @import "./imports/_product-page.scss";
 @import "./imports/_single-listing.scss";
 @import "./imports/_shopping-cart.scss";
 @import "./imports/_finalize-order.scss";
 @import "./imports/_enter-new-item.scss";
+@import "./imports/_thank-customer.scss";
