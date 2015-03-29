@@ -1,79 +1,69 @@
 .slider-size-single-listing {
     height: 250px;
     .carousel {
-        width:100%; 
-        margin:0 auto; /* center your carousel if other than 100% */ 
-        }
+        width: 100%;
+        margin: 0 auto;
+        /* center your carousel if other than 100% */
+    }
 }
 
-.the-listing{
+.the-listing {
     padding: 2rem 0;
-
-    .key-listing-info{
+    .key-listing-info {
         color: $brown;
-            h2, h4, h5{
+        h2, h4, h5 {
             color: $dark-brown;
             text-align: center;
+        }
+        h5 {
+            font-style: italic;
+        }
+        h4,
+        h5 {
+            margin-top: 0px
+        }
+        .description {
+            color: $sand;
+        }
+        .cart-status {
+            a {
+                font-weight: 200;
             }
+            p {
+                text-align: right;
 
-            h5{
-                font-style: italic;
-            }
-
-            h4, h5{
-                margin-top: 0px
-            }
-
-            .description{
-                color: $sand;
-            }
-
-            .cart-status{
-                a {
-                    font-weight: 200;
-                }
-                p {
-                    text-align: right;
-                }
-
-                .status-notificiation{
+                .status-notificiation {
                     display: none;
                 }
-
                 .remove-item-btn {
                     display: none;
-
-                    .fa-times{
-                    color: $red
+                    .fa-times {
+                        color: $red;
                     }
                 }
-
             }
-
+        }
     }
-
-    
 }
-
-
 
 @media screen and (min-width: 575px) {
     .slider-size-single-listing {
         height: 325px;
         .single-listing-carousel {
-        width:100%; 
-        margin:0 auto; /* center your carousel if other than 100% */ 
+            width: 100%;
+            margin: 0 auto;
+            /* center your carousel if other than 100% */
         }
     }
-        
 }
 
 @media screen and (min-width: 768px) {
     .slider-size-single-listing {
         height: 400px;
-         .single-listing-carousel {
-        width:100%; 
-        margin:0 auto; /* center your carousel if other than 100% */ 
+        .single-listing-carousel {
+            width: 100%;
+            margin: 0 auto;
+            /* center your carousel if other than 100% */
         }
     }
 }

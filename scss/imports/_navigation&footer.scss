@@ -15,12 +15,13 @@ nav {
         color: $black;
         transition: color .25s, font-size .35s;
         font-size: 24px;
-        color: $black;
         &:hover {
             font-size: 30px;
             color: $sand;
         }
     }
+
+
     a {
         font-weight: 700;
     }
@@ -47,6 +48,8 @@ footer {
         color: $white;
         .social-lnk {
             text-align: center;
+            padding-top: 5%;
+            padding-bottom: 5%;
             & > a {
                 color: $beige;
                 &:hover {

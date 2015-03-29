@@ -125,11 +125,11 @@ h1,h2,h3,h4,h5,h6{
     }
 
 
-@import "./imports/_navigation-footer"; 
+@import "./imports/_navigation&footer"; 
 @import "./imports/_landing-page.scss";
 @import "./imports/_product-page.scss";
 @import "./imports/_single-listing.scss";
 @import "./imports/_shopping-cart.scss";
 @import "./imports/_finalize-order.scss";
-@import "./imports/_enter-new-item.scss";
+@import "./imports/_administrators&employees.scss";
 @import "./imports/_thank-customer.scss";
