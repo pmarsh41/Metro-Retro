@@ -13,15 +13,16 @@
         verifyPassword: function(evt) {
             evt.preventDefault();
 
-            var loginName = $('login-name').val()
-            var passwordValue = $('#login-password').val()
+            var loginName = $('#login-name').val();
+            var passwordValue = $('#login-password').val();
 
             console.log([loginName, passwordValue])
 
             Parse.User.logIn(loginName, passwordValue)
                 .then(function(parseUser) {
                     if (parseUser.get('role') === 'employee') {
-                        window.location.hash = '/employee/login';
+                        console.log(parseUser)
+                        window.location.hash = 'employee/'+parseUser.get('username') +'/enter-new-item';
                     } else {
                         parseUser.logOut();
                         $('.response-msg').text("User is not an admin").fadeIn();

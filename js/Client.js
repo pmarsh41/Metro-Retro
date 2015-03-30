@@ -949,7 +949,7 @@ var dummyData = [{
 
 
         routes: {
-            'employee/*/enter-new-item': 'loadEnterNewItemForm',
+            'employee/:employeeId/enter-new-item': 'loadEnterNewItemForm',
             'employee/login': 'loadEmployeeLogin',
 
             'admin/dashboard': 'loadAdminDashboard',
