@@ -145,22 +145,29 @@
                         <th>$3321</th>
                     </tr>
                 </thead>
-                <tbody><% _.forEach(data,function(){%>
+                <tbody>
+                    <% _.forEach(data,function(){%>
+                        <tr>
+                            <th scope="row">
+                                <%=data.get( 'item')%>
+                            </th>
+                            <td><img src="./images/listings-sample/<%=data.get('image')%>" alt=""> </td>
+                            <td>
+                                <%=data.get( 'MR_id')%>
+                            </td>
+                            <td>
+                                <%=data.get( 'price')%>
+                            </td>
+                        </tr>
+                        <%})%>
                             <tr>
-                                <th scope="row"><%=data.get('item')%></th>
-                                <td><img src="./images/listings-sample/<%=data.get('image')%>" alt=""> </td>
-                                <td><%=data.get('MR_id')%></td>
-                                <td><%=data.get('price')%></td>
+                                <td class="item-summary">Kerr Sofa</td>
+                                <td>$4,100</td>
                             </tr>
-                           <%})%>
-                    <tr>
-                        <td class="item-summary">Kerr Sofa</td>
-                        <td>$4,100</td>
-                    </tr>
-                    <tr>
-                        <td class="item-summary">Sanchez Coffee Table</td>
-                        <td>$200</td>
-                    </tr>
+                            <tr>
+                                <td class="item-summary">Sanchez Coffee Table</td>
+                                <td>$200</td>
+                            </tr>
                 </tbody>
                 <tfoot>
                     <tr>
@@ -177,7 +184,12 @@
                     </tr>
                 </tfoot>
             </table>
-            <a href="#" class="btn btn-success btn-lg confirm-purchase"><i class="fa fa-check-square"></i>&nbsp Place Your Order</a>
+            <button type="button" class="btn btn-success btn-lg confirm-purchase"><i class="fa fa-check-square"></i>&nbsp Place Your Order</button>
+            
+            <form data-status="inactive" style="display:none; margin-top: 16px;" id="checkout" method="post" action="/checkout">
+                <div id="dropin"></div>
+                <input type="submit" value="Pay $10">
+            </form>
         </div>
     </div>
 </main>

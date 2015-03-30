@@ -33,10 +33,12 @@ function app(){
 
         {url: "./bower_components/pace/pace.min.js"},
         {url: "./js/TemplateView.js"},
-        //jquery-plugins
 
+        //braintree sdk
         //my app
-        {url: "./js/Client.js"}
+        {url: "./js/Client.js"},
+        {url: "./js/employee-login-view.js"}
+
     ).then(function(){
         // if turning on JSnoX, uncommment the following line
         // window.d = jsnox(React);
