@@ -27,13 +27,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <% if(data){ _.forEach(data.models,function(model){%>
-
+                        <% if(data){ _.forEach(data.models,function(model){
+                            if(!model.get('imageCount')){  
+                                var imgLink='./images/no_image.jpg'
+                                }else{
+                                    var imgLink = model.get('database_img_1');
+                                }
+                        %>
+                            
                              <tr data-MRid="<%=model.get('MR_id')%>">
                                 <th scope="row"><%=model.get('item')%></th>
-                                <td class="tcell-img"><img src="./images/listings-sample/<%=model.get('image')%>" alt=""> </td>
+                                <td class="tcell-img"><img src="<%=imgLink%>" alt=""> </td>
                                 <td class="tcell-mr"><%=model.get('MR_id')%></td>
-                                <td class="tcell-price"><%=model.get('price')%></td>
+                                <td class="tcell-price"><%=model.get('priceDollar')%></td>
                                 <td class="tcell-remove-item"><i class="fa fa-times fa-2x"></i></td>
 
                             </tr>

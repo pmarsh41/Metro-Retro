@@ -6,9 +6,10 @@
 $beige: rgba(176,168,165,1);
 $beige-translucent: rgba(176,168,165,.45);
 $tan: rgba(255,216,5,1);
-$tan-translucent: rgba(255,216,5,.25);
+$tan-translucent: rgba(255,216,5,.45);
 $sand: rgba(0,88,165,1);
 $brown: rgba(220,4,21,1);
+$brown-translucent: rgba(220,4,21,.25);
 $dark-brown: rgba(33,33,33,1);
 $blue: rgba(98,114,128,1);
 $mist: rgba(92,79,128,1);
@@ -99,6 +100,7 @@ body {
     margin: 0;
     padding: 0;
     color: $dark-brown;
+    padding-top: 70px;
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -106,7 +108,9 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .wrapper{
-    padding-top: 70px;
+    padding-top: 1rem;
+
+    
 }
 
 .carousel-control{
@@ -125,7 +129,7 @@ h1,h2,h3,h4,h5,h6{
     }
 
 
-@import "./imports/_navigation&footer";
+@import "./imports/_navigation&footer"; 
 @import "./imports/_landing-page.scss";
 @import "./imports/_product-page.scss";
 @import "./imports/_single-listing.scss";
@@ -133,4 +137,4 @@ h1,h2,h3,h4,h5,h6{
 @import "./imports/_finalize-order.scss";
 @import "./imports/_administrators&employees.scss";
 @import "./imports/_thank-customer.scss";
-@import "./imports/_about-us.scss";
+@import "./imports/_nav-breadcrumb.scss";

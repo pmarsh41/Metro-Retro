@@ -1,133 +1,35 @@
-<main class="container-fluid my-breadcrumb">
-    <section class="breadcrumb-nav">
-        <ol class="breadcrumb">
-            <li><a href="#">Home</a>
-            </li>   
-            <li><a href="#">All Products</a>
-            </li>
-            <li class="active"><span>Mid-Century</span></li>
-        </ol>
-    </section>
 
+<main class="container-fluid">
     <section class="container-fluid product-display">
         <div class="row">
-
-
-        <% data.forEach(function(parseObject){ %>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container" data-MR-ID="<%=parseObject.get('MR_id')%>">
+        <%console.log(data)
+         data.forEach( function(parseObject){ 
+            if (parseObject.get('database_img_LINK_1')) {
+                var imgLink = parseObject.get('database_img_LINK_1')
                 
-                <a href="#" class="more-info" >
+                } else if (parseObject.get('database_img_FILE_1')){
+                    var imgLink = parseObject.get('database_img_FILE_1')._url
+                
+                } else {
+                    var imgLink = "./images/no_image.jpg"
+                }
+        %>
 
-
-                <div class="thumbnail " >
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container" data-MR-ID="<%=parseObject.get('MR_id')%>">
+                <a href="#" class='single-listing-link'>
+                
+                <div class="thumbnail" >
                     <div class="div-overlay"></div>
-
-                    <img src="./images/single-product-sample/<%=parseObject.get('category')%>1.jpg" alt="gallery-img">
+                    <img src="<%=imgLink%>" alt="gallery-img" class="thumbnail-img" onError="this.onerror=null;this.src='./images/no_image.jpg';">
                     <div class="caption">
-                        <h4><%=parseObject.get('item')%></h4>
-                        <p><%=parseObject.get('price')%></p>
+                        <h5><%=parseObject.get('item')%></h5>
+                        <p><%=parseObject.get('priceDollar')%></p>
                     </div>
-                </a>
+                
                 </div>
+                </a>
             </div>
         <%})%>
-
-
         </div>
-
-
     </section>
 </main>
-
- <!-- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container"  data-productId="nnls2p112">
-                <div class="thumbnail ">
-                    <img src="./images/listings-sample/image2.jpg" alt="gallery-img">
-                    <div class="caption">
-                        <h4>Thumbnail  label</h4>
-                        <p>$1,000</p>
-                         <a href="#" class="btn btn-default more-info" role="button">More Info</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container">
-                <div class="thumbnail ">
-                    <img src="./images/listings-sample/image4.jpg" alt="gallery-img">
-                    <div class="caption">
-                        <h4>Thumbnail  label</h4>
-                        <p>$1,000</p>
-                        <a href="#" class="btn btn-default more-info" role="button">More Info</a>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container">
-                <div class="thumbnail ">
-                    <img src="./images/listings-sample/image5.jpg" alt="gallery-img">
-                    <div class="caption">
-                        <h4>Thumbnail  label</h4>
-                        <p>$1,000</p>
-                        <a href="#" class="btn btn-default more-info" role="button">More Info</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container">
-                <div class="thumbnail ">
-                    <img src="./images/listings-sample/image6.jpg" alt="gallery-img">
-                    <div class="caption">
-                        <h4>Thumbnail  label</h4>
-                        <p>$1,000</p>
-                        <a href="#" class="btn btn-default more-info" role="button">More Info</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container">
-                <div class="thumbnail ">
-                    <img src="./images/listings-sample/image3.jpg" alt="gallery-img">
-                    <div class="caption">
-                        <h4>Thumbnail  label</h4>
-                        <p>$1,000</p>
-                        <a href="#" class="btn btn-default more-info" role="button">More Info</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container">
-                <div class="thumbnail ">
-                    <img src="./images/listings-sample/image2.jpg" alt="gallery-img">
-                    <div class="caption">
-                        <h4>Thumbnail  label</h4>
-                        <p>$1,000</p>
-                        <a href="#" class="btn btn-default more-info" role="button">More Info</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container">
-                <div class="thumbnail ">
-                    <img src="./images/listings-sample/image6.jpg" alt="gallery-img">
-                    <div class="caption">
-                        <h4>Thumbnail  label</h4>
-                        <p>$1,000</p>
-                        <a href="#" class="btn btn-default more-info" role="button">More Info</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container">
-                <div class="thumbnail ">
-                    <img src="./images/listings-sample/image3.jpg" alt="gallery-img">
-                    <div class="caption">
-                        <h4>Thumbnail  label</h4>
-                        <p>$1,000</p>
-                        <a href="#" class="btn btn-default more-info" role="button">More Info</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 img-listing-container">
-                <div class="thumbnail ">
-                    <img src="./images/listings-sample/image1.jpg" alt="gallery-img">
-                    <div class="caption">
-                        <h4>Thumbnail  label</h4>
-                        <p>$1,000</p>
-                        <a href="#" class="btn btn-default more-info" role="button">More Info</a>
-                    </div>
-                </div>
-            </div>
- -->
