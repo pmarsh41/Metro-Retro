@@ -49,8 +49,9 @@ UTILITY CLASSES
     text-align: center;
 }
 
-.carousel-example-generic {
+.carousel-inner {
     margin-bottom: 1rem;
+    max-height: 100%;
     ol.carousel-indicators {
         li {
             border: 1px solid $brown;
