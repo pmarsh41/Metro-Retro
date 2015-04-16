@@ -26,6 +26,32 @@
         return newnum
     }
 
+    function returnCategoryTree(value, categoryMap){
+                var categoryTree = [];
+                var MRCategories = MRCategoryLabels;
+
+                if (categoryMap['top-level'].indexOf(value) !== -1){
+                    categoryTree.push(value)
+                } else {
+
+                    while(categoryTree.indexOf(value)===-1){
+                    categoryTree.push(value)
+
+                        for (var key in categoryMap){
+                            if (categoryMap['top-level'].indexOf(value)>-1){
+                                var i = categoryMap['top-level'].indexOf(value);
+                                categoryTree.push(categoryMap['top-level'][i])
+                                break
+                            } else if(categoryMap[key].indexOf(value)>-1){
+                                value = key
+                            }
+                        }
+                    }
+                }
+
+            return categoryTree.reverse()
+        }
+
 
 
     function resetField(el) {
@@ -38,19 +64,19 @@
             // -------------------------
             // Code for saving data to Parse **
             // ---------------------------
-            //
+            // 
             // var dataToParse = dataArrayToUpload;
             // console.log(dataToParse)
             // dataToParse.forEach(function(item, index){
             //         var itemToUpload = new Parse.FurnitureItem(item);
             //         _.delay(function(){itemToUpload.save()},80);
-            // })
+            // })  
 
-
+           
             var self = this
             console.log('routing initialized');
 
-            //Collections
+            //Collections 
             this.shoppingCart = new Parse.FurnitureGroup();
 
 
@@ -58,24 +84,33 @@
             this.navView = new Parse.NavView()
             this.homeView = new Parse.HomeView();
             this.footerView = new Parse.FooterView();
-            this.productsListView = new Parse.ProductPageView(); //will take this.collection
+            this.productsListView = new Parse.ProductPageView(); //will take this.collection 
             this.singleListingView = new Parse.SingleListingView({
                 cart: this.shoppingCart
             });
+            this.categoriesView = new Parse.CategoriesView()
+
             this.aboutView = new Parse.AboutView()
             this.consignView = new Parse.ConsignView()
             this.cartView = new Parse.ShoppingCartView();
             this.finalizeOrderView = new Parse.FinalizeOrderView({
                 collection: this.shoppingCart
             })
+            
             this.thankCustomerView = new Parse.ThanksView();
+            
             this.newItemFormView = new Parse.EnterNewItemFormView();
+            
+            this.searchItemView = new Parse.SearchExistingItemView();
+            
+            this.editItemView = new Parse.EditExistingItemView()
+
             this.adminLoginView = new Parse.AdminLoginView();
             // this.userLoginView = new Parse.UserLoginView();
             this.adminDashboardView = new Parse.AdminDashboardView();
             this.breadCrumbView = new Parse.BreadCrumbView();
-
-            //Temporary-app-helper
+            
+            //Temporary-app-helper 
             this.reorganizeImagesView = new Parse.ReorganizeImagesView();
 
 
@@ -88,13 +123,12 @@
             this.cartView.on('itemRemoved', this.removeFromCartHandler.bind(this))
 
 
-
             Parse.history.start();
         },
 
         //Events - Handlers
 
-        //Handling the view-logic and
+        //Handling the view-logic and 
         //collection-logic for adding items to the shopping cart
         addToCartHandler: function() {
             var self = this
@@ -157,34 +191,29 @@
 
         routes: {
             'employee/*/enter-new-item': 'loadEnterNewItemForm',
-            'employee/*/edit-existing-item/:mrId': 'loadEditExistingItemForm',
-
+            'employee/*/edit-item/:mrId': 'loadEditExistingItemForm',
+            'employee/*/search-item': 'loadSearchItem',
             'employee/login': 'loadUserLogin',
+           
             'admin/dashboard': 'loadAdminDashboard',
             'admin/login': 'loadAdminLogin',
+           
             'finalize-order': 'loadFinalizeOrder',
             'consignment-form': 'loadConsignment',
             'thankyou': 'loadThankCustomer',
             'shopping-cart': 'loadShoppingCart',
-            'products/*/categories/:type': 'loadCategoryListings',
+            
+            'products/*/category/:type': 'loadListingsByCategory',
             'products/*/listing/:mrId': 'loadSingleListing',
             'products/*/style/:styleName': 'loadStyleListings',
+            'products/categories': 'loadCategoriesPage',
             'products': 'loadProductsPg',
             'about-us': 'loadAboutPg',
 
             //add-items
             'fix-images':'loadReorganizeImgs',
-
+            
             '*path': 'loadHome'
-        },
-
-        loadReorganizeImgs: function(){
-            this.reorganizeImagesView.collection = {
-                imageArray: [],
-                imageTnArray: []
-            }
-
-            this.reorganizeImagesView.render();
         },
 
         loadHome: function() {
@@ -205,11 +234,34 @@
 
         },
 
-        insertBreadCrumb: function(){
+        insertBreadCrumb: function(categoryOption){
+            var data = {
+                        categoryLabels: MRCategoryLabels,
+                        categoryMap: MRCategoryMap,
+                        currentCategory: categoryOption || "",
+                        currentCategoryTree: []
+                    }
+
             var breadCrumbEl = document.querySelector('.my-breadcrumb');
-              if (breadCrumbEl.innerHTML.indexOf('div') === -1) {
-                this.breadCrumbView.render()
+          
+            if (breadCrumbEl.innerHTML.indexOf('div') === -1) {
+            
+            
+
+            if(data.currentCategory){
+                var labelNum = returnCategoryTree(categoryOption,data.categoryMap);
+                labelNum.forEach(function(labelNum){
+                    data.currentCategoryTree.push(data.categoryLabels[labelNum])
+                })
+            
             }
+
+            data.currentCategoryTree.unshift('All Products');
+            console.log(data.currentCategoryTree)
+            this.breadCrumbView.collection = data
+
+            this.breadCrumbView.render()
+        }
         },
 
         checkFooter: function() {
@@ -244,7 +296,7 @@
             pQuery.descending('MR_id');
             pQuery.equalTo('inventoryStatus','1')
             pQuery.limit(20);
-            //1) Make Query,
+            //1) Make Query, 
             //2) Set the productsListView collection with returned results
             //3) Render the collection on the productsListView
             pQuery.find().then(function(parseReturn) {
@@ -257,47 +309,58 @@
             })
         },
 
+        loadCategoriesPage: function(){
+            this.checkNav()
+            window.scrollTo(0,0)
+
+            var data = {
+                categoryLabels: MRCategoryLabels,
+                categoryMap: MRCategoryMap
+            }
+
+            this.clearBreadCrumb();
+            this.categoriesView.collection = data
+            this.categoriesView.render()
+        },
+
+
+
         /**
          * [loadCategoryListings description]
-         *     @param  {categoryType} string
+         *     @param  {categoryType} string 
          * ----------------------------------
          * 1) Pass categoryType as a parameter
          * 2) Make parse query and make equalTo based on categoryType
          * 3) Query returns matched results as collection
          * 4) Render the collection
          */
-        loadCategoryListings: function(catType) {
-            var self = this
-            console.log('category Page loaded');
-            this.checkNav();
+        
+        //BOOKMARK-b: make it where the hash route can search for subcategories
+        loadListingsByCategory: function(catNum) {
 
-            var categoryLabelMap = {
-                "rugs": "Rugs",
-                "tables": "Tables",
-                "desks": "Desks",
-                "lighting": "Lighting",
-                "case-goods": "Case Goods",
-                "seating": "Seating"
-
-            }
-
-            var pQuery = new Parse.Query(Parse.FurnitureItem);
+                var self = this
+                console.log('category Page loaded');
+                this.checkNav();
 
 
-            pQuery.equalTo("categoryTreeByName", categoryLabelMap[catType]);
-            pQuery.limit(20)
+                var pQuery = new Parse.Query(Parse.FurnitureItem);
 
-            pQuery.find().then(function(matched) {
-                console.log(matched)
-                self.productsListView.collection = matched
-                self.checkFooter();
-                window.scrollTo(0,0);
-                self.productsListView.render(); //pass a collection;
-                self.insertBreadCrumb();
+                pQuery.equalTo("categoryTreeByNumber", catNum);
+                pQuery.limit(20)
 
-            })
+                pQuery.find().then(function(matched) {
+                    console.log(matched)
+                    self.productsListView.collection = matched
+                    self.checkFooter();
+                    window.scrollTo(0,0);
 
-        },
+                    self.productsListView.render(); //pass a collection;
+                    
+                    self.insertBreadCrumb(catNum);
+
+
+                })
+            },
 
         loadStyleListings: function(styleName){
             var self = this;
@@ -320,7 +383,7 @@
                 var regexTest = false;
                 } else {
                     pQuery.limit(60);
-
+                    
                     pQuery.equalTo("categoryTreeByName",styleLabelMap[styleName])
                     var regexTest = true;
                 }
@@ -339,7 +402,7 @@
 
                 })
             })
-
+           
         },
 
 
@@ -356,7 +419,7 @@
                 var pQuery = new Parse.Query(Parse.FurnitureItem)
                     //...set query as equal to the MR_id
                 pQuery.equalTo('MR_id', mrId)
-                    //...then make the query
+                    //...then make the query 
                 pQuery.find().then(function(returnModel) {
                     //put the returned-model on the singleListingView
                     // & render the view w/ the models
@@ -367,9 +430,9 @@
                     self.singleListingView.trigger('rendered')
                     console.log("'rendered' triggered")
                         //put the model on browsedItems array
-                    self.insertBreadCrumb();
 
                     //render footer
+                    self.insertBreadCrumb();  
                     self.checkFooter();
 
                 })
@@ -385,7 +448,7 @@
                 this.singleListingView.model = clickedModel[0]
                 window.scrollTo(0,0)
                 this.singleListingView.render();
-
+                
                 this.singleListingView.trigger('rendered');
                 console.log("'rendered' triggered");
                 this.insertBreadCrumb();
@@ -442,7 +505,7 @@
             this.checkNav();
             this.clearBreadCrumb();
             this.checkFooter();
-            window.scrollTo(0,0)
+            window.scrollTo(0,0);
             this.consignView.render();
 
         },
@@ -458,14 +521,36 @@
             this.checkNav();
             this.clearBreadCrumb();
             this.clearFooter();
-            window.scrollTo(0,0)
+            window.scrollTo(0,0);
             this.newItemFormView.render()
 
         },
 
-        loadEditExistingItemForm: function() {
+        loadSearchItem:function(){
+            this.checkNav();
+            this.clearBreadCrumb();
+            this.clearFooter();
+            window.scrollTo(0,0);
+            this.searchItemView.render();
+        },
 
+        loadEditExistingItemForm: function(mrId) {
+            var self = this;
 
+            this.checkNav();
+            this.clearBreadCrumb();
+            this.clearFooter();
+            window.scrollTo(0,0);
+
+            var pQuery = new Parse.Query(Parse.FurnitureItem);
+            pQuery.equalTo('MR_id',parseInt(mrId))
+            
+            pQuery.find().then(function(model){
+                var retrievedModel = model[0]
+                 self.editItemView.model = retrievedModel
+                 self.editItemView.render();
+            })
+           
         },
 
 
@@ -507,53 +592,19 @@
             this.checkFooter();
             window.scrollTo(0,0)
             this.aboutView.render();
+        },
+
+         loadReorganizeImgs: function(){
+            this.reorganizeImagesView.collection = {
+                imageArray: [],
+                imageTnArray: []
+            }
+
+            this.reorganizeImagesView.render();
         }
     })
 
-
-    Parse.HomeView = Parse.TemplateView.extend({
-        view: 'landing-page',
-        el: '.wrapper',
-        events: {
-            "click a.products-link": "triggerProductPageHash",
-            "click a.style-link":"triggerStylePageHash",
-            "click a.cat-link": "triggerCatPageHash",
-            "click .consignment-form-btn": "triggerConsignmentFormHash"
-        },
-
-
-
-        triggerProductPageHash: function(evt) {
-            evt.preventDefault();
-            console.log('event hurrrd')
-            window.location.hash = "/products"
-        },
-
-        triggerCatPageHash: function(evt) {
-            evt.preventDefault();
-            console.log(window.location.hash);
-            console.log(evt.target)
-
-            var categoryName = $(evt.target).closest('a').attr('data-category');
-
-            window.location.hash = "/products/categories/" + categoryName;
-        },
-
-        triggerStylePageHash: function(evt){
-            evt.preventDefault();
-            var styleName = $(evt.target).closest('a').attr('data-byStyle');
-            console.log(styleName);
-            window.location.hash = "/products/style/"+styleName;
-        },
-
-        triggerConsignmentFormHash: function(evt) {
-            evt.preventDefault();
-            console.log('consignment event hurrd')
-            window.location.hash = "/consignment-form"
-        }
-    })
-
-    Parse.NavView = Parse.TemplateView.extend({
+        Parse.NavView = Parse.TemplateView.extend({
         view: 'navigation',
         el: 'nav',
 
@@ -585,6 +636,71 @@
         view: 'nav-breadcrumb'
     })
 
+    Parse.HomeView = Parse.TemplateView.extend({
+        view: 'landing-page',
+        el: '.wrapper',
+        events: {
+            "click a.products-link": "triggerProductPageHash",
+            "click a.style-link":"triggerStylePageHash",
+            "click a.cat-link": "triggerCatListingsHash",
+            "click a.shop-categories-btn": "triggerCategoriesPageHash",
+            "click .consignment-form-btn": "triggerConsignmentFormHash"
+        },
+
+
+
+        triggerProductPageHash: function(evt) {
+            evt.preventDefault();
+            console.log('event hurrrd')
+            window.location.hash = "/products"
+        },
+
+        triggerCatListingsHash: function(evt) {
+            evt.preventDefault();
+            console.log(evt.target)
+            
+            var categoryName = $(evt.target).closest('a').attr('data-category');
+            
+            window.location.hash = "/products/category/" + categoryName;
+        },
+
+        triggerCategoriesPageHash: function(evt){
+            evt.preventDefault();
+            window.location.hash = "/products/categories"
+        },
+
+        triggerStylePageHash: function(evt){
+            evt.preventDefault();
+            var styleName = $(evt.target).closest('a').attr('data-byStyle');
+            console.log(styleName);
+            window.location.hash = "/products/style/"+styleName;
+        },
+
+        triggerConsignmentFormHash: function(evt) {
+            evt.preventDefault();
+            console.log('consignment event hurrd')
+            window.location.hash = "/consignment-form"
+        }
+    })
+
+    Parse.CategoriesView = Parse.TemplateView.extend({
+        view: 'categories',
+        el: '.wrapper',
+
+        events: {
+            "click .category-tag": "triggerCategoryHash"
+        },
+
+        triggerCategoryHash: function(evt){
+            evt.preventDefault()
+            var categoryTag = $(evt.target).attr('data-tag')
+            //BOOKMARK-a: add correct hash route;
+            console.log(categoryTag)
+            window.location.hash="/products/category/"+categoryTag
+
+        }
+    })
+
     Parse.FooterView = Parse.TemplateView.extend({
         view: 'footer',
         el: 'footer'
@@ -605,8 +721,13 @@
         view: 'product-page',
         el: '.wrapper',
         events: {
-            'click .single-listing-link': 'triggerSingleListingHash'
+            'click .single-listing-link': 'triggerSingleListingHash',
+            'click .next-20': 'queryDBAndReRenderNext',
+            'click .prev-20': 'queryDBAndReRenderPrev'
+
         },
+
+        skipFactor:0,
 
         triggerSingleListingHash: function(evt) {
             evt.preventDefault();
@@ -615,7 +736,76 @@
 
             var productMRid = $(evt.target).closest('.img-listing-container').attr('data-MR-ID')
             window.location.hash = "/products/listing/" + productMRid;
-        }
+        },
+
+        queryDBAndReRenderNext: function(){
+            var self = this;
+            console.log(window.location.hash)
+            
+            var pQuery = new Parse.Query(Parse.FurnitureItem)
+                this.skipFactor++
+                pQuery.limit(20)
+                pQuery.skip(this.skipFactor*20)
+
+            if(window.location.hash==="#/products"){
+                pQuery.find().then(function(data){
+                    self.collection = data
+                    self.render()
+                })
+            } else if(window.location.hash.indexOf('category')){
+                    var stringOmania = window.location.hash
+                    var dividerStr = 'category/'
+                    var cutOffIndex = stringOmania.indexOf('category/')
+                    console.log(stringOmania)
+                    console.log(dividerStr)
+                    console.log(cutOffIndex)
+                    var targetCatNum= stringOmania.substr(cutOffIndex+dividerStr.length)
+                    pQuery.equalTo("categoryTreeByNumber",targetCatNum)
+                    pQuery.find().then(function(data){
+                        self.collection = data
+                        console.log(self.collection)
+                        self.render()
+                    })
+            }
+            console.log(this.skipFactor)
+
+        },
+
+      queryDBAndReRenderPrev: function(){
+            var self = this;
+            console.log(window.location.hash)
+            
+            var pQuery = new Parse.Query(Parse.FurnitureItem)
+                if(this.skipFactor===0){return}
+                this.skipFactor===0 ? this.skipFactor = 0 : this.skipFactor--;
+
+                pQuery.limit(20)
+                pQuery.skip(this.skipFactor*20)
+
+            if(window.location.hash==="#/products"){
+                pQuery.find().then(function(data){
+                    self.collection = data
+                    self.render()
+                })
+            } else if(window.location.hash.indexOf('category')){
+                    var stringOmania = window.location.hash
+                    var dividerStr = 'category/'
+                    var cutOffIndex = stringOmania.indexOf('category/')
+                    console.log(stringOmania)
+                    console.log(dividerStr)
+                    console.log(cutOffIndex)
+                    var targetCatNum= stringOmania.substr(cutOffIndex+dividerStr.length)
+                    pQuery.equalTo("categoryTreeByNumber",targetCatNum)
+                    pQuery.find().then(function(data){
+                        self.collection = data
+                        console.log(self.collection)
+                        self.render()
+                    })
+            }
+            console.log(this.skipFactor)
+        },
+
+
     })
 
     Parse.SingleListingView = Parse.TemplateView.extend({
@@ -734,10 +924,10 @@
         events: {
             "click .confirm-purchase": "loadPayPal"
         },
-
+        
         loadPayPal: function(evt){
-            if($('#checkout').attr('data-status')==='inactive'){
-                $('#checkout').attr('data-status','active')
+            if($('#checkout').attr('data-status')==='inactive'){          
+                $('#checkout').attr('data-status','active')    
                 braintree.setup(
                     // Replace this with a client token from your server
                     "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiI3NDM0OGQwODUyMTYwMmQxYTI0YjgwNmY2M2RmYWMwYTc4OWY2MDA1M2IzNjkzNWM1OGJmMzA2NTExZTZjMmE2fGNyZWF0ZWRfYXQ9MjAxNS0wMy0zMFQwMTo1MTo1Mi4xOTkwMzgxMjMrMDAwMFx1MDAyNm1lcmNoYW50X2lkPWRjcHNweTJicndkanIzcW5cdTAwMjZwdWJsaWNfa2V5PTl3d3J6cWszdnIzdDRuYzgiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvZGNwc3B5MmJyd2RqcjNxbi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzL2RjcHNweTJicndkanIzcW4vY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIn0sInRocmVlRFNlY3VyZUVuYWJsZWQiOnRydWUsInRocmVlRFNlY3VyZSI6eyJsb29rdXBVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvZGNwc3B5MmJyd2RqcjNxbi90aHJlZV9kX3NlY3VyZS9sb29rdXAifSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQiLCJtZXJjaGFudEFjY291bnRJZCI6InN0Y2gybmZkZndzenl0dzUiLCJjdXJyZW5jeUlzb0NvZGUiOiJVU0QifSwiY29pbmJhc2VFbmFibGVkIjp0cnVlLCJjb2luYmFzZSI6eyJjbGllbnRJZCI6IjExZDI3MjI5YmE1OGI1NmQ3ZTNjMDFhMDUyN2Y0ZDViNDQ2ZDRmNjg0ODE3Y2I2MjNkMjU1YjU3M2FkZGM1OWIiLCJtZXJjaGFudEFjY291bnQiOiJjb2luYmFzZS1kZXZlbG9wbWVudC1tZXJjaGFudEBnZXRicmFpbnRyZWUuY29tIiwic2NvcGVzIjoiYXV0aG9yaXphdGlvbnM6YnJhaW50cmVlIHVzZXIiLCJyZWRpcmVjdFVybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tL2NvaW5iYXNlL29hdXRoL3JlZGlyZWN0LWxhbmRpbmcuaHRtbCJ9LCJtZXJjaGFudElkIjoiZGNwc3B5MmJyd2RqcjNxbiIsInZlbm1vIjoib2ZmbGluZSIsImFwcGxlUGF5Ijp7InN0YXR1cyI6Im1vY2siLCJjb3VudHJ5Q29kZSI6IlVTIiwiY3VycmVuY3lDb2RlIjoiVVNEIiwibWVyY2hhbnRJZGVudGlmaWVyIjoibWVyY2hhbnQuY29tLmJyYWludHJlZXBheW1lbnRzLmRldi1kY29wZWxhbmQiLCJzdXBwb3J0ZWROZXR3b3JrcyI6WyJ2aXNhIiwibWFzdGVyY2FyZCIsImFtZXgiXX19",
@@ -845,6 +1035,11 @@
         el: '.wrapper'
     })
 
+    Parse.EmployeeDashboardView = Parse.TemplateView.extend({
+        el: '.wrapper',
+        view: 'employee-dashboard'
+    })
+
     Parse.EnterNewItemFormView = Parse.TemplateView.extend({
         view: 'enter-new-item',
         el: '.wrapper',
@@ -902,10 +1097,10 @@
                 console.log('noSubCategories-2')
                 $('.disabled-subcat2-option').text("--No subcategories for this option--");
                 $('.sub-category-2').prop('disabled',true);
-
+            
             } else {
                 subCategories.forEach(function(subCategoryNum){
-
+                
                 $('.disabled-subcat2-option').text("--Select Sub-Category--")
 
                     var subCategoryHTMLOptionEl = $('<option>');
@@ -916,7 +1111,7 @@
                         .text(self.collection.categoryLabels[subCategoryNum]+" - ("+subCategoryNum+")")
 
                     $('select.sub-category-2').append(subCategoryHTMLOptionEl);
-
+                    
                 })
             }
         },
@@ -956,7 +1151,7 @@
                     $newImgFile = $('.selected-img-file')
 
                 //
-
+                
                 var categoryTreeByNumber= []
                 if($topLevelCategory.find('option:selected').val()) { categoryTreeByNumber.push($topLevelCategory.find('option:selected').val()) }
                 if($subCategory_1.find('option:selected').val()) {categoryTreeByNumber.push($subCategory_1.find('option:selected').val())}
@@ -1009,21 +1204,21 @@
                 var loadFiles = function(filesGroup, itemModel) {
                     console.log('loading files....')
                     var totalFiles = filesGroup.length;
-
+                    
                     filesGroup.forEach(function(imgFile, filesIndex) {
                         var parseImgFile = new Parse.File(imgFile[0], imgFile[1]);
                         console.log(parseImgFile)
-
+                    
                         parseImgFile.save()
                             .then(function(parseFile) {
                                 console.log(parseFile)
                                 var imgNameInDB = ("database_img_FILE_" + (filesIndex + 1))
                                 itemModel.set(imgNameInDB, parseFile);
-
+                                
                                 if (filesIndex + 1 === filesGroup.length) {
                                     console.log(itemModel)
                                     itemModel.set("imageCount", filesGroup.length)
-
+                                
                                     itemModel.save().then(function(result) {
                                         console.log(result)
                                     }).fail(function(error) {
@@ -1101,7 +1296,7 @@
             }
 
 
-            //Check to see if new item price
+            //Check to see if new item price 
             if (!$newItemPrice.val() || $newItemPrice.val().match(/[a-z]/i)) {
                 console.log('price is not a number')
                 $newItemPrice.closest('.form-group').addClass('has-error')
@@ -1152,7 +1347,113 @@
             return validFormTest
         }
     })
+    
+    Parse.SearchExistingItemView = Parse.TemplateView.extend({
+        el: '.wrapper',
+        view: 'search-existing-item',
 
+        events: {
+            "click .search-MR": "queryMRDatabase"
+        },
+
+        queryMRDatabase: function(evt){
+            evt.preventDefault();
+            var inputMR = parseInt($('.mr-search-input').val())
+
+            window.location.hash = "/employee/edit-item/"+inputMR;
+        }
+
+    })
+
+    Parse.EditExistingItemView = Parse.TemplateView.extend({
+        el: '.wrapper',
+        view: 'edit-existing-item',
+
+
+
+        initialize: function(){
+            var query = new Parse.Query(Parse.TemporaryPhotosForEdit);
+            query.find().then(function(data){
+                var promises = []
+                data.forEach(function(model){
+                    promises.push(model.destroy())
+                })
+                return Parse.Promise.when(promises)
+            })
+        },
+
+        events: {
+            'change .selected-img-file': 'checkFile'
+        },
+
+
+
+        checkFile: function(e){
+            console.log(e)
+            if(e.target.files.length > 0){
+
+
+                var theFile = e.target.files[0];
+                var targetEl = $(e.target);
+                var targetInput = $(e.target)
+                var currntImgIndex = targetEl.attr('data-index');
+                var parseFile = new Parse.File("tmpphoto", theFile)
+                var imgReference = "temp_img_"+ currntImgIndex
+
+
+                //check to see if there is an image the parse database, 
+                //    if yes, then delete
+                
+                var savetheTempFilesAndChangeTheImage = function(){
+                    parseFile.save().then(function(){
+                        var tempImg = new Parse.TemporaryPhotosForEdit();
+                        
+
+                        tempImg.set("imageIndex", imgReference)
+                        tempImg.set(imgReference, parseFile)
+
+                        tempImg.save().then(function(data){
+                            console.log(data)
+                            var pQuery = new Parse.Query(Parse.TemporaryPhotosForEdit)
+                            pQuery.equalTo('imageIndex',imgReference)
+                            pQuery.find().then(function(file){
+                                console.log(file)
+                                var imgSrc = file[0].get('temp_img_'+currntImgIndex)._url
+                                $('.sample-img-'+currntImgIndex).attr({'src':imgSrc, 'data-parsetemp':'true'})
+                                
+                                })
+
+                            })
+
+                    })
+                }
+
+                
+                if($('.sample-img-'+currntImgIndex).attr('data-parsetemp')==='true' ) {
+                    var parseQuery = new Parse.Query(Parse.TemporaryPhotosForEdit);
+                    parseQuery.find()
+                        .then(function(results){
+
+                            var promises = []
+                            results.forEach(function(model){
+                                promises.push(model.destroy())
+                            })
+                            return Parse.Promise.when(promises)
+                        
+                        }).then(function(){
+                        savetheTempFilesAndChangeTheImage()
+                        })
+                } else {
+                    savetheTempFilesAndChangeTheImage();
+                }
+
+                //save the file & image to the database
+               
+            }
+        }
+
+            
+    })
 
 
     Parse.ReorganizeImagesView = Parse.TemplateView.extend({
@@ -1184,7 +1485,7 @@
             pQuery.find().then(function(data){
                 console.log(data)
                 var data = self.revisedModel = data[0]
-
+                
                 var imageArray = []
                 var imageTnArray = []
                 for (var key in data.attributes){
@@ -1206,7 +1507,7 @@
 
 
                 self.imgTotal = imageArray.length
-
+                
                 self.render()
                 $('h3').html('MR-'+mrValue).attr('data-id',mrValue)
                 })
@@ -1223,7 +1524,7 @@
 
             $('.img-input-'+this.imgCounter).find('img').attr('src',imageSourceTN)
             $('.img-input-'+this.imgCounter).find('p').text(imageSourceREG)
-
+            
             console.log(this.imgCounter + " | " + this.imgTotal)
 
             if(this.imgCounter > 0){
@@ -1238,12 +1539,12 @@
 
             console.log(this.imgCounter)
             console.log(this.revisedModel)
-
+            
             var i
-
+            
             var uploadImages = {}
             var uploadThumbnails = {}
-
+            
             for (i = 0; i < this.imgTotal; i++){
                 var imgString = $('.img-input-'+(i+1)).find('p').text()
                 console.log(imgString)
@@ -1253,7 +1554,7 @@
 
                 uploadImages['database_img_LINK_'+(i+1)] = imgString
                 uploadThumbnails['database_img_LINK_t_'+(i+1)] = thumbnailImgString
-
+               
             }
 
             console.log(uploadImages);
@@ -1261,7 +1562,7 @@
 
             console.log(this.revisedModel)
 
-
+         
 
 
             $.when(
@@ -1311,7 +1612,7 @@
         defaults: {
          // Sofa, Dining-Table, Bedframe, Rug
                 // color: "",
-                // timePeriod: //
+                // timePeriod: // 
                 // styleTags:, // Scandi, Art-Deco, Industrial, Contemporary
                 // designer_creator: ""
                 // status: "",
@@ -1350,12 +1651,32 @@
 
         }
     })
-
+    
     Parse.FurnitureGroup = Parse.Collection.extend({
-        model: Parse.FurnitureItem,
+        model: Parse.FurnitureItem
 
     })
 
+    Parse.TemporaryPhotosForEdit = Parse.Object.extend({
+        className: "TempPhotos",
+        defaults: {
+            "imageName" : "",
+            "temp_img_1": undefined,
+            "temp_img_2": undefined,
+            "temp_img_3": undefined,
+            "temp_img_4": undefined,
+            "temp_img_5": undefined,
+            "temp_img_6": undefined,
+            "temp_img_7": undefined,
+            "temp_img_8": undefined
+
+        }
+
+
+    })
+
+
+    
 
 
 

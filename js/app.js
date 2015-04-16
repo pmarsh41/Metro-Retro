@@ -37,7 +37,7 @@ function app(){
         //braintree sdk
         //my app
         {url: "./js/Client.js"}
-
+        
         // //DATA SCRIPTS
         // ,{url: "./data/INPUT-totalSet.js"}
         // ,{url: "./data/INPUT-jpegData.js"}
@@ -57,7 +57,7 @@ function app(){
         // start app?
         Parse.initialize('8cefZxGY6FiSAhEw5YCwN9mBjgoiUgGcdJnTZgdy','RWjs5EKsDkBlZ1L05crkUetjonIG1DGNiaM664OY');
 
-        //
+        // 
         //----------------
         // Start App
         //---------------
