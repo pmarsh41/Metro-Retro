@@ -303,8 +303,38 @@
             this.paginationView.on(('showNext20'),function(){
                 var pQuery = self.currentQueryParams
 
-                self.breadCrumbView.bcOptions.currentPage++
+                self.paginationView.paginationOptions.currentPage = Math.min(++self.paginationView.paginationOptions.currentPage, self.paginationView.paginationOptions.totalPages)
+
+
+                pQuery.skip(20*(self.paginationView.paginationOptions.currentPage-1));
+
+                pQuery.find().then(function(dataArray){
+                    
+                    var bcOptions = self.breadCrumbView.bcOptions
+                    var pagOptions = self.paginationView.paginationOptions
+                    
+                    self.insertBreadCrumb(bcOptions)
+                    self.insertPagination(pagOptions)
+                    self.productsListView.collection = dataArray;
+
+                    window.scrollTo(0,0)
+                    self.productsListView.render()
+                })
+            })
+
+            this.paginationView.on(('showPrev20'),function(){
+                console.log('previous20 heard')
+                var pQuery = self.currentQueryParams
+
+                self.breadCrumbView.bcOptions.currentPage--
+
+
+                if(self.breadCrumbView.bcOptions.currentPage<1){
+                    self.breadCrumbView.bcOptions.currentPage=1;
+                }
                 
+                console.log(self.paginationView.paginationOptions)
+
                 pQuery.skip(20*(self.paginationView.paginationOptions.currentPage-1));
 
                 pQuery.find().then(function(dataArray){
@@ -320,11 +350,36 @@
                     window.scrollTo(0,0)
                     self.productsListView.render()
                 })
-
-            
             })
 
-           
+            this.paginationView.on(('showPageX'),function(){
+                console.log('pageX heard')
+                var pQuery = self.currentQueryParams
+
+                var pageNumber = parseInt($("a[data-event='page'").text())
+                
+                self.paginationView.paginationOptions.currentPage = pageNumber
+
+                pQuery.skip(20*(self.paginationView.paginationOptions.currentPage-1));
+
+                pQuery.find().then(function(dataArray){
+                    self.paginationView.paginationOptions
+                    
+                    var bcOptions = self.breadCrumbView.bcOptions
+                    var pagOptions = self.paginationView.paginationOptions
+                    
+                    self.insertBreadCrumb(bcOptions)
+                    self.insertPagination(pagOptions)
+                    self.productsListView.collection = dataArray;
+
+                    window.scrollTo(0,0)
+                    self.productsListView.render()
+                })
+            })
+
+            
+
+
             // Shopping Cart
             // -------------
             this.singleListingView.on('addToCart', this.addToCartHandler.bind(this))
@@ -521,6 +576,9 @@
                         //insert the breadcrumb navigation & check the footer
                         
                         self.breadCrumbView.bcOptions.totalMatches = totalQueryMatches
+
+                        self.breadCrumbView.bcOptions.totalPages = Math.ceil(totalQueryMatches/20 || "")
+
                         self.breadCrumbView.bcOptions.currentPage = 1;
                         self.breadCrumbView.bcOptions.labelOption = options && options.labelOption || "";
 
@@ -553,7 +611,6 @@
             //
  
            this._pQueryAndRender()  
-
         },
         
 
@@ -907,7 +964,6 @@
          * @return [no-return]
          */
         insertBreadCrumb: function(options){
-            console.log(options)
 
             //create the options
             //
@@ -946,10 +1002,8 @@
 
             var breadCrumbEl = document.querySelector('.my-breadcrumb');
             
-            console.log(data)
             if (data.categoryQuery) {
                 console.log(data.currentCategory)
-                console.log('yesssss categoryQuery!')
                 var labelNum = returnCategoryTree(data.currentCategory, data.categoryMap);
 
                 console.log(labelNum)
@@ -972,8 +1026,6 @@
                 totalPages: options && options.totalMatches && Math.ceil(options.totalMatches/20 || ""),
                 currentPage: options && options.currentPage || 1
             }
-
-            console.log(data)
             
             this.paginationView.collection = data
             this.paginationView.render();
@@ -1027,7 +1079,8 @@
             window.location.hash = "/about-us"
         },
 
-        toggleSearch:function(){
+        toggleSearch:function(evt){
+            evt.preventDefault()
             $('.search-bar').toggle();
         },
 
@@ -1041,67 +1094,50 @@
 
     Parse.BreadCrumbView = Parse.TemplateView.extend({
         el: '.my-breadcrumb',
-        view: 'nav-breadcrumb',
-
-        
+        view: 'nav-breadcrumb',    
         bcOptions: {
             totalMatches: 0,
             totalPages: function(){ return Math.ceil(this.totalMatches/20) },
             currentPage: 1,
         },
 
-
-        events: {
-            'click .next-20': 'queryDBAndReRenderNext',
-            'click .prev-20': 'queryDBAndReRenderPrev',
-            'click .select-page': 'goToPageX'
-        },
-         queryDBAndReRenderNext: function(evt){
-            evt.preventDefault();
-            this.trigger('showNext20');
-        },
-
-        queryDBAndReRenderPrev: function(event){
-            evt.preventDefault();
-        },
-
-        goToPageX: function(){
-
-        }
     })
 
     Parse.PaginationView = Parse.TemplateView.extend({
         el: '.listings-pagination',
         view: 'pagination',
-
         
         paginationOptions: {
             
         },
 
+        calcTotalPages: function(){
+            return Math.ceil(this.totalMatches/20)
+        },
 
         events: {
-            'click .next-20': 'queryDBAndReRenderNext',
-            'click .prev-20': 'queryDBAndReRenderPrev',
-            'click .select-page': 'goToPageX'
+            'click .next-20': 'triggerNext20',
+            'click .prev-20': 'triggerPrev20',
+            'click .select-page': 'triggerPageX'
         },
-         queryDBAndReRenderNext: function(evt){
+
+         triggerNext20: function(evt){
             evt.preventDefault();
             this.trigger('showNext20');
         },
 
-        queryDBAndReRenderPrev: function(event){
+        triggerPrev20: function(evt){
             evt.preventDefault();
+            this.trigger('showPrev20')
         },
 
-        goToPageX: function(){
-
+        triggerPageX: function(evt){
+            evt.preventDefault();
+            $(evt.target).attr('data-event','page')
+            this.trigger('showPageX')
         }
     })
 
-    Parse.PaginationView2 = Parse.PaginationView.extend({
-        el: '.listings-pagination2'
-    })
     
     Parse.HomeView = Parse.TemplateView.extend({
         view: 'landing-page',
@@ -1164,7 +1200,6 @@
             //BOOKMARK-a: add correct hash route;
             console.log(categoryTag)
             window.location.hash="/products/category/"+categoryTag
-
         }
     })
 
