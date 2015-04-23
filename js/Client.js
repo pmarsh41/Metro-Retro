@@ -1,7 +1,22 @@
 ;(function(exports) {
     "use strict";
 
-
+    //UNRESOLVED ISSUES: 
+        // * Pagination and managing >100 successful matches on products-listing page
+        // 
+        // * Ensure customer-facing site is not showing sold inventory (pQuery.notEqualTo('inventoryStatus','0'))
+        // 
+        // * Updating Parse database with MR14403 - MR14425 
+        // 
+        // * Editing and modifying inventory data
+        // 
+        // * finding the cause for 'dead' links for single listings
+        // 
+        //  // * Employee Search functionality for Editing-Inventory
+        // 
+        // 
+        // * Payment system in place - ALEX
+    
     //Utility Functions
     function numberCommaSeparated(num, spaceOption) {
 
@@ -65,14 +80,14 @@
                 case 'greaterThan':
                     query.greaterThan(queryField,queryValue);
                     break;
-
+                
                 case 'greaterThanOrEqualTo':
                     query.greaterThanOrEqualTo(queryField,queryValue);
                     break;
-
+                
                 case 'lessThan':
                     query.lessThan(queryField,queryValue);
-
+                
                 case 'lessThanOrEqualTo':
                     query.lessThanOrEqualTo(queryField,queryValue);
                     break;
@@ -84,20 +99,20 @@
 
         if (iterations){
             _.delay(function(){
-               var query = new Parse.Query(Parse.FurnitureItem);
+               var query = new Parse.Query(Parse.FurnitureItem); 
                setQueryParameter(query,queryType)
-
+                
                 query.find().then(function(dataFromParse){
                     console.log(dataFromParse)
                      dataFromParse.forEach(function(model){
                          _.delay(function(){
                         model.destroy()
-                        }, 50)
-                    })
+                        }, 50) 
+                    })  
                 })
                 iterations--
                 parseDeleteLoop(iterations,queryType, queryField,queryValue)
-            },6000)
+            },6000) 
         }
     }
 
@@ -105,11 +120,11 @@
         var iterations = dataArrayToParse.length
         var modelAttributes = dataArrayToParse.pop();
         var itemToUpload = new Parse.FurnitureItem(modelAttributes);
-
+        
         itemToUpload.save().then(function(){
             if(iterations){
                 _.delay(function(){
-                    uploadInventoryToParse(dataArrayToParse)
+                    uploadInventoryToParse(dataArrayToParse)  
                 },50)
             }
         })
@@ -117,7 +132,7 @@
 
     function createSandbox(){
         var pQuery = new Parse.Query(Parse.FurnitureItem);
-
+            
             pQuery.find().then(function(data){
                 console.log(data);
 
@@ -143,7 +158,7 @@
         }
 
         console.log(totalQueries)
-        _queryEditAndSave( floorMR, upperMR, totalQueries, excludedWordsList)
+        _queryEditAndSave( floorMR, upperMR, totalQueries, excludedWordsList)  
     }
 
     function _queryEditAndSave(floorMR, upperMR, iterations, excludedWordsList){
@@ -152,16 +167,16 @@
             var pQuery = new Parse.Query(Parse.FurnitureItem);
             pQuery.greaterThan("MR_id",Math.max(upperMR-100,floorMR))
             pQuery.lessThanOrEqualTo("MR_id",upperMR)
-
+            
             pQuery.find().then(function(data){
                 console.log(data)
                 data.forEach(function(model){
                     _.delay(function(){
-                        if(model.get('item')){
+                        if(model.get('item')){ 
                             var splitDescriptionArray = model.get('item').split(" ")
                             var filteredDescriptionArray = splitDescriptionArray.filter(function(word){
                             console.log(word)
-                            return excludedWordsList.indexOf(word)=== -1
+                            return excludedWordsList.indexOf(word)=== -1 
                              }).map(function(word){
                             return word.toLowerCase()
                         })
@@ -180,45 +195,39 @@
         console.log(iterations)
         if(iterations){ _.delay(function(){_queryEditAndSave( floorMR, upperMR, iterations, excludedWordsList)},10000)}
     }
-
+    
     //Future-App Functions
-    function searchInventoryByItemName(inputValue, excludedWords){
+    function searchInventoryByItemName(query){
+        
 
+        //create a promise object to be resolved after an asynch process completes
         var $promise = $.Deferred()
 
-        var pQuery = new Parse.Query(Parse.FurnitureItem)
-
-        var inputArray = inputValue.split(" ")
-
-        var queryValue = inputArray.filter(function(word){
-                    return excludedWords.indexOf(word)=== -1
-                }).map(function(word){
-                    return word.toLowerCase()
-                })
+        var pquery = query
 
         pQuery.containsAll("searchKeywords",queryValue)
-
-        pQuery.find().then(function(searchResults){
-            if(searchResults.length === 0){searchResults = false}
-            var resolvedPromise =
-            console.log($promise)
-            console.log(searchResults)
-            $promise.resolve(searchResults)
+        
+        pQuery.count().then(function(totalMatched){
+            pQuery.find().then(function(searchResults){
+                if(searchResults.length === 0){searchResults = false}
+                var resolvedPromise = 
+                console.log(totalMatched)
+                console.log(searchResults)
+                $promise.resolve(searchResults)
+            })
         })
 
         return $promise
 
     }
+    
 
-
-    var noNoWordsList = ["the","in","by","for","of","on", "in", "and","with","&"]
 
 
     Parse.PageRouter = Parse.Router.extend({
         initialize: function() {
+            var self = this;
             console.log('routing initialized');
-
-
             // -------------------------
             // Code for modifying data in Parse **
             // ---------------------------
@@ -231,23 +240,25 @@
 
             //DELETE
             //-------
-            //parseDeleteLoop(10, 'greaterThan','createdAt', {"__type":"Date", "iso":"2015-04-16T22:45:08.256Z"})
+            //parseDeleteLoop(10, 'greaterThan','createdAt', {"__type":"Date", "iso":"2015-04-16T22:45:08.256Z"})                    
 
 
             //CREATE KEYWORDS
             //-----------
+            // var noNoWordsList = ["the","in","by","for","of","on", "in", "and","with","&"]
             // createKeyWordArrayForMRs(6000,14000,noNoWordsList)
 
 
-            //Collections
+            //Collections 
             this.shoppingCart = new Parse.FurnitureGroup();
 
-
-            //Set Up the Views
+            //----------------------
+            //Application Views
+            //----------------------
             this.navView = new Parse.NavView()
             this.homeView = new Parse.HomeView();
             this.footerView = new Parse.FooterView();
-            this.productsListView = new Parse.ProductPageView(); //will take this.collection
+            this.productsListView = new Parse.ProductPageView(); //this.collection = anArray
             this.singleListingView = new Parse.SingleListingView({
                 cart: this.shoppingCart
             });
@@ -259,14 +270,14 @@
             this.finalizeOrderView = new Parse.FinalizeOrderView({
                 collection: this.shoppingCart
             })
-
+            
             this.cancelOrderView = new Parse.CancelOrderView();
             this.thankCustomerView = new Parse.ThanksView();
-
+            
             this.newItemFormView = new Parse.EnterNewItemFormView();
-
+            
             this.searchItemView = new Parse.SearchExistingItemView();
-
+            
             this.editItemView = new Parse.EditExistingItemView()
 
             this.adminLoginView = new Parse.AdminLoginView();
@@ -274,29 +285,62 @@
             this.adminDashboardView = new Parse.AdminDashboardView();
             this.breadCrumbView = new Parse.BreadCrumbView();
 
-            //Temporary-app-helper
+            this.paginationView = new Parse.PaginationView()
+            
+            //Temporary-app-helper 
             this.reorganizeImagesView = new Parse.ReorganizeImagesView();
 
 
             //-------------------
             //Application Event Listeners/Handlers
             //-------------------
+            
+
+            // Pagination
+            // ---------------
+            
+
+            this.paginationView.on(('showNext20'),function(){
+                var pQuery = self.currentQueryParams
+
+                self.breadCrumbView.bcOptions.currentPage++
+                
+                pQuery.skip(20*(self.paginationView.paginationOptions.currentPage-1));
+
+                pQuery.find().then(function(dataArray){
+                    self.paginationView.paginationOptions
+                    
+                    var bcOptions = self.breadCrumbView.bcOptions
+                    var pagOptions = self.paginationView.paginationOptions
+                    
+                    self.insertBreadCrumb(bcOptions)
+                    self.insertPagination(pagOptions)
+                    self.productsListView.collection = dataArray;
+
+                    window.scrollTo(0,0)
+                    self.productsListView.render()
+                })
+
+            
+            })
+
+           
+            // Shopping Cart
+            // -------------
             this.singleListingView.on('addToCart', this.addToCartHandler.bind(this))
 
             this.singleListingView.on('itemRemoved', this.removeFromCartHandler.bind(this))
             this.cartView.on('itemRemoved', this.removeFromCartHandler.bind(this))
-
-
             Parse.history.start();
         },
 
         //Events - Handlers
 
-        //Handling the view-logic and
+        //Handling the view-logic and 
         //collection-logic for adding items to the shopping cart
         addToCartHandler: function() {
             var self = this
-                //Get the MR-ID on Session Storage
+            //Get the MR-ID on Session Storage
             var MRidOnSS = parseInt(sessionStorage.getItem('MR-item-ID'));
             console.log(MRidOnSS)
 
@@ -308,6 +352,7 @@
                 console.log('collection not defined');
                 var pQuery = new Parse.Query(Parse.FurnitureItem);
                 pQuery.equalTo('MR_id', MRidOnSS)
+                
                 pQuery.find().then(function(result) {
                     console.log(result)
                     self.shoppingCart.add(result);
@@ -356,7 +401,7 @@
             'employee/*/edit-item/:mrId': 'loadEditExistingItemForm',
             'employee/*/search-item': 'loadSearchItem',
             'employee/login': 'loadUserLogin',
-
+           
             'admin/dashboard': 'loadAdminDashboard',
             'admin/login': 'loadAdminLogin',
 
@@ -368,15 +413,16 @@
 
             'products/*/search-results/:search': 'loadSearchResults',
             'products/*/category/:type': 'loadListingsByCategory',
+            'products/*/style/:styleName': 'loadListingsByStyle',
+
             'products/*/listing/:mrId': 'loadSingleListing',
-            'products/*/style/:styleName': 'loadStyleListings',
             'products/categories': 'loadCategoriesPage',
             'products': 'loadProductsPg',
             'about-us': 'loadAboutPg',
 
             //add-items
             'fix-images':'loadReorganizeImgs',
-
+            
             '*path': 'loadHome'
         },
 
@@ -385,9 +431,9 @@
         // (I) Main Page Views (rendered inside '.wrapper')
         //-----------------------------
         //-----------------------------
-
+    
         /**
-         * [renders: nav-bar, landing-page, footer]
+         * [loadHome-renders nav-bar, landing-page, footer]
          * @return {[type]} [description]
          */
         loadHome: function() {
@@ -395,10 +441,16 @@
             window.scrollTo(0,0)
             this.homeView.render();
             this.clearBreadCrumb();
-            this.footerView.render()
+            this.clearPagination();
+            this.footerView.render();
+            
+            var changeCarouselImage = function(){ $('.carousel .right').trigger('click') }
+
+                _.delay( function(){changeCarouselImage()},5000)
+            
         },
 
-
+        
 
         //-----------------------------
         // 1) Multiple-Listings View ('product-page.html' rendered inside '.wrapper')
@@ -412,33 +464,98 @@
          * 3) set productsListView.collection as query-result
          * 4) render productsListView w/ array of models
          */
+        
+        _pQueryAndRender: function(options, queryType, routeNodeOrInput){
+            var self = this;
+            this.breadCrumbView.bcOptions.queryType = queryType
+
+            var pQuery = new Parse.Query(Parse.FurnitureItem);
+            pQuery.descending('MR_id');
+            pQuery.notEqualTo('inventoryStatus','0')
+            pQuery.limit(20);
+
+            switch (queryType){
+                case "category":
+                    pQuery.equalTo("categoryTreeByNumber", routeNodeOrInput);
+                    break;
+
+                case "style":  
+                   if (routeNodeOrInput === "mid-century"){
+                    pQuery.containsAll("searchKeywords",["mid","century"])
+                    } else {
+                    pQuery.equalTo("categoryTreeByName",options.labelOption)
+                    }
+
+                    break;
+                
+                case "search":
+
+                    var inputArray = routeNodeOrInput.split(" ")
+
+                    var excludedWords = ["the","in","by","for","of","on", "in", "and","with","&"]
+
+                    var queryValue = inputArray.filter(function(word){
+                                return excludedWords.indexOf(word)=== -1 
+                            }).map(function(word){
+                                return word.toLowerCase()
+                            })
+ 
+                    pQuery.containsAll("searchKeywords", queryValue);
+
+                    break;
+
+                default:
+                    pQuery = pQuery
+                    break;
+            }
+
+            this.currentQueryParams = pQuery; //save pquery for later
+
+            //make query, when query returns data
+            pQuery.count().then(function(totalQueryMatches){
+                pQuery.find().then(function(arrayOfModels) {
+                        // data returned is an array of Parse models
+                        window.scrollTo(0,0);
+
+                        self.productsListView.collection = arrayOfModels
+                        //insert the breadcrumb navigation & check the footer
+                        
+                        self.breadCrumbView.bcOptions.totalMatches = totalQueryMatches
+                        self.breadCrumbView.bcOptions.currentPage = 1;
+                        self.breadCrumbView.bcOptions.labelOption = options && options.labelOption || "";
+
+                        console.log(options)
+                        self.breadCrumbView.bcOptions.searchTerms = options && options.Option || "";
+
+                        console.log(self.breadCrumbView.bcOptions)
+                        var pagOptions = self.breadCrumbView.bcOptions
+                        var bcOptions = self.breadCrumbView.bcOptions
+                        
+                        self.paginationView.paginationOptions = pagOptions
+
+                        console.log(bcOptions)
+                        self.insertBreadCrumb(bcOptions)
+                        self.insertPagination(pagOptions)
+                        console.log('1stRender')
+                        self.productsListView.render();
+
+                        self.checkFooter()
+                })
+            })
+        },
+
         loadProductsPg: function() {
             var self = this
             //make sure navbar exists
             this.checkNavBar()
 
             //Make parse query that returns 20 results that are NOT sold (i.e. have inventory status of 0)
-            var pQuery = new Parse.Query(Parse.FurnitureItem);
-            pQuery.descending('MR_id');
-            pQuery.notEqualTo('inventoryStatus','0')
-            pQuery.limit(20);
+            //
+ 
+           this._pQueryAndRender()  
 
-            //make query, when query returns data
-            pQuery.find().then(function(arrayOfModels) {
-                // data returned is an array of Parse models
-
-                window.scrollTo(0,0);
-                //put the array on the collection property of the products-view instance. then render the view with the collection
-                self.productsListView.collection = arrayOfModels;
-                self.productsListView.render();
-
-                //insert the breadcrumb navigation & check the footer
-                self.insertBreadCrumb();
-                self.checkFooter();
-            })
         },
-
-
+        
 
         /**
          * [loadListingsByCategory --uses product-page.html as a template]
@@ -446,55 +563,45 @@
          *     @NOTE  : routes from #/products/category/:catNum
          * ----------------------------------
          * 1) Take the categoryNumber from end of hash-route and take as a parameter
-         * 2) Make a parse query and return results that:
+         * 2) Make a parse query and return results that: 
          *      a) have the categoryNumber in the categoryTree
-         *      b) are NOT sold
+         *      b) are NOT sold 
          * 3) Query returns matched results as an array
          * 4) Render the collection
          */
-
+        
         loadListingsByCategory: function(catNum) {
+                var bcOptions = {
+                    labelOption: catNum,
+                    queryType: 'category'
+                }
+
+                var pagOptions = {
+
+                }
 
                 var self = this
                 this.checkNavBar();
 
-                var pQuery = new Parse.Query(Parse.FurnitureItem);
-
-                pQuery.equalTo("categoryTreeByNumber", catNum);
-                pQuery.notEqualTo("inventoryStatus","0");
-                pQuery.limit(20)
-
-                pQuery.find().then(function(matchedCategoryModels) {
-                    window.scrollTo(0,0);
-
-                    self.productsListView.collection = matchedCategoryModels
-                    self.insertBreadCrumb(catNum);
-                    self.checkFooter();
-
-                    self.productsListView.render();
-
-
-
-
-                })
-            },
-
-            /**
-         * [loadListingsByCategory --uses product-page.html as a template]
+                this._pQueryAndRender(bcOptions, "category", catNum)
+        },
+        
+        /**
+         * [loadListingsByStyle --uses product-page.html as a template]
          *     @param : catNum = category Number
          *     @NOTE  : routes from #/products/style/:styleName
          * ----------------------------------
          * 1) Take the style-name from end of hash-route and take as a parameter
-         * 2) Create a parse query and set it to:
+         * 2) Create a parse query and set it to: 
          *      a) have the categoryNumber in the categoryTree
-         *      b) are NOT sold
+         *      b) are NOT sold 
          * 3) Query returns matched results as an array
          * 4) Render the collection
          */
-
-        loadStyleListings: function(styleName){
+        
+        loadListingsByStyle: function(styleName){
             var self = this;
-
+            console.log('styles loaded?')
             this.checkNavBar();
 
             var styleLabelMap = {
@@ -504,50 +611,29 @@
                 "traditional": "Traditional"
             }
 
-            var styleCollection = new Parse.FurnitureGroup()
-            var pQuery = new Parse.Query(Parse.FurnitureItem);
-            pQuery.notEqualTo('inventoryStatus','0');
-
-            if (styleName === "mid-century"){
-                var regexTest = false;
-                } else {
-                    pQuery.limit(60);
-                    pQuery.equalTo("categoryTreeByName",styleLabelMap[styleName])
-                    var regexTest = true;
+            var bcOptions = {
+                    labelOption: styleLabelMap[styleName]
                 }
 
-            pQuery.find().then(function(data){
-                data.forEach(function(listing){
-                    console.log(listing)
-                    if(listing.get('item') && (regexTest || listing.get('item').match(/mid century/gi))){
-                        if(styleCollection.length<=20) styleCollection.add(listing)
-                    }
-                    window.scrollTo(0,0);
-
-                    self.productsListView.collection = styleCollection
-                    self.productsListView.render()
-                    self.insertBreadCrumb();
-
-                })
-            })
+            this._pQueryAndRender(bcOptions,'style',styleName)
 
         },
 
-        loadSearchResults: function(keywords){
-            var self = this
 
+        loadSearchResults: function(keywords){
+            var self = this 
             this.checkNavBar()
+            
             console.log('searchResults-loaded')
-            var wordsSearched = keywords.slice(keywords.indexOf('=')+1).replace(/,/g," ")
-            console.log(wordsSearched)
-            searchInventoryByItemName(wordsSearched,noNoWordsList).then(function(data){
-                console.log(data)
-                var limitedSet = Array.isArray(data) ? _.slice(data,0,20) : data
-                self.productsListView.collection = limitedSet;
-                self.insertBreadCrumb(wordsSearched, 'search')
-                self.productsListView.render();
-                self.checkFooter();
-            })
+            //get key words from hash route and put them into space-separated string: 
+            //   * (e.g. /results=herman,miller,chair >> 'herman miller chair')
+            var wordsSearched = keywords.slice(keywords.indexOf('=')+1).replace(/,/g," ")            
+
+                var options = {
+                    labelOption: wordsSearched,
+                }
+                this._pQueryAndRender(options,'search',wordsSearched)
+
         },
 
 
@@ -560,7 +646,7 @@
          * 3) set productsListView.collection as query-result
          * 4) render productsListView w/ collection
          */
-
+        
         loadCategoriesPage: function(){
             this.checkNavBar()
             window.scrollTo(0,0)
@@ -571,6 +657,8 @@
             }
 
             this.clearBreadCrumb();
+            this.clearPagination();
+
             this.categoriesView.collection = data
             this.categoriesView.render()
         },
@@ -589,7 +677,7 @@
                 var pQuery = new Parse.Query(Parse.FurnitureItem)
                     //...set query as equal to the MR_id
                 pQuery.equalTo('MR_id', mrId)
-                    //...then make the query
+                    //...then make the query 
                 pQuery.find().then(function(returnModel) {
                     //put the returned-model on the singleListingView
                     // & render the view w/ the models
@@ -599,10 +687,11 @@
 
                     self.singleListingView.trigger('rendered')
                     console.log("'rendered' triggered")
-                        //put the model on browsedItems array
 
                     //render footer
                     self.insertBreadCrumb();
+                    self.clearPagination();
+                    self.paginationView.render();
                     self.checkFooter();
 
                 })
@@ -618,23 +707,26 @@
                 this.singleListingView.model = clickedModel[0]
                 window.scrollTo(0,0)
                 this.singleListingView.render();
-
+                
                 this.singleListingView.trigger('rendered');
                 console.log("'rendered' triggered");
                 this.insertBreadCrumb();
+                this.clearPagination(); 
                 this.checkFooter();
 
 
             }
         },
 
+
+
         loadShoppingCart: function() {
+            window.scrollTo(0,0)
             var self = this
             this.checkNavBar()
             this.clearBreadCrumb();
-            self.cartView.collection
+            this.clearPagination();
             self.cartView.render();
-            window.scrollTo(0,0)
             self.checkFooter();
 
 
@@ -644,6 +736,7 @@
             console.log('finalizeOrder')
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.clearFooter();
             window.scrollTo(0,0)
             this.finalizeOrderView.render();
@@ -653,6 +746,7 @@
         loadOrderConfirmation: function() {
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.checkFooter();
             this.orderConfView.render();
             window.scrollTo(0,0)
@@ -661,6 +755,7 @@
         loadThankCustomer: function() {
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.clearFooter();
             window.scrollTo(0,0)
             this.thankCustomerView.render();
@@ -671,6 +766,7 @@
         loadCancelOrder: function(){
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.clearFooter();
             window.scrollTo(0,0)
             this.cancelOrderView.render();
@@ -680,6 +776,7 @@
             console.log('consignment-form loaded')
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.checkFooter();
             window.scrollTo(0,0);
             this.consignView.render();
@@ -696,6 +793,7 @@
             this.newItemFormView.collection = data
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.clearFooter();
             window.scrollTo(0,0);
             this.newItemFormView.render()
@@ -705,6 +803,7 @@
         loadSearchItem:function(){
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.clearFooter();
             window.scrollTo(0,0);
             this.searchItemView.render();
@@ -715,23 +814,25 @@
 
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.clearFooter();
             window.scrollTo(0,0);
 
             var pQuery = new Parse.Query(Parse.FurnitureItem);
             pQuery.equalTo('MR_id',parseInt(mrId))
-
+            
             pQuery.find().then(function(model){
                 var retrievedModel = model[0]
                  self.editItemView.model = retrievedModel
                  self.editItemView.render();
-            })
+            })           
         },
 
         loadAdminLogin: function() {
             console.log('admin login rendered')
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.clearFooter();
             window.scrollTo(0,0)
             this.adminLoginView.render();
@@ -742,6 +843,7 @@
             console.log('dashboard')
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.clearFooter();
             window.scrollTo(0,0)
             this.adminDashboardView.render();
@@ -751,6 +853,7 @@
             console.log('login????')
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.clearFooter();
             window.scrollTo(0,0)
             this.userLoginView.render();
@@ -759,6 +862,7 @@
         loadAboutPg: function() {
             this.checkNavBar();
             this.clearBreadCrumb();
+            this.clearPagination();
             this.checkFooter();
             window.scrollTo(0,0)
             this.aboutView.render();
@@ -772,24 +876,24 @@
             this.reorganizeImagesView.render();
         },
 
-
+        
 
         //------------------------
         // Partial Sub-Views (NavBar, Breadcrumb-Navigation, Footer)
         //----------------------
-        // + These methods are for rendering page elements  depending on the main-view
+        // + These methods are for rendering page elements  depending on the main-view 
         //      that the hash-route leads to
 
         /**
-         * DESCRIPTION:
-         *     + checks to see if NavBar is on the page, and re-renders if it is not
+         * DESCRIPTION: 
+         *     + checks to see if NavBar is on the page, and re-renders if it is not 
          *     * usually invoked when a page is refreshed and no browser
          * @return [no-return]
          */
-
+        
         checkNavBar: function() {
             var navEl = document.querySelector('nav');
-
+            
             if (navEl.innerHTML.indexOf('div') === -1) {
                 this.navView.render()
             }
@@ -797,40 +901,85 @@
         },
 
          /**
-         * DESCRIPTION:
-         *     + Inserts the breadcrumb navigation
-         *     * Present on the (1) mult-listings view
+         * DESCRIPTION: 
+         *     + Inserts the breadcrumb navigation 
+         *     * Present on the (1) mult-listings view 
          * @return [no-return]
          */
-        insertBreadCrumb: function(categoryOption, search){
+        insertBreadCrumb: function(options){
+            console.log(options)
+
+            //create the options
+            //
             var data = {
+                        //loads the category labels &  category map ()
+                        categoryQuery: options && options.queryType === 'category' ? true : false,
                         categoryLabels: MRCategoryLabels,
                         categoryMap: MRCategoryMap,
-                        currentCategory: categoryOption || "",
-                        searchTerms: categoryOption || "",
+                        
+                        //empty array to establish the current-category's category tree in the view
                         currentCategoryTree: [],
-                        searchQuery: search==='search' ? search = true : search = false
+                        currentCategory: options && options.labelOption || "",
 
+                        //tests to see if queryType is 'style'
+                        // if yes, breadcrumb <h1> will render string from loadListingsByStyle()
+                        styleQuery: options && options.queryType ==='style' ? true : false,
+                        styleType: options && options.labelOption || "",   
+
+                        // tests to see if queryType is 'search'
+                        // if yes,  breadcrumb <h1> will render string from loadSearchResults()
+                        searchQuery: options && options.queryType==='search' ? true : false,
+                        searchTerms: options && options.labelOption || "",
+                                            
+                        
+                        //Pagination
+                        
+                        totalMatches: options && options.totalMatches ||"",
+                        totalPages: options && options.totalMatches && Math.ceil(options.totalMatches/20 || ""),
+                        currentPage: options && options.currentPage || 1,
+ 
                     }
 
+
+            data.currentListingSet= [(data.currentPage-1)*20+1, 
+                        Math.min(data.totalMatches, (data.currentPage-1)*20+20)]
+
             var breadCrumbEl = document.querySelector('.my-breadcrumb');
+            
+            console.log(data)
+            if (data.categoryQuery) {
+                console.log(data.currentCategory)
+                console.log('yesssss categoryQuery!')
+                var labelNum = returnCategoryTree(data.currentCategory, data.categoryMap);
 
-            if (breadCrumbEl.innerHTML.indexOf('div') === -1) {
-
-
-
-            if(data.currentCategory){
-                var labelNum = returnCategoryTree(categoryOption,data.categoryMap);
+                console.log(labelNum)
                 labelNum.forEach(function(labelNum){
                     data.currentCategoryTree.push(data.categoryLabels[labelNum])
                 })
             }
 
+
             data.currentCategoryTree.unshift('All Products');
-            console.log(data.currentCategoryTree)
-            this.breadCrumbView.collection = data
-            this.breadCrumbView.render()
+            console.log(data.currentCategoryTree);
+            this.breadCrumbView.collection = data;
+            this.breadCrumbView.render();
+
+        },
+
+        insertPagination: function(options){
+            var data = {
+                totalMatches: options && options.totalMatches ||"",
+                totalPages: options && options.totalMatches && Math.ceil(options.totalMatches/20 || ""),
+                currentPage: options && options.currentPage || 1
             }
+
+            console.log(data)
+            
+            this.paginationView.collection = data
+            this.paginationView.render();
+
+
+
         },
 
         checkFooter: function() {
@@ -842,6 +991,10 @@
 
         clearBreadCrumb: function(){
             document.querySelector('.my-breadcrumb').innerHTML = ""
+        },
+
+        clearPagination: function(){
+            document.querySelector('.listings-pagination').innerHTML=""
         },
 
         clearFooter: function() {
@@ -857,6 +1010,7 @@
             "click a.products-link": "triggerProductPageHash",
             "click a.cart-link": "triggerShoppingCartHash",
             "click a.about-link": "triggerAboutHash",
+            "click a.search-toggle": "toggleSearch",
             "click a.enter-search-terms": "keywordSearch"
         },
 
@@ -873,6 +1027,10 @@
             window.location.hash = "/about-us"
         },
 
+        toggleSearch:function(){
+            $('.search-bar').toggle();
+        },
+
         keywordSearch: function(){
             console.log('item searched')
             var $itemSearchInput = $('.item-search-input');
@@ -883,9 +1041,68 @@
 
     Parse.BreadCrumbView = Parse.TemplateView.extend({
         el: '.my-breadcrumb',
-        view: 'nav-breadcrumb'
+        view: 'nav-breadcrumb',
+
+        
+        bcOptions: {
+            totalMatches: 0,
+            totalPages: function(){ return Math.ceil(this.totalMatches/20) },
+            currentPage: 1,
+        },
+
+
+        events: {
+            'click .next-20': 'queryDBAndReRenderNext',
+            'click .prev-20': 'queryDBAndReRenderPrev',
+            'click .select-page': 'goToPageX'
+        },
+         queryDBAndReRenderNext: function(evt){
+            evt.preventDefault();
+            this.trigger('showNext20');
+        },
+
+        queryDBAndReRenderPrev: function(event){
+            evt.preventDefault();
+        },
+
+        goToPageX: function(){
+
+        }
     })
 
+    Parse.PaginationView = Parse.TemplateView.extend({
+        el: '.listings-pagination',
+        view: 'pagination',
+
+        
+        paginationOptions: {
+            
+        },
+
+
+        events: {
+            'click .next-20': 'queryDBAndReRenderNext',
+            'click .prev-20': 'queryDBAndReRenderPrev',
+            'click .select-page': 'goToPageX'
+        },
+         queryDBAndReRenderNext: function(evt){
+            evt.preventDefault();
+            this.trigger('showNext20');
+        },
+
+        queryDBAndReRenderPrev: function(event){
+            evt.preventDefault();
+        },
+
+        goToPageX: function(){
+
+        }
+    })
+
+    Parse.PaginationView2 = Parse.PaginationView.extend({
+        el: '.listings-pagination2'
+    })
+    
     Parse.HomeView = Parse.TemplateView.extend({
         view: 'landing-page',
         el: '.wrapper',
@@ -908,9 +1125,9 @@
         triggerCatListingsHash: function(evt) {
             evt.preventDefault();
             console.log(evt.target)
-
+            
             var categoryName = $(evt.target).closest('a').attr('data-category');
-
+            
             window.location.hash = "/products/category/" + categoryName;
         },
 
@@ -971,13 +1188,15 @@
         view: 'product-page',
         el: '.wrapper',
         events: {
-            'click .single-listing-link': 'triggerSingleListingHash',
-            'click .next-20': 'queryDBAndReRenderNext',
-            'click .prev-20': 'queryDBAndReRenderPrev'
-
+            'click .single-listing-link': 'triggerSingleListingHash'
         },
 
-        skipFactor:0,
+        listingsCount: 0,
+
+        totalPages: function(){
+            return this.listingsCount / 20
+        },
+
 
         triggerSingleListingHash: function(evt) {
             evt.preventDefault();
@@ -986,75 +1205,7 @@
 
             var productMRid = $(evt.target).closest('.img-listing-container').attr('data-MR-ID')
             window.location.hash = "/products/listing/" + productMRid;
-        },
-
-        queryDBAndReRenderNext: function(){
-            var self = this;
-            console.log(window.location.hash)
-
-            var pQuery = new Parse.Query(Parse.FurnitureItem)
-                pQuery.notEqualTo("inventoryStatus","0")
-                this.skipFactor++
-                pQuery.limit(20)
-                pQuery.skip(this.skipFactor*20)
-
-            if(window.location.hash==="#/products"){
-                pQuery.find().then(function(data){
-                    self.collection = data
-                    self.render()
-                })
-            } else if(window.location.hash.indexOf('category')){
-                    var stringOmania = window.location.hash
-                    var dividerStr = 'category/'
-                    var cutOffIndex = stringOmania.indexOf('category/')
-                    console.log(stringOmania)
-                    console.log(dividerStr)
-                    console.log(cutOffIndex)
-                    var targetCatNum= stringOmania.substr(cutOffIndex+dividerStr.length)
-                    pQuery.equalTo("categoryTreeByNumber",targetCatNum)
-                    pQuery.find().then(function(data){
-                        self.collection = data
-                        console.log(self.collection)
-                        self.render()
-                    })
-            }
-            console.log(this.skipFactor)
-
-        },
-
-      queryDBAndReRenderPrev: function(){
-            var self = this;
-            console.log(window.location.hash)
-
-            var pQuery = new Parse.Query(Parse.FurnitureItem)
-                if(this.skipFactor===0){return}
-                this.skipFactor===0 ? this.skipFactor = 0 : this.skipFactor--;
-                pQuery.notEqualTo("inventoryStatus","0")
-                pQuery.limit(20)
-                pQuery.skip(this.skipFactor*20)
-
-            if(window.location.hash==="#/products"){
-                pQuery.find().then(function(data){
-                    self.collection = data
-                    self.render()
-                })
-            } else if(window.location.hash.indexOf('category')){
-                    var stringOmania = window.location.hash
-                    var dividerStr = 'category/'
-                    var cutOffIndex = stringOmania.indexOf('category/')
-                    console.log(stringOmania)
-                    console.log(dividerStr)
-                    console.log(cutOffIndex)
-                    var targetCatNum= stringOmania.substr(cutOffIndex+dividerStr.length)
-                    pQuery.equalTo("categoryTreeByNumber",targetCatNum)
-                    pQuery.find().then(function(data){
-                        self.collection = data
-                        console.log(self.collection)
-                        self.render()
-                    })
-            }
-            console.log(this.skipFactor)
-        },
+        }
 
 
     })
@@ -1175,10 +1326,10 @@
         events: {
             "click .confirm-purchase": "loadPayPal"
         },
-
+        
         loadPayPal: function(evt){
-            if($('#checkout').attr('data-status')==='inactive'){
-                $('#checkout').attr('data-status','active')
+            if($('#checkout').attr('data-status')==='inactive'){          
+                $('#checkout').attr('data-status','active')    
                 braintree.setup(
                     // Replace this with a client token from your server
                     "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiI3NDM0OGQwODUyMTYwMmQxYTI0YjgwNmY2M2RmYWMwYTc4OWY2MDA1M2IzNjkzNWM1OGJmMzA2NTExZTZjMmE2fGNyZWF0ZWRfYXQ9MjAxNS0wMy0zMFQwMTo1MTo1Mi4xOTkwMzgxMjMrMDAwMFx1MDAyNm1lcmNoYW50X2lkPWRjcHNweTJicndkanIzcW5cdTAwMjZwdWJsaWNfa2V5PTl3d3J6cWszdnIzdDRuYzgiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvZGNwc3B5MmJyd2RqcjNxbi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzL2RjcHNweTJicndkanIzcW4vY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIn0sInRocmVlRFNlY3VyZUVuYWJsZWQiOnRydWUsInRocmVlRFNlY3VyZSI6eyJsb29rdXBVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvZGNwc3B5MmJyd2RqcjNxbi90aHJlZV9kX3NlY3VyZS9sb29rdXAifSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQiLCJtZXJjaGFudEFjY291bnRJZCI6InN0Y2gybmZkZndzenl0dzUiLCJjdXJyZW5jeUlzb0NvZGUiOiJVU0QifSwiY29pbmJhc2VFbmFibGVkIjp0cnVlLCJjb2luYmFzZSI6eyJjbGllbnRJZCI6IjExZDI3MjI5YmE1OGI1NmQ3ZTNjMDFhMDUyN2Y0ZDViNDQ2ZDRmNjg0ODE3Y2I2MjNkMjU1YjU3M2FkZGM1OWIiLCJtZXJjaGFudEFjY291bnQiOiJjb2luYmFzZS1kZXZlbG9wbWVudC1tZXJjaGFudEBnZXRicmFpbnRyZWUuY29tIiwic2NvcGVzIjoiYXV0aG9yaXphdGlvbnM6YnJhaW50cmVlIHVzZXIiLCJyZWRpcmVjdFVybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tL2NvaW5iYXNlL29hdXRoL3JlZGlyZWN0LWxhbmRpbmcuaHRtbCJ9LCJtZXJjaGFudElkIjoiZGNwc3B5MmJyd2RqcjNxbiIsInZlbm1vIjoib2ZmbGluZSIsImFwcGxlUGF5Ijp7InN0YXR1cyI6Im1vY2siLCJjb3VudHJ5Q29kZSI6IlVTIiwiY3VycmVuY3lDb2RlIjoiVVNEIiwibWVyY2hhbnRJZGVudGlmaWVyIjoibWVyY2hhbnQuY29tLmJyYWludHJlZXBheW1lbnRzLmRldi1kY29wZWxhbmQiLCJzdXBwb3J0ZWROZXR3b3JrcyI6WyJ2aXNhIiwibWFzdGVyY2FyZCIsImFtZXgiXX19",
@@ -1354,10 +1505,10 @@
                 console.log('noSubCategories-2')
                 $('.disabled-subcat2-option').text("--No subcategories for this option--");
                 $('.sub-category-2').prop('disabled',true);
-
+            
             } else {
                 subCategories.forEach(function(subCategoryNum){
-
+                
                 $('.disabled-subcat2-option').text("--Select Sub-Category--")
 
                     var subCategoryHTMLOptionEl = $('<option>');
@@ -1368,7 +1519,7 @@
                         .text(self.collection.categoryLabels[subCategoryNum]+" - ("+subCategoryNum+")")
 
                     $('select.sub-category-2').append(subCategoryHTMLOptionEl);
-
+                    
                 })
             }
         },
@@ -1408,7 +1559,7 @@
                     $newImgFile = $('.selected-img-file')
 
                 //
-
+                
                 var categoryTreeByNumber= []
                 if($topLevelCategory.find('option:selected').val()) { categoryTreeByNumber.push($topLevelCategory.find('option:selected').val()) }
                 if($subCategory_1.find('option:selected').val()) {categoryTreeByNumber.push($subCategory_1.find('option:selected').val())}
@@ -1461,21 +1612,21 @@
                 var loadFiles = function(filesGroup, itemModel) {
                     console.log('loading files....')
                     var totalFiles = filesGroup.length;
-
+                    
                     filesGroup.forEach(function(imgFile, filesIndex) {
                         var parseImgFile = new Parse.File(imgFile[0], imgFile[1]);
                         console.log(parseImgFile)
-
+                    
                         parseImgFile.save()
                             .then(function(parseFile) {
                                 console.log(parseFile)
                                 var imgNameInDB = ("database_img_FILE_" + (filesIndex + 1))
                                 itemModel.set(imgNameInDB, parseFile);
-
+                                
                                 if (filesIndex + 1 === filesGroup.length) {
                                     console.log(itemModel)
                                     itemModel.set("imageCount", filesGroup.length)
-
+                                
                                     itemModel.save().then(function(result) {
                                         console.log(result)
                                     }).fail(function(error) {
@@ -1553,7 +1704,7 @@
             }
 
 
-            //Check to see if new item price
+            //Check to see if new item price 
             if (!$newItemPrice.val() || $newItemPrice.val().match(/[a-z]/i)) {
                 console.log('price is not a number')
                 $newItemPrice.closest('.form-group').addClass('has-error')
@@ -1604,7 +1755,7 @@
             return validFormTest
         }
     })
-
+    
     Parse.SearchExistingItemView = Parse.TemplateView.extend({
         el: '.wrapper',
         view: 'search-existing-item',
@@ -1656,13 +1807,13 @@
                 var imgReference = "temp_img_"+ currntImgIndex
 
 
-                //check to see if there is an image the parse database,
+                //check to see if there is an image the parse database, 
                 //    if yes, then delete
-
+                
                 var savetheTempFilesAndChangeTheImage = function(){
                     parseFile.save().then(function(){
                         var tempImg = new Parse.TemporaryPhotosForEdit();
-
+                        
 
                         tempImg.set("imageIndex", imgReference)
                         tempImg.set(imgReference, parseFile)
@@ -1675,7 +1826,7 @@
                                 console.log(file)
                                 var imgSrc = file[0].get('temp_img_'+currntImgIndex)._url
                                 $('.sample-img-'+currntImgIndex).attr({'src':imgSrc, 'data-parsetemp':'true'})
-
+                                
                                 })
 
                             })
@@ -1683,7 +1834,7 @@
                     })
                 }
 
-
+                
                 if($('.sample-img-'+currntImgIndex).attr('data-parsetemp')==='true' ) {
                     var parseQuery = new Parse.Query(Parse.TemporaryPhotosForEdit);
                     parseQuery.find()
@@ -1694,7 +1845,7 @@
                                 promises.push(model.destroy())
                             })
                             return Parse.Promise.when(promises)
-
+                        
                         }).then(function(){
                         savetheTempFilesAndChangeTheImage()
                         })
@@ -1703,11 +1854,11 @@
                 }
 
                 //save the file & image to the database
-
+               
             }
         }
 
-
+            
     })
 
 
@@ -1740,7 +1891,7 @@
             pQuery.find().then(function(data){
                 console.log(data)
                 var data = self.revisedModel = data[0]
-
+                
                 var imageArray = []
                 var imageTnArray = []
                 for (var key in data.attributes){
@@ -1762,7 +1913,7 @@
 
 
                 self.imgTotal = imageArray.length
-
+                
                 self.render()
                 $('h3').html('MR-'+mrValue).attr('data-id',mrValue)
                 })
@@ -1779,7 +1930,7 @@
 
             $('.img-input-'+this.imgCounter).find('img').attr('src',imageSourceTN)
             $('.img-input-'+this.imgCounter).find('p').text(imageSourceREG)
-
+            
             console.log(this.imgCounter + " | " + this.imgTotal)
 
             if(this.imgCounter > 0){
@@ -1794,12 +1945,12 @@
 
             console.log(this.imgCounter)
             console.log(this.revisedModel)
-
+            
             var i
-
+            
             var uploadImages = {}
             var uploadThumbnails = {}
-
+            
             for (i = 0; i < this.imgTotal; i++){
                 var imgString = $('.img-input-'+(i+1)).find('p').text()
                 console.log(imgString)
@@ -1809,7 +1960,7 @@
 
                 uploadImages['database_img_LINK_'+(i+1)] = imgString
                 uploadThumbnails['database_img_LINK_t_'+(i+1)] = thumbnailImgString
-
+               
             }
 
             console.log(uploadImages);
@@ -1817,7 +1968,7 @@
 
             console.log(this.revisedModel)
 
-
+         
 
 
             $.when(
@@ -1867,7 +2018,7 @@
         defaults: {
          // Sofa, Dining-Table, Bedframe, Rug
                 // color: "",
-                // timePeriod: //
+                // timePeriod: // 
                 // styleTags:, // Scandi, Art-Deco, Industrial, Contemporary
                 // designer_creator: ""
                 // status: "",
@@ -1930,7 +2081,7 @@
             //validate: listing-status
         }
     })
-
+    
     Parse.FurnitureGroup = Parse.Collection.extend({
         model: Parse.FurnitureItem
 
@@ -1954,7 +2105,7 @@
    })
 
 
-
+    
 
 
 

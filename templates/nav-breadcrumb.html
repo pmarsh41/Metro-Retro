@@ -31,7 +31,7 @@
             <li><a href="#">Home</a>
             </li>
             <%console.log('nav-breadcrumb-data:')%>
-            <%data.currentCategoryTree.forEach(function(categoryName, index){   
+            <%  data.currentCategoryTree.forEach(function(categoryName, index){   
                 if(index !== data.currentCategoryTree.length-1 ){     
                 %>
                     <%if(categoryName==='All Products'){
@@ -58,10 +58,21 @@
         </ol>
 </section>
 
-<h1 class='multi-description <%=testForSingleListing(currentRoute)? 'inactive' : 'active' %>'>
-    <%if(data.searchQuery){%>
-        Search Results for : <em><%= data.searchTerms %></em>
-    <%} else {%>
-    <%=data.categoryLabels[data.currentCategory]||'Product'%> Listings
-    <%}%>
-</h1>
+<section class='multi-description <%=testForSingleListing(currentRoute)? 'inactive' : 'active' %>'>
+    <h1 >
+        <%console.log(data)%>
+        <%if(data.searchQuery){%>
+            Search Results for : <em><%= data.searchTerms %></em>
+        <%} else if(data.styleQuery){%>
+            <%=data.styleType || 'Product'%> Listings
+        <%} else {%>
+        <%=data.categoryLabels[data.currentCategory]||'Product'%> Listings
+        <%}%>
+        <br>
+        <small>
+        [ <%=data.currentListingSet[0]%> - <%=data.currentListingSet[1]%> ]  of <%=data.totalMatches%>
+        </small>
+    </h1>
+</section>
+
+
