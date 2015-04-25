@@ -1,5 +1,5 @@
 window.onload = app;
-
+//s
 // runs when the DOM is loaded
 function app(){
     "use strict";
