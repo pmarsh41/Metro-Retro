@@ -1,5 +1,5 @@
 window.onload = app;
-//test2
+//test3
 // runs when the DOM is loaded
 function app(){
     "use strict";
@@ -53,7 +53,7 @@ function app(){
 
 
         ,{url: "./js/Client.js"}
-        
+
         //DATA SCRIPTS
         // ,{url: "./data/INPUT-totalSet.js"}
         // ,{url: "./data/INPUT-jpegData.js"}
@@ -80,7 +80,7 @@ function app(){
         // dbManagement.editArrayData(4999,8000,dbManagement._queryEditAndSaveKeyWords)
         // dbManagement.editArrayData(8000,14405,dbManagement._queryEditAndSaveInventoryQuantity)
 
-        // 
+        //
         //----------------
         // Start App
         //---------------
