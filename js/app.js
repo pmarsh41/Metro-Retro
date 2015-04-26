@@ -2,6 +2,7 @@ window.onload = app;
 //test3
 // runs when the DOM is loaded
 function app(){
+    // new code
     "use strict";
 
     // uncomment the following line to cache CSS/JS files loaded by loader in localStorage
