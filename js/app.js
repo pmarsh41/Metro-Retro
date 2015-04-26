@@ -7,6 +7,7 @@ function app(){
 
     // uncomment the following line to cache CSS/JS files loaded by loader in localStorage
     // NOTE: you may need to turn this off while developing
+    // New Code1
     // loader.textInjection = true;
 
     // load some scripts (uses promises :D)
