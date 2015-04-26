@@ -1,0 +1,105 @@
+.search-existing-item,
+.enter-new-item,
+.edit-existing-item,
+.administrators-users{
+
+	padding: 2rem 2.5%;
+	
+	// General Page Styles
+	.inactive{
+		background: $grey;
+		opacity: .5;
+	}
+
+	.block-number{
+		display: block;
+		font-size: 21px;
+		width: 45px;
+		line-height: 45px;
+		background: $black;
+		text-align: center;
+		color: $white;
+		margin: 0 auto;
+	}
+	h1,
+	h3 {
+		text-align: center;
+	}
+
+	.MR-ID-display {
+		padding-left: 36px;
+		color: $green;
+	}
+
+	.big-card{
+		font-size: 114px;
+		text-align: center;
+	}
+	
+	.upload-image-group{
+		padding: 6px 12px 0px 12px;
+	}
+
+	//for enter-new-item
+	.has-error{
+	label {
+			color: $has-error;
+		}
+	 .upload-image-group
+		{
+		border: 1px solid $has-error;
+		}
+		
+	}
+
+	.response-msg {
+		display: none;
+		color: red;
+	}
+}
+
+.enter-new-item{
+	.form-group{
+		padding-left: 5%;
+	}
+	
+	.categories{
+		.form-control{
+			width: 50%;
+		}
+
+		.subcategory-group-1 {
+			margin-top: 6px;
+			padding-left: 5%;
+		}
+
+		.subcategory-group-2{
+			margin-top: 6px;
+			padding-left: 10%;
+		}
+	}
+	
+}
+
+
+.search-existing-item{
+	h4{
+	text-align: center
+	}
+}
+.edit-existing-item{
+	img.principal-img{
+		display: block;
+		max-height: 400px;
+		margin: 0 auto;
+		width: 50%;
+	}
+	p.mr-listing, input, textarea {
+		color: blue;
+	}
+
+	.img-upload-edit{
+		padding-top: 1.5rem;
+	}
+
+}
