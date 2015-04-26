@@ -49,6 +49,7 @@ function app(){
         ,{url: "./js/app/homeView.js"}
         //Phil's Change
         ,{url: "./js/app/miscViews.js"}
+        //alex's change
         ,{url: "./js/app/multiView.js"}
         ,{url: "./js/app/pageLayoutElements.js"}
         ,{url: "./js/app/singleView.js"}
