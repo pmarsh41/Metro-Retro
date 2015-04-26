@@ -53,9 +53,9 @@ function app(){
         ,{url: "./js/app/multiView.js"}
         ,{url: "./js/app/pageLayoutElements.js"}
         ,{url: "./js/app/singleView.js"}
-
-// change b
-
+// function profileStuff(){
+// // profile pic
+// }
         ,{url: "./js/Client.js"}
 
         //DATA SCRIPTS
@@ -90,5 +90,6 @@ function app(){
         //---------------
         var beginApp = new PageRouter();
     })
+// logo
 
 }
