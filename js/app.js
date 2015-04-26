@@ -47,6 +47,7 @@ function app(){
         ,{url: "./js/app/cartView.js"}
         ,{url: "./js/app/employeeViews.js"}
         ,{url: "./js/app/homeView.js"}
+        //Phil's Change
         ,{url: "./js/app/miscViews.js"}
         ,{url: "./js/app/multiView.js"}
         ,{url: "./js/app/pageLayoutElements.js"}
