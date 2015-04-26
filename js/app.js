@@ -1,5 +1,4 @@
 window.onload = app;
-
 // runs when the DOM is loaded
 function app(){
     "use strict";
@@ -45,15 +44,14 @@ function app(){
         ,{url: "./js/app/cartView.js"}
         ,{url: "./js/app/employeeViews.js"}
         ,{url: "./js/app/homeView.js"}
+        //Phil's Change
         ,{url: "./js/app/miscViews.js"}
+        //alex's change
         ,{url: "./js/app/multiView.js"}
         ,{url: "./js/app/pageLayoutElements.js"}
         ,{url: "./js/app/singleView.js"}
-
-
-
         ,{url: "./js/Client.js"}
-        
+
         //DATA SCRIPTS
         // ,{url: "./data/INPUT-totalSet.js"}
         // ,{url: "./data/INPUT-jpegData.js"}
@@ -79,8 +77,7 @@ function app(){
         // dbManagement.uploadInventoryToParse(dataArrayToUpload)
         // dbManagement.editArrayData(4999,8000,dbManagement._queryEditAndSaveKeyWords)
         // dbManagement.editArrayData(8000,14405,dbManagement._queryEditAndSaveInventoryQuantity)
-
-        // 
+        //
         //----------------
         // Start App
         //---------------
