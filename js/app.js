@@ -1,13 +1,10 @@
 window.onload = app;
-//test3
 // runs when the DOM is loaded
 function app(){
-    // new code
     "use strict";
 
     // uncomment the following line to cache CSS/JS files loaded by loader in localStorage
     // NOTE: you may need to turn this off while developing
-    // New Code1
     // loader.textInjection = true;
 
     // load some scripts (uses promises :D)
@@ -53,9 +50,6 @@ function app(){
         ,{url: "./js/app/multiView.js"}
         ,{url: "./js/app/pageLayoutElements.js"}
         ,{url: "./js/app/singleView.js"}
-// function profileStuff(){
-// // profile pic
-// }
         ,{url: "./js/Client.js"}
 
         //DATA SCRIPTS
@@ -83,13 +77,11 @@ function app(){
         // dbManagement.uploadInventoryToParse(dataArrayToUpload)
         // dbManagement.editArrayData(4999,8000,dbManagement._queryEditAndSaveKeyWords)
         // dbManagement.editArrayData(8000,14405,dbManagement._queryEditAndSaveInventoryQuantity)
-// work work work
         //
         //----------------
         // Start App
         //---------------
         var beginApp = new PageRouter();
     })
-// logo
 
 }
