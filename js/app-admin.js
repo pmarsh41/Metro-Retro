@@ -102,22 +102,9 @@ function app(){
                 },
 
                 validate: function() {
-                //validate item name
-                //validate item category
-                //validate MR-ID
-                //validate: listing-status
 
             }
         })
-        // console.log(dataArrayToUpload)
-        // dbManagement.uploadInventoryToParse(dataArrayToUpload)
-        // dbManagement.editArrayData(4999,8000,dbManagement._queryEditAndSaveKeyWords)
-        // dbManagement.editArrayData(8000,14405,dbManagement._queryEditAndSaveInventoryQuantity)
-        //
-        //----------------
-        // Start App
-        //---------------
-        // var beginApp = new PageRouter();
 
 
 
@@ -255,7 +242,6 @@ function app(){
             }
         }))();
         $('.MR-choose-select').on('click' , function(){
-
 
                 new Parse.Query(Parse.FurnitureItem)
                     .equalTo("MR_id", Number($('.MR-choose-data').val()))
