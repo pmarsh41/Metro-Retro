@@ -255,11 +255,11 @@
 
 
         routes: {
-            'employee/*/enter-new-item': 'employeeView_loadEnterNewItemForm',
-            'employee/*/edit-item/:mrId': 'employeeView_loadEditExistingItemForm',
-            'employee/*/search-item': 'employeeView_loadSearchItem',
-            'employee/login': 'employeeView_loadEmployeeLogin',
-            'employee/*/fix-images':'employeeView_loadReorganizeImgs',
+            'employee/*/enter-new-item': 'employee_loadEnterNewItemForm',
+            'employee/*/edit-item/:mrId': 'employee_loadEditExistingItemForm',
+            'employee/*/search-item': 'employee_loadSearchItem',
+            'employee/login': 'employee_loadEmployeeLogin',
+            'employee/*/fix-images':'employee_loadReorganizeImgs',
 
             'admin/dashboard': 'adminView_loadAdminDashboard',
             'admin/login': 'adminView_loadAdminLogin',

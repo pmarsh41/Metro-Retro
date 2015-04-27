@@ -1,4 +1,16 @@
 window.onload = app;
+
+Array.prototype.sum = function(len){
+    len = (len||2)
+    var total = 0;
+    for (var i = 0 , ii = this.length ; i<ii ; ++i) {
+        if(isNaN(this[i]))
+            this[i] = 0;
+        total += parseInt((Number(this[i]) * 10000)+.01)
+    }
+    
+    return Number((total/10000).toFixed(len));
+}
 // runs when the DOM is loaded
 function app(){
     "use strict";
