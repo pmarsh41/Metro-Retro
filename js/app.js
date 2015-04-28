@@ -96,5 +96,6 @@ function app(){
         var beginApp = new PageRouter();
 
 
+    })
 
 }
