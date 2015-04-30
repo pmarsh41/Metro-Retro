@@ -135,10 +135,10 @@ function app(){
                 $('.employee-dashboard').removeClass('inactive');
             } ,
             'edit-item': function() {
-                // if (!Parse.User._currentUser){
-                //     window.location.hash = '';
-                //     return
-                // }
+                if (!Parse.User._currentUser){
+                    window.location.hash = '';
+                    return
+                }
                 $('.uploaded-files').html('');
                 window['newItem'] = {};
                 // debugger
@@ -148,10 +148,10 @@ function app(){
                 $('.MR-choose').removeClass('inactive');
             } ,
             'add-item': function() {
-                // if (!Parse.User._currentUser){
-                //     window.location.hash = '';
-                //     return
-                // }
+                if (!Parse.User._currentUser){
+                    window.location.hash = '';
+                    return
+                }
                 $('.uploaded-files').html('');
                 $('.return-to-dash').removeClass('hidden');
                 $('.imageReorder').addClass('btn btn-danger btn-xs').html('click to rearrange image order');
