@@ -254,7 +254,10 @@ function app(){
         // submit for add item and edit item
         $('.newItemSubmit').on('click' , function(e) {
             e.preventDefault();
-
+            
+            // just in case the operator is sloppy this will undo unfinished changes to reordering...
+            delete newItem.imageOrder
+            
             var item = new (Parse.Object.extend("mrInventory"));
         
             if(!newItem.MR_id)
