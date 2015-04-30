@@ -135,25 +135,26 @@ function app(){
                 $('.employee-dashboard').removeClass('inactive');
             } ,
             'edit-item': function() {
-                if (!Parse.User._currentUser){
-                    window.location.hash = '';
-                    return
-                }
+                // if (!Parse.User._currentUser){
+                //     window.location.hash = '';
+                //     return
+                // }
                 $('.uploaded-files').html('');
                 window['newItem'] = {};
                 // debugger
 
-                $('.return-to-dash').removeClass('hidden')
+                $('.return-to-dash').removeClass('hidden');
                 $('main').addClass('inactive');
                 $('.MR-choose').removeClass('inactive');
             } ,
             'add-item': function() {
-                if (!Parse.User._currentUser){
-                    window.location.hash = '';
-                    return
-                }
+                // if (!Parse.User._currentUser){
+                //     window.location.hash = '';
+                //     return
+                // }
                 $('.uploaded-files').html('');
-                $('.return-to-dash').removeClass('hidden')
+                $('.return-to-dash').removeClass('hidden');
+                $('.imageReorder').addClass('btn btn-danger btn-xs').html('click to rearrange image order');
                 
                 $('main').addClass('inactive');
                 $('.enter-new-item').removeClass('inactive');
@@ -163,15 +164,15 @@ function app(){
                     window.location.hash = '';
                     return;
                 }
-                if(Parse.User._currentUser.get('role')!=='admin')
+                if(Parse.User._currentUser.get('role')!=='admin');
                     return;
-                $('.return-to-dash').removeClass('hidden')
+                $('.return-to-dash').removeClass('hidden');
                 $('main').addClass('inactive');
                 $('.dashboard').removeClass('inactive');
 
             },
             root:function() {
-                $('.return-to-dash').addClass('hidden')
+                $('.return-to-dash').addClass('hidden');
                 $('main').addClass('inactive');
                 $('.login').removeClass('inactive');
             }
@@ -307,25 +308,40 @@ function app(){
         //
         ////////////////////////
 
-        // pull a record by MR_id
+        // pull a record by MR_id and populate corresponding fields 
         $('.MR-choose-select').on('click' , function() {
+
+            window.location.hash = 'mod-item';
 
             new Parse.Query(Parse.FurnitureItem)
                 .equalTo("MR_id", Number($('.MR-choose-data').val()))
                 .find().then(function(results) {
-                    _.each(JSON.parse(JSON.stringify(results[0])) , function(value , field) {
+
+                    // convert data model into native object
+                    var item = JSON.parse(JSON.stringify(results[0]));
+
+                    _.each(item , function(value , field) {
+                        
+                        // add this field to our object
                         newItem[field] = value;
+
+                        // if we have a compatable form field input this value there as well
                         if ($('input[title='+field+']')[0])
-                            $('input[title='+field+']').val(value)
+                            $('input[title='+field+']').val(value);
+
+                        // things get tricky when we want to work with the images.
+                        if (field.match('img_LINK_t'))
+                            $('<img class="imgPreview oldOrder">').appendTo('.uploaded-files').attr('src' , value);
 
                     });
 
+                    // special cases
                     $('.isConsigned')[0].checked = newItem.isConsigned;
                     $('.thirdPartyVendors').each(function(){
                         if (newItem.thirdPartyVendors && newItem.thirdPartyVendors.indexOf(this.value)>-1)
                             this.checked = true
-                    })
-                    window.location.hash = 'mod-item';
+                    });
+
                 });
         });
 
@@ -406,7 +422,11 @@ function app(){
         $('.newItemField').on('blur' , function() {
             // this one function does more than all of the other functions and it is only 2 lines...
             var KT=$(this).attr('keyType')
+            
             window.newItem[this.title] = KT&&KT=='number'?Number(this.value):this.value;
+
+            // for the time being we have "price" and "priceDollar"... this line addresses that :(
+            this.title=='price'&&(newItem.priceDollar='$'+this.value);
         });
 
         // upload file to parse, and if successful add it to our temp object.
@@ -442,12 +462,56 @@ function app(){
                 else if (!newItem.database_img_FILE_4)
                     newItem.database_img_FILE_4 = parseFile;
 
-                $('<img>').appendTo('.uploaded-files').attr('src' , parseFile._url).css({'max-width':'100px','max-height':'100px'});
+                $('<img class="imgPreview">').appendTo('.uploaded-files').attr('src' , parseFile._url);
 
             }, function(error) {
                 // The file either could not be read, or could not be saved to Parse.
             });
         });
+
+        // enable reorder
+        $('.imageReorder').on('click' , function() {
+
+            if (newItem && newItem.imageOrder)
+                return;
+
+            window.newItem.imageOrder = [];
+            
+            $(this).removeClass('btn btn-danger btn-xs').html('select the image order by clicking the images in the order you would like. This process must be finished once started. You cannot have images above and below.<br>');
+
+            // reorder images
+            $('.uploaded-files img').on('click' , function(e) {
+
+                window.newItem.imageOrder.push(e.target.src)
+                $(e.target).remove()
+
+                // disable reorder and replace the order in the newItem object
+                if ($('.uploaded-files img').length==0) {
+
+                    _.each(newItem.imageOrder , function(src , index) {
+                        
+                        // put these back, but in the proper/new order
+                        $('<img class="imgPreview">').appendTo('.uploaded-files').attr('src' , src);
+                        
+                        // and to finish we over write the values on our tmp object
+                        newItem['database_img_LINK_t_'+(index+1)] = src;
+
+                        // and drop the thumg for the standard imag
+                        newItem['database_img_LINK_'+(index+1)] = src.replace('_t.jpg' , '.jpg');
+
+                    });
+
+                    delete newItem.imageOrder;
+
+                    $('.imageReorder').addClass('btn btn-danger btn-xs').html('click to rearrange image order');
+
+                    return;
+                }
+
+                $('<img class="imgPreview">').appendTo('.imageReorder').attr('src' , e.target.src);
+            });
+        });
+
 
         //
         ////////////////////////
@@ -455,3 +519,12 @@ function app(){
     })
 
 }
+
+
+
+
+
+
+
+
+
