@@ -164,7 +164,7 @@ function app(){
                     window.location.hash = '';
                     return;
                 }
-                if(Parse.User._currentUser.get('role')!=='admin');
+                if(Parse.User._currentUser.get('role')!=='admin')
                     return;
                 $('.return-to-dash').removeClass('hidden');
                 $('main').addClass('inactive');
