@@ -8,7 +8,7 @@ Array.prototype.sum = function(len){
             this[i] = 0;
         total += parseInt((Number(this[i]) * 10000)+.01)
     }
-    
+
     return Number((total/10000).toFixed(len));
 }
 // runs when the DOM is loaded
@@ -89,10 +89,7 @@ function app(){
         // dbManagement.uploadInventoryToParse(dataArrayToUpload)
         // dbManagement.editArrayData(4999,8000,dbManagement._queryEditAndSaveKeyWords)
         // dbManagement.editArrayData(8000,14405,dbManagement._queryEditAndSaveInventoryQuantity)
-<<<<<<< HEAD
 
-=======
->>>>>>> 191290b2aab3d3f09ca4aa86120eb2953984f369
         //
         //----------------
         // Start App
