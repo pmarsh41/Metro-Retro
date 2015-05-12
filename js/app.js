@@ -1,5 +1,16 @@
 window.onload = app;
-//s
+
+Array.prototype.sum = function(len){
+    len = (len||2)
+    var total = 0;
+    for (var i = 0 , ii = this.length ; i<ii ; ++i) {
+        if(isNaN(this[i]))
+            this[i] = 0;
+        total += parseInt((Number(this[i]) * 10000)+.01)
+    }
+    
+    return Number((total/10000).toFixed(len));
+}
 // runs when the DOM is loaded
 function app(){
     "use strict";
@@ -45,13 +56,12 @@ function app(){
         ,{url: "./js/app/cartView.js"}
         ,{url: "./js/app/employeeViews.js"}
         ,{url: "./js/app/homeView.js"}
+        //Phil's Change
         ,{url: "./js/app/miscViews.js"}
+        //alex's change
         ,{url: "./js/app/multiView.js"}
         ,{url: "./js/app/pageLayoutElements.js"}
         ,{url: "./js/app/singleView.js"}
-
-
-
         ,{url: "./js/Client.js"}
 
         //DATA SCRIPTS
@@ -79,12 +89,17 @@ function app(){
         // dbManagement.uploadInventoryToParse(dataArrayToUpload)
         // dbManagement.editArrayData(4999,8000,dbManagement._queryEditAndSaveKeyWords)
         // dbManagement.editArrayData(8000,14405,dbManagement._queryEditAndSaveInventoryQuantity)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 191290b2aab3d3f09ca4aa86120eb2953984f369
         //
         //----------------
         // Start App
         //---------------
         var beginApp = new PageRouter();
+
+
     })
 
 }

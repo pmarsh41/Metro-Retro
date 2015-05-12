@@ -58,6 +58,7 @@ $green: rgba(129,217,102,1);
 }
 
 @include gridify(2, 400);
+@include gridify(3, 50);
 @include gridify(4, 600);
 
 /**
@@ -111,6 +112,29 @@ h1,h2,h3,h4,h5,h6{
     padding-top: 1rem;
 
     
+}
+.finalize-order{
+    * .inactive{
+        display:inline-block !important;
+        // border:1px solid red;
+    }
+}
+.cartStep{
+    opacity:0;
+    display:none;
+    width:80%;
+    margin-left:10%
+}
+.currentStep{
+    opacity:1;
+    display:inline-block;
+}
+.med-card{
+  font-size: 40px;
+  text-align: center;
+}
+.row{
+    min-width:420px
 }
 
 .carousel-control{
